@@ -1,0 +1,6 @@
+name = AJAX Add to Cart
+description = Ajaxifies add product to cart
+version = 7.x-1.0
+core = 7.x
+package = Restaurant
+configure = admin/commerce/config/ajax-cart

@@ -6,7 +6,7 @@
  * - $quantity: Number of items in the cart.
  * - $total: Array containing the total amount and the default currency you are
  *   in the site.
- *   
+ *
  * Other variables:
  * - $line_item_list: Array containing all line item objects.
  * - $products: Array containing all product objects that are stored in the
@@ -25,15 +25,15 @@
  *   available. This is an array containing the details of the shipping you have
  *   included in order. If you have not included shipping in your order then
  *   this variable will not be available.
- *   
+ *
  * If you want to make changes in the structure Shopping Cart, copy this file to
  * your theme's templates directory.
- * 
+ *
  * DO NOT change this file.
  */
 ?>
 
-<?php $content = ''; // This will hold the HTML of shopping cart. ?>
+<?php $content = ''; ?>
 <?php if($order && $quantity != 0): ?>
   <!-- Order object present and cart is not empty. -->
   <div id="custom-shopping-cart-wrapper" class="custom-shopping-cart-wrapper">
@@ -62,7 +62,7 @@
           if (property_exists($line_item, 'commerce_product')) {
             $product = commerce_product_load($line_item->commerce_product[LANGUAGE_NONE][0]['product_id']);
             $image_url = '<img src="' . $product_image_urls[$product->product_id] . '" >';
-            
+
             $content .= '<div class="product-line-item product-line-item-id-' . $line_item->line_item_id . '">
                           <span class="' . (variable_get('product_image') == 'image' ? 'image' : 'no-image') . '">' . (variable_get('product_image') == 'image' ? $image_url : '') . '</span>
                           <span class="quantity">' . intval($line_item->quantity) . '</span>
@@ -80,18 +80,18 @@
           $wrapper = '<div class="custom-shopping-cart-tax-wrapper">';
           $tax_rates = commerce_tax_rates();
           $tax_rate_content = '';
-          
+
           foreach ($tax_rates as $tax_rate) {
             $tax_rate_content .= '<div class="tax-' . $tax_rate['name'] . '">
                                     <span>' . $tax_rate['display_title'] . '</span>
                                     <span>' . $tax_rate['rate'] * 100 . '%</span>
                                   </div>';
           }
-          
+
           $content .= $wrapper . $tax_rate_content . '</div>';
         } ?>
         <!-- End of foreach loop. -->
-        <?php echo $content; // Render the cart with product details ?>
+        <?php echo $content; ?>
       </div>
     </div>
     <span class="custom-shopping-cart-total">

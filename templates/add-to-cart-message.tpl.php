@@ -3,7 +3,7 @@
    * Available variables:
    * - $line_item: The line item object recently ordered.
    * - $product: The product object recently added to cart.
-   * 
+   *
    * Other variables:
    * - $product_per_unit_price: Per unit price of the product. It has currency
    *   code or symbol attached to it. Currency code or symbol depends on the
@@ -15,10 +15,10 @@
    *   product has no image.
    *   This variable is always empty even though image for the product is
    *   available - BUG
-   *   
+   *
    * If you want to change the structure of Add to Cart Message popup, then copy
    * this file to your theme's templates directory and do your changes.
-   * 
+   *
    * DO NOT change this file.
    */
 ?>

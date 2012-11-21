@@ -22,7 +22,7 @@ function ajax_add_to_cart_init() {
 function ajax_add_to_cart_permission() {
   return array(
     'administer ajax add to cart' => array(
-      'title' => t('Administer AJAX Add to Cart'), 
+      'title' => t('Administer AJAX Add to Cart'),
       'description' => t('Administer AJAX Add to Cart'),
     ),
   );
@@ -46,7 +46,7 @@ function ajax_add_to_cart_menu() {
   $items['remove-product/ajax/%'] = array(
     'delivery callback' => 'ajax_deliver',
   ) + $items['remove-product/nojs/%'];
-  
+
   $items['admin/commerce/config/ajax-cart'] = array(
     'title' => 'AJAX Add to Cart',
     'description' => 'AJAX Add to Cart',
@@ -55,7 +55,7 @@ function ajax_add_to_cart_menu() {
     'file' => 'ajax_add_to_cart.admin.inc',
     'type' => MENU_NORMAL_ITEM,
   );
-  
+
   $items['admin/commerce/config/ajax-cart/shopping-cart'] = array(
     'title' => 'Shopping Cart',
     'description' => 'Shopping Cart',
@@ -65,7 +65,7 @@ function ajax_add_to_cart_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 10,
   );
-  
+
   $items['admin/commerce/config/ajax-cart/cart-teaser'] = array(
     'title' => 'Shopping cart teaser',
     'description' => 'Shopping cart teaser',
@@ -75,7 +75,7 @@ function ajax_add_to_cart_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 20,
   );
-  
+
   $items['admin/commerce/config/ajax-cart/pop-up-message'] = array(
     'title' => 'Pop up Message',
     'description' => 'Pop up Message',
@@ -91,42 +91,51 @@ function ajax_add_to_cart_menu() {
 
 /**
  * This function removes the product item from cart.
- * 
+ *
  * @param string $ajax
  *   Page argument, ajaxifies the removal of product from cart.
- *   
+ *
  * @param integer $line_item_id
  *   Line item ID.
- *   
+ *
  * @return array
  *   Array containing data for ajaxification of product removal.
  */
 function remove_commerce_line_item($ajax, $line_item_id) {
   // Initially quantity of products in cart will be zero.
   $quantity = 0;
-  
+
   // Check whether this is AJAX callback.
   $is_ajax = $ajax === 'ajax';
-  
+
   // Delete the product line item from cart.
   commerce_line_item_delete($line_item_id);
-  
+
   // Get the current status of cart and other information.
   $commerce_cart = get_commerce_cart_details();
   $line_items = $commerce_cart['wrapper']->commerce_line_items;
   $quantity = commerce_line_items_quantity($line_items, commerce_product_line_item_types());
   $total = commerce_line_items_total($line_items);
-  
+
   if ($is_ajax) {
     // Update the cart content.
     $commands = array();
-    
+
     // Check whether the user has any product in cart.
-    $content_cart = theme('custom_shopping_cart', array('order' => $commerce_cart['order'], 'line_items' => $line_items, 'quantity' => $quantity, 'total' => $total));
+    $content_cart = theme('custom_shopping_cart', array(
+                                                    'order' => $commerce_cart['order'],
+                                                    'line_items' => $line_items,
+                                                    'quantity' => $quantity,
+                                                    'total' => $total)
+                                                  );
     $commands[] = ajax_command_replace('div.custom-shopping-cart-wrapper', $content_cart);
-    $content_teaser = theme('custom_shopping_cart_teaser', array('order' => $commerce_cart['order'], 'quantity' => $quantity, 'total' => $total));
+    $content_teaser = theme('custom_shopping_cart_teaser', array(
+                                                            'order' => $commerce_cart['order'],
+                                                            'quantity' => $quantity,
+                                                            'total' => $total)
+                                                          );
     $commands[] = ajax_command_replace('div.custom-shopping-cart-teaser', $content_teaser);
-  
+
     // Ajaxifies the updation of cart.
     return array(
       '#type' => 'ajax',
@@ -160,42 +169,51 @@ function ajax_add_to_cart_form_alter(&$form, &$form_state, $form_id) {
 
 /**
  * Callback function to ajaxify the shopping cart.
- * 
+ *
  * @param array $form
  *   Drupal form array.
- *   
+ *
  * @param array $form_state
  *   Current form state.
  */
 function ajax_cart_form($form, &$form_state) {
   // Get the current status of commerce cart.
   $commerce_cart = get_commerce_cart_details();
-  
+
   // AJAX commands array.
   $commands = array();
-  
+
   // The next line allows different quantities to be submitted each time.
   unset($form['quantity']['#value']);
-  
+
   // Clear form and form state cache.
   $form_state = form_state_defaults();
   $form_build_id = $_POST['form_build_id'];
   form_set_cache($form_build_id, $form, $form_state);
-  
+
   // If the user has ordered items.
   if ($commerce_cart['order']) {
     // Get the line items in cart with their quantity and total.
     $line_items = $commerce_cart['wrapper']->commerce_line_items;
     $quantity = commerce_line_items_quantity($line_items, commerce_product_line_item_types());
     $total = commerce_line_items_total($line_items);
-    
-    $custom_shopping_cart_content = theme('custom_shopping_cart', array('order' => $commerce_cart['order'], 'line_items' => $line_items, 'quantity' => $quantity, 'total' => $total));
+
+    $custom_shopping_cart_content = theme('custom_shopping_cart', array(
+                                                                    'order' => $commerce_cart['order'],
+                                                                    'line_items' => $line_items,
+                                                                    'quantity' => $quantity,
+                                                                    'total' => $total)
+                                                                  );
     $commands[] = ajax_command_replace('div.custom-shopping-cart-wrapper', $custom_shopping_cart_content);
-    
+
     // Update the contents of shopping cart.
-    $custom_shopping_cart_teaser_content = theme('custom_shopping_cart_teaser', array('order' => $commerce_cart['order'], 'quantity' => $quantity, 'total' => $total));
+    $custom_shopping_cart_teaser_content = theme('custom_shopping_cart_teaser', array(
+                                                                                  'order' => $commerce_cart['order'],
+                                                                                  'quantity' => $quantity,
+                                                                                  'total' => $total)
+                                                                                );
     $commands[] = ajax_command_replace('div.custom-shopping-cart-teaser', $custom_shopping_cart_teaser_content);
-    
+
     // Display add to cart message.
     foreach ($line_items as $line_item_wrapper) {
       $last_line_item = $line_item_wrapper->value();
@@ -207,7 +225,7 @@ function ajax_cart_form($form, &$form_state) {
       $content = theme('add_to_cart_message', array('line_item' => $last_line_item, 'product' => $last_line_item_product));
     }
     $commands[] = ajax_command_prepend('div#page', $content);
-    
+
     return array(
       '#type' => 'ajax',
       '#commands' => $commands,
@@ -225,7 +243,7 @@ function ajax_add_to_cart_block_info() {
     'pages' => 'cart
 checkout/*',
   );
-  
+
   $blocks['custom_shopping_cart_teaser'] = array(
     'info' => t('Custom shopping cart teaser'),
   );
@@ -243,12 +261,12 @@ function ajax_add_to_cart_block_view($delta = '') {
       $block['subject'] = t('Shopping cart');
       $block['content'] = get_shopping_cart();
       break;
-      
+
     case 'custom_shopping_cart_teaser':
       $block['content'] = get_shopping_cart_teaser();
       break;
   }
-  
+
   return $block;
 }
 
@@ -258,7 +276,7 @@ function ajax_add_to_cart_block_view($delta = '') {
 function get_shopping_cart() {
   // Get the current status of cart and other details.
   $commerce_cart = get_commerce_cart_details();
-  
+
   if ($commerce_cart['order']) {
     $line_items = $commerce_cart['wrapper']->commerce_line_items;
     $quantity = commerce_line_items_quantity($line_items, commerce_product_line_item_types());
@@ -269,22 +287,27 @@ function get_shopping_cart() {
     $quantity = 0;
     $total = NULL;
   }
-  
-  $content = theme('custom_shopping_cart', array('order' => $commerce_cart['order'], 'line_items' => $line_items, 'quantity' => $quantity, 'total' => $total));
-  
+
+  $content = theme('custom_shopping_cart', array(
+                                              'order' => $commerce_cart['order'],
+                                              'line_items' => $line_items,
+                                              'quantity' => $quantity,
+                                              'total' => $total)
+                                          );
+
   return $content;
 }
 
 /**
  * Render the shopping cart teaser.
- * 
- * @return string $content
+ *
+ * @return string
  *   HTML string containing themed output.
  */
 function get_shopping_cart_teaser() {
   // Get the current status of cart and other details.
   $commerce_cart = get_commerce_cart_details();
-  
+
   if ($commerce_cart['order']) {
     $line_items = $commerce_cart['wrapper']->commerce_line_items;
     $quantity = commerce_line_items_quantity($line_items, commerce_product_line_item_types());
@@ -295,27 +318,31 @@ function get_shopping_cart_teaser() {
     $quantity = 0;
     $total = NULL;
   }
-  
-  $content = theme('custom_shopping_cart_teaser', array('order' => $commerce_cart['order'], 'quantity' => $quantity, 'total' => $total));
-  
+
+  $content = theme('custom_shopping_cart_teaser', array(
+                                                    'order' => $commerce_cart['order'],
+                                                    'quantity' => $quantity,
+                                                    'total' => $total)
+                                                  );
+
   return $content;
 }
 
 /**
  * This function returns the current status of cart.
- * 
- * @return array $output
+ *
+ * @return array
  *   Array containing the current status of cart.
  */
 function get_commerce_cart_details() {
   global $user;
   $output = array();
-  
+
   $order = commerce_cart_order_load($user->uid);
-  
+
   if ($order) {
     $wrapper = entity_metadata_wrapper('commerce_order', $order);
-    
+
     $output['order'] = $order;
     $output['wrapper'] = $wrapper;
   }
@@ -323,7 +350,7 @@ function get_commerce_cart_details() {
     $output['order'] = NULL;
     $output['wrapper'] = NULL;
   }
-  
+
   return $output;
 }
 
@@ -333,7 +360,12 @@ function get_commerce_cart_details() {
 function ajax_add_to_cart_theme($existing, $type, $theme, $path) {
   return array(
     'custom_shopping_cart' => array(
-      'variables' => array('order' => NULL, 'line_items' => NULL, 'quantity' => NULL, 'total' => NULL),
+      'variables' => array(
+        'order' => NULL,
+        'line_items' => NULL,
+        'quantity' => NULL,
+        'total' => NULL,
+      ),
       'template' => 'templates/custom-shopping-cart',
     ),
     'custom_shopping_cart_teaser' => array(
@@ -347,25 +379,31 @@ function ajax_add_to_cart_theme($existing, $type, $theme, $path) {
   );
 }
 
+/**
+ * Template preprocess function for custom shopping cart block.
+ *
+ * @param array $variables
+ *   Theme variable array.
+ *
+ * @return array
+ *   Theme variable array.
+ */
 function template_preprocess_custom_shopping_cart(&$variables) {
   // Check whether order object exists.
   if ($variables['order']) {
     // Default currency array.
     $currency = commerce_currency_load(commerce_default_currency());
-    
+
     // Output arrays.
     $line_item_list = array();
     $products = array();
     $product_image_urls = array();
     $product_prices = array();
     $shipping = array();
-    
-    /**
-     * The format of currency will be same for all prodcuts and depends on
-     * setting. Hence, we are creating the format of currency here.
-     * 
-     * Later we just create the price string, this will speed up the execution.
-     */
+
+    // The format of currency will be same for all prodcuts and depends on
+    // setting. Hence, we are creating the format of currency here.
+    // Later we just create the price string, this will speed up the execution.
     if (variable_get('currency_format') == 'currency_symbol') {
       if ($currency['symbol_placement'] == 'after') {
         $currency_check = 'amount_symbol';
@@ -386,11 +424,11 @@ function template_preprocess_custom_shopping_cart(&$variables) {
         $product_price_total = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($variables['total']['amount'], $currency['code']);
       }
     }
-    
+
     // Create the line item list and products array.
     foreach ($variables['line_items'] as $line_item_wrapper) {
       $line_item = $line_item_wrapper->value();
-      
+
       // If the line item is a product.
       if (property_exists($line_item, 'commerce_product')) {
         $product = commerce_product_load($line_item->commerce_product[LANGUAGE_NONE][0]['product_id']);
@@ -400,18 +438,21 @@ function template_preprocess_custom_shopping_cart(&$variables) {
       elseif (property_exists($line_item, 'commerce_shipping_service')) {
         // Shipping name.
         $shipping['service'] = $line_item->line_item_label;
-        
+
         // Shipping price.
         switch ($currency_check) {
           case 'amount_symbol':
             $shipping['price'] = commerce_currency_amount_to_decimal($line_item->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']) . ' ' . $currency['symbol'];
             break;
+
           case 'symbol_amount':
             $shipping['price'] = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($line_item->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
             break;
+
           case 'amount_code':
             $shipping['price'] = commerce_currency_amount_to_decimal($line_item->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']) . ' ' . $currency['code'];
             break;
+
           case 'code_amount':
             $shipping['price'] = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($line_item->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
             break;
@@ -419,7 +460,7 @@ function template_preprocess_custom_shopping_cart(&$variables) {
       }
       $line_item_list[$line_item->line_item_id] = $line_item;
     }
-    
+
     // Create the image url and currency array.
     foreach ($products as $product) {
       // Build image url array.
@@ -444,24 +485,27 @@ function template_preprocess_custom_shopping_cart(&$variables) {
       else {
         $product_image_urls[$product->product_id] = '';
       }
-    
+
       // Build currency array.
       switch ($currency_check) {
         case 'amount_symbol':
           $product_prices[$product->product_id] = commerce_currency_amount_to_decimal($product->commerce_price[LANGUAGE_NONE][0]['amount'], $currency['code']) . ' ' . $currency['symbol'];
           break;
+
         case 'symbol_amount':
           $product_prices[$product->product_id] = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($product->commerce_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
           break;
+
         case 'amount_code':
           $product_prices[$product->product_id] = commerce_currency_amount_to_decimal($product->commerce_price[LANGUAGE_NONE][0]['amount'], $currency['code']) . ' ' . $currency['code'];
           break;
+
         case 'code_amount':
           $product_prices[$product->product_id] = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($product->commerce_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
           break;
       }
     }
-    
+
     // Create checkout url.
     if (variable_get('checkout_redirect') == 'cart_page') {
       $checkout_url = l(t('Checkout'), 'cart');
@@ -469,7 +513,7 @@ function template_preprocess_custom_shopping_cart(&$variables) {
     else {
       $checkout_url = l(t('Checkout'), 'checkout/' . $variables['order']->order_id);
     }
-    
+
     // Create new theme variables.
     $variables['line_item_list'] = $line_item_list;
     $variables['products'] = $products;
@@ -483,10 +527,19 @@ function template_preprocess_custom_shopping_cart(&$variables) {
   }
 }
 
+/**
+ * Templete preprocess function for custom shopping cart teaser.
+ *
+ * @param array $variables
+ *   Theme variable array.
+ *
+ * @return array
+ *   Theme variable array.
+ */
 function template_preprocess_custom_shopping_cart_teaser(&$variables) {
   // Default currency array.
   $currency = commerce_currency_load(commerce_default_currency());
-  
+
   // Create the product price string product total string.
   if (variable_get('currency_format') == 'currency_symbol') {
     if ($currency['symbol_placement'] == 'after') {
@@ -504,15 +557,24 @@ function template_preprocess_custom_shopping_cart_teaser(&$variables) {
       $total = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($variables['amount']['amount'], $currency['code']);
     }
   }
-  
+
   // Create new theme variable.
   $variables['total_amount'] = $total;
 }
 
+/**
+ * Templete preprocess function for add to cart message popup.
+ *
+ * @param array $variables
+ *   Theme variable array.
+ *
+ * @return array
+ *   Theme variable array.
+ */
 function template_preprocess_add_to_cart_message(&$variables) {
   // Default currency array.
   $currency = commerce_currency_load(commerce_default_currency());
-  
+
   // Create the product price string product total string.
   if (variable_get('currency_format') == 'currency_symbol') {
     if ($currency['symbol_placement'] == 'after') {
@@ -534,7 +596,7 @@ function template_preprocess_add_to_cart_message(&$variables) {
       $product_price_total = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($variables['line_item']->commerce_total[LANGUAGE_NONE][0]['amount'], $currency['code']);
     }
   }
-  
+
   $variables['product_per_unit_price'] = $product_price;
   $variables['product_price_total'] = $product_price_total;
 }

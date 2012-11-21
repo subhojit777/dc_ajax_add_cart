@@ -5,15 +5,15 @@
    * - $quantity: Number of items present in the cart.
    * - $total: Array containing the total amount and default currency code used
    *   in the site.
-   *   
+   *
    * Other variables:
    * - $total_amount: A formatted string that consists of the total amount and
    *   currency setting of AJAX Add to Cart. Placement of currency code or
    *   symbol is based on the Drupal currency setting.
-   *   
+   *
    * If you want to change the structure of Cart Teaser then copy this file to
    * your theme's templates directory and make your changes.
-   * 
+   *
    * DO NOT change this file.
    */
 ?>

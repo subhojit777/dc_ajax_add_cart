@@ -37,7 +37,7 @@ function ajax_add_to_cart_menu() {
   $items['remove-product/nojs/%'] = array(
     'title' => 'Remove commerce line item',
     'description' => 'Remove commerce line item',
-    'page callback' => 'remove_commerce_line_item',
+    'page callback' => 'ajax_add_to_cart_remove_commerce_line_item',
     'page arguments' => array(1, 2),
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
@@ -101,7 +101,7 @@ function ajax_add_to_cart_menu() {
  * @return array
  *   Array containing data for ajaxification of product removal.
  */
-function remove_commerce_line_item($ajax, $line_item_id) {
+function ajax_add_to_cart_remove_commerce_line_item($ajax, $line_item_id) {
   // Initially quantity of products in cart will be zero.
   $quantity = 0;
 
@@ -112,7 +112,7 @@ function remove_commerce_line_item($ajax, $line_item_id) {
   commerce_line_item_delete($line_item_id);
 
   // Get the current status of cart and other information.
-  $commerce_cart = get_commerce_cart_details();
+  $commerce_cart = ajax_add_to_cart_get_commerce_cart_details();
   $line_items = $commerce_cart['wrapper']->commerce_line_items;
   $quantity = commerce_line_items_quantity($line_items, commerce_product_line_item_types());
   $total = commerce_line_items_total($line_items);
@@ -158,7 +158,7 @@ function ajax_add_to_cart_form_alter(&$form, &$form_state, $form_id) {
       '#value' => t('Add to cart'),
       '#weight' => 50,
       '#ajax' => array(
-        'callback' => 'ajax_cart_form',
+        'callback' => 'ajax_add_to_cart_ajax_cart_form',
         'method' => 'replace',
         'effect' => 'slide',
         'progress' => array('type' => 'throbber', 'message' => ''),
@@ -176,9 +176,9 @@ function ajax_add_to_cart_form_alter(&$form, &$form_state, $form_id) {
  * @param array $form_state
  *   Current form state.
  */
-function ajax_cart_form($form, &$form_state) {
+function ajax_add_to_cart_ajax_cart_form($form, &$form_state) {
   // Get the current status of commerce cart.
-  $commerce_cart = get_commerce_cart_details();
+  $commerce_cart = ajax_add_to_cart_get_commerce_cart_details();
 
   // AJAX commands array.
   $commands = array();
@@ -259,11 +259,11 @@ function ajax_add_to_cart_block_view($delta = '') {
   switch ($delta) {
     case 'custom_shopping_cart':
       $block['subject'] = t('Shopping cart');
-      $block['content'] = get_shopping_cart();
+      $block['content'] = ajax_add_to_cart_get_shopping_cart();
       break;
 
     case 'custom_shopping_cart_teaser':
-      $block['content'] = get_shopping_cart_teaser();
+      $block['content'] = ajax_add_to_cart_get_shopping_cart_teaser();
       break;
   }
 
@@ -273,9 +273,9 @@ function ajax_add_to_cart_block_view($delta = '') {
 /**
  * Render the shopping cart.
  */
-function get_shopping_cart() {
+function ajax_add_to_cart_get_shopping_cart() {
   // Get the current status of cart and other details.
-  $commerce_cart = get_commerce_cart_details();
+  $commerce_cart = ajax_add_to_cart_get_commerce_cart_details();
 
   if ($commerce_cart['order']) {
     $line_items = $commerce_cart['wrapper']->commerce_line_items;
@@ -304,9 +304,9 @@ function get_shopping_cart() {
  * @return string
  *   HTML string containing themed output.
  */
-function get_shopping_cart_teaser() {
+function ajax_add_to_cart_get_shopping_cart_teaser() {
   // Get the current status of cart and other details.
-  $commerce_cart = get_commerce_cart_details();
+  $commerce_cart = ajax_add_to_cart_get_commerce_cart_details();
 
   if ($commerce_cart['order']) {
     $line_items = $commerce_cart['wrapper']->commerce_line_items;
@@ -334,7 +334,7 @@ function get_shopping_cart_teaser() {
  * @return array
  *   Array containing the current status of cart.
  */
-function get_commerce_cart_details() {
+function ajax_add_to_cart_get_commerce_cart_details() {
   global $user;
   $output = array();
 
@@ -421,7 +421,7 @@ function template_preprocess_custom_shopping_cart(&$variables) {
       }
       else {
         $currency_check = 'code_amount';
-        $product_price_total = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($variables['total']['amount'], $currency['code']);
+        $product_price_total = $currency['code'] . ' ' . commerce_currency_amount_to_decimal($variables['total']['amount'], $currency['code']);
       }
     }
 
@@ -528,7 +528,8 @@ function template_preprocess_custom_shopping_cart(&$variables) {
 }
 
 /**
- * Templete preprocess function for custom shopping cart teaser.
+ * Template preprocess function for custom shopping cart teaser.
+ * 
  *
  * @param array $variables
  *   Theme variable array.
@@ -551,10 +552,10 @@ function template_preprocess_custom_shopping_cart_teaser(&$variables) {
   }
   else {
     if ($currency['code_placement'] == 'after') {
-      $total = commerce_currency_amount_to_decimal($variables['amount']['amount'], $currency['code']) . ' ' . $currency['code'];
+      $total = commerce_currency_amount_to_decimal($variables['total']['amount'], $currency['code']) . ' ' . $currency['code'];
     }
     else {
-      $total = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($variables['amount']['amount'], $currency['code']);
+      $total = $currency['code'] . ' ' . commerce_currency_amount_to_decimal($variables['total']['amount'], $currency['code']);
     }
   }
 
@@ -563,7 +564,7 @@ function template_preprocess_custom_shopping_cart_teaser(&$variables) {
 }
 
 /**
- * Templete preprocess function for add to cart message popup.
+ * Template preprocess function for add to cart message popup.
  *
  * @param array $variables
  *   Theme variable array.

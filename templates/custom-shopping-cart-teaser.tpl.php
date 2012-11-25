@@ -37,7 +37,7 @@
   <!-- Cart is empty or order object is null. -->
   <div class="custom-shopping-cart-teaser">
     <div class="cart-image">
-      <img src="<?php echo base_path() . drupal_get_path('module', 'ajax_add_to_cart') . '/images/shopping-cart.gif' ?>" />
+      <img src="<?php echo base_path() . drupal_get_path('module', 'ajax_add_to_cart') . '/images/shopping-cart.png' ?>" />
     </div>
     <div class="cart-product-quantity">
       <p class="empty-cart">

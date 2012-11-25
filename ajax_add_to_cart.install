@@ -18,7 +18,7 @@ function ajax_add_to_cart_install() {
   variable_set('empty_cart_message', 'Shopping cart is empty');
   variable_set('remove_cart', 'link');
   variable_set('product_image', 'no_image');
-  variable_set('product_image_style', 'thumbnail');
+  variable_set('product_image_style', 'ajax_add_to_cart_style');
   variable_set('display_tax', 'no_display');
 
   // Cart teaser default configuration.

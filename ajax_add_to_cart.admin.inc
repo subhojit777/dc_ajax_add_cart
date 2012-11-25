@@ -12,7 +12,7 @@
  *   Renderable array.
  */
 function ajax_add_to_cart_general_settings() {
-  return drupal_get_form('general_settings_form');
+  return drupal_get_form('ajax_add_to_cart_general_settings_form');
 }
 
 /**
@@ -22,7 +22,7 @@ function ajax_add_to_cart_general_settings() {
  *   Renderable array.
  */
 function ajax_add_to_cart_ajax_cart() {
-  return drupal_get_form('ajax_cart_settings_form');
+  return drupal_get_form('ajax_add_to_cart_ajax_cart_settings_form');
 }
 
 /**
@@ -32,7 +32,7 @@ function ajax_add_to_cart_ajax_cart() {
  *   Renderable array.
  */
 function ajax_add_to_cart_cart_teaser() {
-  return drupal_get_form('cart_teaser_settings_form');
+  return drupal_get_form('ajax_add_to_cart_cart_teaser_settings_form');
 }
 
 /**
@@ -42,7 +42,7 @@ function ajax_add_to_cart_cart_teaser() {
  *   Renderable array.
  */
 function ajax_add_to_cart_popup_message() {
-  return drupal_get_form('popup_message_settings_form');
+  return drupal_get_form('ajax_add_to_cart_popup_message_settings_form');
 }
 
 /**
@@ -57,7 +57,7 @@ function ajax_add_to_cart_popup_message() {
  * @return array
  *   Drupal system settings form.
  */
-function general_settings_form($form, &$form_state) {
+function ajax_add_to_cart_general_settings_form($form, &$form_state) {
   $form['currency_format'] = array(
     '#type' => 'select',
     '#title' => t('Currency format'),
@@ -84,7 +84,7 @@ function general_settings_form($form, &$form_state) {
  * @return array
  *   Drupal system settings form.
  */
-function ajax_cart_settings_form($form, &$form_state) {
+function ajax_add_to_cart_ajax_cart_settings_form($form, &$form_state) {
   $image_style = array();
 
   // Get all image styles available.
@@ -142,7 +142,7 @@ function ajax_cart_settings_form($form, &$form_state) {
     ),
     '#description' => t('Configure whether you want to show product image in AJAX Shopping Cart'),
     '#ajax' => array(
-      'callback' => 'product_image_callback',
+      'callback' => 'ajax_add_to_cart_product_image_callback',
       'wrapper' => 'product-image-style-setting-wrapper',
       'method' => 'replace',
       'effect' => 'fade',
@@ -200,7 +200,7 @@ function ajax_cart_settings_form($form, &$form_state) {
  * @return array
  *   Product image style wrapper.
  */
-function product_image_callback($form, &$form_state) {
+function ajax_add_to_cart_product_image_callback($form, &$form_state) {
   return $form['product_image_style_wrapper'];
 }
 
@@ -216,7 +216,7 @@ function product_image_callback($form, &$form_state) {
  * @return array
  *   Drupal system settings form.
  */
-function cart_teaser_settings_form($form, &$form_state) {
+function ajax_add_to_cart_cart_teaser_settings_form($form, &$form_state) {
   $form['empty_cart_teaser_message'] = array(
     '#type' => 'textfield',
     '#title' => t('Empty cart message'),
@@ -246,7 +246,7 @@ function cart_teaser_settings_form($form, &$form_state) {
  * @return array
  *   Drupal array form.
  */
-function popup_message_settings_form($form, &$form_state) {
+function ajax_add_to_cart_popup_message_settings_form($form, &$form_state) {
   $image_style = array();
 
   // Get all image styles available.
@@ -287,7 +287,7 @@ function popup_message_settings_form($form, &$form_state) {
     '#default_value' => variable_get('popup_product_name_display'),
     '#disabled' => TRUE,
     '#ajax' => array(
-      'callback' => 'popup_product_name_callback',
+      'callback' => 'ajax_add_to_cart_popup_product_name_callback',
       'wrapper' => 'popup-product-name-label-setting-wrapper',
       'method' => 'replace',
       'effect' => 'fade',
@@ -305,7 +305,7 @@ function popup_message_settings_form($form, &$form_state) {
     '#title' => t('Product quantity'),
     '#default_value' => variable_get('popup_product_quantity_display'),
     '#ajax' => array(
-      'callback' => 'popup_product_quantity_callback',
+      'callback' => 'ajax_add_to_cart_popup_product_quantity_callback',
       'wrapper' => 'popup-product-quantity-label-setting-wrapper',
       'method' => 'replace',
       'effect' => 'fade',
@@ -323,7 +323,7 @@ function popup_message_settings_form($form, &$form_state) {
     '#title' => t('Product price'),
     '#default_value' => variable_get('popup_product_price_display'),
     '#ajax' => array(
-      'callback' => 'popup_product_price_callback',
+      'callback' => 'ajax_add_to_cart_popup_product_price_callback',
       'wrapper' => 'popup-product-price-label-setting-wrapper',
       'method' => 'replace',
       'effect' => 'fade',
@@ -342,7 +342,7 @@ function popup_message_settings_form($form, &$form_state) {
     '#default_value' => variable_get('popup_product_total_display'),
     '#disabled' => TRUE,
     '#ajax' => array(
-      'callback' => 'popup_product_total_callback',
+      'callback' => 'ajax_add_to_cart_popup_product_total_callback',
       'wrapper' => 'popup-product-total-label-setting-wrapper',
       'method' => 'replace',
       'effect' => 'fade',
@@ -480,19 +480,6 @@ function popup_message_settings_form($form, &$form_state) {
 }
 
 /**
- * Callback function for rendering image style setting form.
- *
- * @param array $form
- *   Drupal form array.
- *
- * @param array $form_state
- *   Current Drupal form state.
- */
-function popup_product_image_callback($form, &$form_state) {
-  return $form['product_details_popup']['popup_product_image_style_wrapper'];
-}
-
-/**
  * Callback function for rendering name label setting form.
  *
  * @param array $form
@@ -501,7 +488,7 @@ function popup_product_image_callback($form, &$form_state) {
  * @param array $form_state
  *   Current Drupal form state.
  */
-function popup_product_name_callback($form, &$form_state) {
+function ajax_add_to_cart_popup_product_name_callback($form, &$form_state) {
   return $form['product_details_popup']['popup_product_name_label_wrapper'];
 }
 
@@ -514,7 +501,7 @@ function popup_product_name_callback($form, &$form_state) {
  * @param array $form_state
  *   Current Drupal form state.
  */
-function popup_product_quantity_callback($form, &$form_state) {
+function ajax_add_to_cart_popup_product_quantity_callback($form, &$form_state) {
   return $form['product_details_popup']['popup_product_quantity_label_wrapper'];
 }
 
@@ -527,7 +514,7 @@ function popup_product_quantity_callback($form, &$form_state) {
  * @param array $form_state
  *   Current Drupal form state.
  */
-function popup_product_price_callback($form, &$form_state) {
+function ajax_add_to_cart_popup_product_price_callback($form, &$form_state) {
   return $form['product_details_popup']['popup_product_price_label_wrapper'];
 }
 
@@ -540,6 +527,6 @@ function popup_product_price_callback($form, &$form_state) {
  * @param array $form_state
  *   Current Drupal form state.
  */
-function popup_product_total_callback($form, &$form_state) {
+function ajax_add_to_cart_popup_product_total_callback($form, &$form_state) {
   return $form['product_details_popup']['popup_product_total_label_wrapper'];
 }

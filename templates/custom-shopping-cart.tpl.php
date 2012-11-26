@@ -58,8 +58,8 @@
       <?php endif; ?>
       <div class="custom-shopping-cart-details">
         <!-- Start foreach loop. -->
-        <?php foreach ($line_item_list as $line_item) {
-          if (property_exists($line_item, 'commerce_product')) {
+        <?php foreach ($line_item_list as $line_item) :
+          if (property_exists($line_item, 'commerce_product')) :
             $product = commerce_product_load($line_item->commerce_product[LANGUAGE_NONE][0]['product_id']);
             $image_url = '<img src="' . $product_image_urls[$product->product_id] . '" >';
 
@@ -70,26 +70,25 @@
                           <span class="price">' . $product_prices[$product->product_id] . '</span>
                           <span class="remove-from-cart">' . l(variable_get('remove_cart') == 'link' ? t('Remove form cart') : '<img src="' . base_path() . drupal_get_path('module', 'ajax_add_to_cart') . '/images/remove-from-cart.png' . '" />', 'remove-product/nojs/' . $line_item->line_item_id, array('attributes' => array('class' => array('use-ajax')), 'html' => TRUE)) . '</span>
                         </div>';
-          }
-          else if (property_exists($line_item, 'commerce_shipping_service') && isset($shipping)) {
+          elseif (property_exists($line_item, 'commerce_shipping_service') && isset($shipping)) :
             $content .= '<div class="custom-shopping-cart-shipping">' . $shipping['service'] . ' ' . $shipping['price'] . '</div>';
-          }
-        }
+          endif;
+        endforeach;
 
-        if (variable_get('display_tax') == 'display') {
+        if (variable_get('display_tax') == 'display') :
           $wrapper = '<div class="custom-shopping-cart-tax-wrapper">';
           $tax_rates = commerce_tax_rates();
           $tax_rate_content = '';
 
-          foreach ($tax_rates as $tax_rate) {
+          foreach ($tax_rates as $tax_rate) :
             $tax_rate_content .= '<div class="tax-' . $tax_rate['name'] . '">
                                     <span>' . $tax_rate['display_title'] . '</span>
                                     <span>' . $tax_rate['rate'] * 100 . '%</span>
                                   </div>';
-          }
+          endforeach;
 
           $content .= $wrapper . $tax_rate_content . '</div>';
-        } ?>
+        endif; ?>
         <!-- End of foreach loop. -->
         <?php echo $content; ?>
       </div>

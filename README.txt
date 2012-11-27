@@ -32,6 +32,11 @@ Usage:
    the template files in theme's templates directory and make desired changes.
    
 
+Mentor:
+-------
+Mukesh Agarwal
+mukesh.agarwal17<mukesh.agarwal@innoraft.com>
+
 Maintainer:
 -----------
 Subhojit Paul

@@ -15,6 +15,19 @@
    *   product has no image.
    *   This variable is always empty even though image for the product is
    *   available - BUG
+   * - $success_message: Success message to be shown on popup.
+   * - $popup_checkout: Checkout link text.
+   * - $popup_continue_shopping: Continue shopping button text.
+   * - $popup_product_name_display: Check whether to show the name of product.
+   * - $popup_product_name_label: Check whether to display name label.
+   * - $popup_product_price_display: Check whether to show the per unit price of
+   *   product.
+   * - $popup_product_price_label: Check whether to display price label.
+   * - $popup_product_quantity_display: Check whether to show quantity of
+   *   product.
+   * - $popup_product_quantity_label: Check whether to display quantity label.
+   * - $popup_product_total_display: Check whether to show product total.
+   * - $popup_product_total_label: Check whether to display total label.
    *
    * If you want to change the structure of Add to Cart Message popup, then copy
    * this file to your theme's templates directory and do your changes.
@@ -32,25 +45,25 @@
     </span>
   </a>
   <div class="added-product-message">
-    <?php echo variable_get('ajax_add_to_cart_success_message'); ?>
+    <?php echo $success_message; ?>
   </div>
   <div class="option-button-wrapper">
     <!-- Checkout link. -->
     <div class="option-button checkout">
-      <?php echo l(variable_get('ajax_add_to_cart_popup_checkout'), 'cart'); ?>
+      <?php echo l($popup_checkout, 'cart'); ?>
     </div>
     <!-- Continue shopping. -->
     <div class="option-button continue">
       <span class="add-to-cart-close">
-        <?php echo variable_get('ajax_add_to_cart_popup_continue_shopping'); ?>
+        <?php echo $popup_continue_shopping; ?>
       </span>
     </div>
   </div>
   <div class="new-item-details">
     <!-- Product name. -->
-    <?php if (variable_get('ajax_add_to_cart_popup_product_name_display') == 1): ?>
+    <?php if ($popup_product_name_display == 1): ?>
       <div class="product-name">
-        <?php if (variable_get('ajax_add_to_cart_popup_product_name_label') == 'display_label'): ?>
+        <?php if ($popup_product_name_label == 'display_label'): ?>
           <p class="name-label">
             <?php echo t('Name:'); ?>
           </p>
@@ -61,9 +74,9 @@
       </div>
     <?php endif; ?>
     <!-- Product cost including tax. -->
-    <?php if (variable_get('ajax_add_to_cart_popup_product_price_display') == 1): ?>
+    <?php if ($popup_product_price_display == 1): ?>
       <div class="product-cost-incl-tax">
-        <?php if (variable_get('ajax_add_to_cart_popup_product_price_label') == 'display_label'): ?>
+        <?php if ($popup_product_price_label == 'display_label'): ?>
           <p class="cost-incl-tax-label">
             <?php echo t('Price:'); ?>
           </p>
@@ -73,10 +86,10 @@
         </p>
       </div>
     <?php endif; ?>
-    <?php if (variable_get('ajax_add_to_cart_popup_product_quantity_display') == 1): ?>
+    <?php if ($popup_product_quantity_display == 1): ?>
     <!-- Product quantity. -->
     <div class="product-quantity">
-      <?php if (variable_get('ajax_add_to_cart_popup_product_quantity_label') == 'display_label'): ?>
+      <?php if ($popup_product_quantity_label == 'display_label'): ?>
         <p class="quantity-label">
           <?php echo t('Quantity:'); ?>
         </p>
@@ -86,10 +99,10 @@
       </p>
     </div>
     <?php endif; ?>
-    <?php if (variable_get('ajax_add_to_cart_popup_product_total_display') == 1): ?>
+    <?php if ($popup_product_total_display == 1): ?>
     <!-- Product total including tax. -->
     <div class="product-total-incl-tax">
-      <?php if (variable_get('ajax_add_to_cart_popup_product_total_label') == 'display_label'): ?>
+      <?php if ($popup_product_total_label == 'display_label'): ?>
         <p class="total-label">
           <?php echo t('Total:'); ?>
         </p>

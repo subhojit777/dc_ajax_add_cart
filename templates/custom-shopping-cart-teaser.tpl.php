@@ -10,6 +10,8 @@
    * - $total_amount: A formatted string that consists of the total amount and
    *   currency setting of AJAX Add to Cart. Placement of currency code or
    *   symbol is based on the Drupal currency setting.
+   * - $item_suffix_text: Suffix text to show beside number of items.
+   * - $empty_cart_teaser_message: Message to show if the cart is empty.
    *
    * If you want to change the structure of Cart Teaser then copy this file to
    * your theme's templates directory and make your changes.
@@ -25,7 +27,7 @@
       <img src="<?php echo base_path() . drupal_get_path('module', 'ajax_add_to_cart') . '/images/shopping-cart.png' ?>" />
     </div>
     <div class="cart-product-quantity">
-      <?php echo l(($quantity > 1) ? ($quantity . ' ' . variable_get('ajax_add_to_cart_item_suffix_text') . 's') : ($quantity . ' ' . variable_get('ajax_add_to_cart_item_suffix_text')), 'cart', array('attributes' => array('class' => array('quantity')))); ?>
+      <?php echo l(($quantity > 1) ? ($quantity . ' ' . $item_suffix_text . 's') : ($quantity . ' ' . $item_suffix_text), 'cart', array('attributes' => array('class' => array('quantity')))); ?>
     </div>
     <div class="cart-product-total">
       <p class="total-amount">
@@ -41,7 +43,7 @@
     </div>
     <div class="cart-product-quantity">
       <p class="empty-cart">
-        <?php echo variable_get('ajax_add_to_cart_empty_cart_teaser_message'); ?>
+        <?php echo $empty_cart_teaser_message; ?>
       </p>
     </div>
     <div class="cart-product-total">

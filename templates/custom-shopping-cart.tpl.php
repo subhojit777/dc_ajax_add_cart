@@ -25,6 +25,11 @@
  *   available. This is an array containing the details of the shipping you have
  *   included in order. If you have not included shipping in your order then
  *   this variable will not be available.
+ * - $show_labels: Check whether to display labels in cart.
+ * - $product_image: Check whether to display product image in cart.
+ * - $remove_cart: Check whether to display link or image in for the option
+ *   remove product from cart.
+ * - $empty_cart_message: Message to display if the cart is empty.
  *
  * If you want to make changes in the structure Shopping Cart, copy this file to
  * your theme's templates directory.
@@ -38,9 +43,9 @@
   <!-- Order object present and cart is not empty. -->
   <div id="custom-shopping-cart-wrapper" class="custom-shopping-cart-wrapper">
     <div class="custom-shopping-cart-table">
-      <?php if(variable_get('ajax_add_to_cart_show_labels') == 'label'): ?>
+      <?php if($show_labels == 'label'): ?>
         <div class="custom-shopping-cart-labels">
-          <?php if (variable_get('ajax_add_to_cart_product_image') == 'image'): ?>
+          <?php if ($product_image == 'image'): ?>
             <span class="image-label">
               <?php echo t('Image'); ?>
             </span>
@@ -64,18 +69,18 @@
             $image_url = '<img src="' . $product_image_urls[$product->product_id] . '" >';
 
             $content .= '<div class="product-line-item product-line-item-id-' . $line_item->line_item_id . '">
-                          <span class="' . (variable_get('ajax_add_to_cart_product_image') == 'image' ? 'image' : 'no-image') . '">' . (variable_get('ajax_add_to_cart_product_image') == 'image' ? $image_url : '') . '</span>
+                          <span class="' . ($product_image == 'image' ? 'image' : 'no-image') . '">' . ($product_image == 'image' ? $image_url : '') . '</span>
                           <span class="quantity">' . intval($line_item->quantity) . '</span>
                           <span class="name">' . $product->title . '</span>
                           <span class="price">' . $product_prices[$product->product_id] . '</span>
-                          <span class="remove-from-cart">' . l(variable_get('ajax_add_to_cart_remove_cart') == 'link' ? t('Remove form cart') : '<img src="' . base_path() . drupal_get_path('module', 'ajax_add_to_cart') . '/images/remove-from-cart.png' . '" />', 'remove-product/nojs/' . $line_item->line_item_id, array('attributes' => array('class' => array('use-ajax')), 'html' => TRUE)) . '</span>
+                          <span class="remove-from-cart">' . l($remove_cart == 'link' ? t('Remove form cart') : '<img src="' . base_path() . drupal_get_path('module', 'ajax_add_to_cart') . '/images/remove-from-cart.png' . '" />', 'remove-product/nojs/' . $line_item->line_item_id, array('attributes' => array('class' => array('use-ajax')), 'html' => TRUE)) . '</span>
                         </div>';
           elseif (property_exists($line_item, 'commerce_shipping_service') && isset($shipping)) :
             $content .= '<div class="custom-shopping-cart-shipping">' . $shipping['service'] . ' ' . $shipping['price'] . '</div>';
           endif;
         endforeach;
 
-        if (variable_get('ajax_add_to_cart_display_tax') == 'display') :
+        if ($display_tax == 'display') :
           $wrapper = '<div class="custom-shopping-cart-tax-wrapper">';
           $tax_rates = commerce_tax_rates();
           $tax_rate_content = '';
@@ -104,7 +109,7 @@
   <!-- Cart is empty or order object is null. -->
   <div id="custom-shopping-cart-wrapper" class="custom-shopping-cart-wrapper">
     <div class="empty-shopping-cart">
-      <?php echo variable_get('ajax_add_to_cart_empty_cart_message'); ?>
+      <?php echo $empty_cart_message; ?>
     </div>
     <div class="custom-shopping-cart-total"></div>
     <div class="custom-shopping-cart-checkout"></div>

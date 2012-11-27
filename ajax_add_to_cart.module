@@ -11,9 +11,6 @@
 function ajax_add_to_cart_init() {
   // Add the Drupal AJAX library.
   drupal_add_library('system', 'drupal.ajax');
-
-  drupal_add_css(drupal_get_path('module', 'ajax_add_to_cart') . '/css/ajax_add_to_cart.css');
-  drupal_add_js(drupal_get_path('module', 'ajax_add_to_cart') . '/js/ajax_add_to_cart.js');
 }
 
 /**
@@ -528,6 +525,13 @@ function template_preprocess_custom_shopping_cart(&$variables) {
     if (!empty($shipping)) {
       $variables['shipping'] = $shipping;
     }
+
+    // Create new theme variables related to configuration.
+    $variables['show_labels'] = variable_get('ajax_add_to_cart_show_labels');
+    $variables['product_image'] = variable_get('ajax_add_to_cart_product_image');
+    $variables['remove_cart'] = variable_get('ajax_add_to_cart_remove_cart');
+    $variables['display_tax'] = variable_get('ajax_add_to_cart_display_tax');
+    $variables['empty_cart_message'] = variable_get('ajax_add_to_cart_empty_cart_message');
   }
 }
 
@@ -565,6 +569,11 @@ function template_preprocess_custom_shopping_cart_teaser(&$variables) {
 
   // Create new theme variable.
   $variables['total_amount'] = $total;
+
+
+  // Create new theme variables related to configuration.
+  $variables['item_suffix_text'] = variable_get('ajax_add_to_cart_item_suffix_text');
+  $variables['empty_cart_teaser_message'] = variable_get('ajax_add_to_cart_empty_cart_teaser_message');
 }
 
 /**
@@ -604,6 +613,19 @@ function template_preprocess_add_to_cart_message(&$variables) {
 
   $variables['product_per_unit_price'] = $product_price;
   $variables['product_price_total'] = $product_price_total;
+
+  // Create new theme variables related to configuration.
+  $variables['success_message'] = variable_get('ajax_add_to_cart_success_message');
+  $variables['popup_checkout'] = variable_get('ajax_add_to_cart_popup_checkout');
+  $variables['popup_continue_shopping'] = variable_get('ajax_add_to_cart_popup_continue_shopping');
+  $variables['popup_product_name_display'] = variable_get('ajax_add_to_cart_popup_product_name_display');
+  $variables['popup_product_name_label'] = variable_get('ajax_add_to_cart_popup_product_name_label');
+  $variables['popup_product_price_display'] = variable_get('ajax_add_to_cart_popup_product_price_display');
+  $variables['popup_product_price_label'] = variable_get('ajax_add_to_cart_popup_product_price_label');
+  $variables['popup_product_quantity_display'] = variable_get('ajax_add_to_cart_popup_product_quantity_display');
+  $variables['popup_product_quantity_label'] = variable_get('ajax_add_to_cart_popup_product_quantity_label');
+  $variables['popup_product_total_display'] = variable_get('ajax_add_to_cart_popup_product_total_display');
+  $variables['popup_product_total_label'] = variable_get('ajax_add_to_cart_popup_product_total_label');
 }
 
 /**

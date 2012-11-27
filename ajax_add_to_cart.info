@@ -4,3 +4,5 @@ core = 7.x
 configure = admin/commerce/config/ajax-cart
 dependencies[] = commerce
 dependencies[] = commerce_cart
+stylesheets[all][] = css/ajax_add_to_cart.css
+scripts[] = js/ajax_add_to_cart.js

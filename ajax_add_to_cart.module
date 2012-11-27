@@ -225,7 +225,7 @@ function ajax_add_to_cart_ajax_cart_form($form, &$form_state) {
     $last_item = end($commerce_cart['order']->commerce_line_items[LANGUAGE_NONE]);
     $last_line_item = commerce_line_item_load($last_item['line_item_id']);
     $last_line_item_product = commerce_product_load($last_line_item->commerce_product[LANGUAGE_NONE][0]['product_id']);
-    if (variable_get('display_popup') == 'display_popup_message') {
+    if (variable_get('ajax_add_to_cart_display_popup') == 'display_popup_message') {
       $content = theme('add_to_cart_message', array('line_item' => $last_line_item, 'product' => $last_line_item_product));
     }
     $commands[] = ajax_command_prepend('div#page', $content);
@@ -408,7 +408,7 @@ function template_preprocess_custom_shopping_cart(&$variables) {
     // The format of currency will be same for all prodcuts and depends on
     // setting. Hence, we are creating the format of currency here.
     // Later we just create the price string, this will speed up the execution.
-    if (variable_get('currency_format') == 'currency_symbol') {
+    if (variable_get('ajax_add_to_cart_currency_format') == 'currency_symbol') {
       if ($currency['symbol_placement'] == 'after') {
         $currency_check = 'amount_symbol';
         $product_price_total = commerce_currency_amount_to_decimal($variables['total']['amount'], $currency['code']) . ' ' . $currency['symbol'];
@@ -471,7 +471,7 @@ function template_preprocess_custom_shopping_cart(&$variables) {
       if (property_exists($product, 'field_images')) {
         if (!empty($product->field_images)) {
           $image_array = array_pop($product->field_images);
-          $product_image_urls[$product->product_id] = image_style_url(variable_get('product_image_style'), $image_array[0]['uri']);
+          $product_image_urls[$product->product_id] = image_style_url(variable_get('ajax_add_to_cart_product_image_style'), $image_array[0]['uri']);
         }
         else {
           $product_image_urls[$product->product_id] = '';
@@ -480,7 +480,7 @@ function template_preprocess_custom_shopping_cart(&$variables) {
       elseif (property_exists($product, 'field_image')) {
         if (!empty($product->field_image)) {
           $image_array = array_pop($product->field_image);
-          $product_image_urls[$product->product_id] = image_style_url(variable_get('product_image_style'), $image_array[0]['uri']);
+          $product_image_urls[$product->product_id] = image_style_url(variable_get('ajax_add_to_cart_product_image_style'), $image_array[0]['uri']);
         }
         else {
           $product_image_urls[$product->product_id] = '';
@@ -511,7 +511,7 @@ function template_preprocess_custom_shopping_cart(&$variables) {
     }
 
     // Create checkout url.
-    if (variable_get('checkout_redirect') == 'cart_page') {
+    if (variable_get('ajax_add_to_cart_checkout_redirect') == 'cart_page') {
       $checkout_url = l(t('Checkout'), 'cart');
     }
     else {
@@ -546,7 +546,7 @@ function template_preprocess_custom_shopping_cart_teaser(&$variables) {
   $currency = commerce_currency_load(commerce_default_currency());
 
   // Create the product price string product total string.
-  if (variable_get('currency_format') == 'currency_symbol') {
+  if (variable_get('ajax_add_to_cart_currency_format') == 'currency_symbol') {
     if ($currency['symbol_placement'] == 'after') {
       $total = commerce_currency_amount_to_decimal($variables['total']['amount'], $currency['code']) . ' ' . $currency['symbol'];
     }
@@ -581,7 +581,7 @@ function template_preprocess_add_to_cart_message(&$variables) {
   $currency = commerce_currency_load(commerce_default_currency());
 
   // Create the product price string product total string.
-  if (variable_get('currency_format') == 'currency_symbol') {
+  if (variable_get('ajax_add_to_cart_currency_format') == 'currency_symbol') {
     if ($currency['symbol_placement'] == 'after') {
       $product_price = commerce_currency_amount_to_decimal($variables['line_item']->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']) . ' ' . $currency['symbol'];
       $product_price_total = commerce_currency_amount_to_decimal($variables['line_item']->commerce_total[LANGUAGE_NONE][0]['amount'], $currency['code']) . ' ' . $currency['symbol'];

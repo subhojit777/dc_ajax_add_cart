@@ -25,7 +25,7 @@
       <img src="<?php echo base_path() . drupal_get_path('module', 'ajax_add_to_cart') . '/images/shopping-cart.png' ?>" />
     </div>
     <div class="cart-product-quantity">
-      <?php echo l(($quantity > 1) ? ($quantity . ' ' . variable_get('item_suffix_text') . 's') : ($quantity . ' ' . variable_get('item_suffix_text')), 'cart', array('attributes' => array('class' => array('quantity')))); ?>
+      <?php echo l(($quantity > 1) ? ($quantity . ' ' . variable_get('ajax_add_to_cart_item_suffix_text') . 's') : ($quantity . ' ' . variable_get('ajax_add_to_cart_item_suffix_text')), 'cart', array('attributes' => array('class' => array('quantity')))); ?>
     </div>
     <div class="cart-product-total">
       <p class="total-amount">
@@ -41,7 +41,7 @@
     </div>
     <div class="cart-product-quantity">
       <p class="empty-cart">
-        <?php echo variable_get('empty_cart_teaser_message'); ?>
+        <?php echo variable_get('ajax_add_to_cart_empty_cart_teaser_message'); ?>
       </p>
     </div>
     <div class="cart-product-total">

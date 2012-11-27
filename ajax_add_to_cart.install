@@ -10,36 +10,36 @@
  */
 function ajax_add_to_cart_install() {
   // General settings default configuration.
-  variable_set('currency_format', 'currency_symbol');
+  variable_set('ajax_add_to_cart_currency_format', 'currency_symbol');
 
   // Shopping cart default configuration.
-  variable_set('checkout_redirect', 'cart_page');
-  variable_set('show_labels', 'label');
-  variable_set('empty_cart_message', 'Shopping cart is empty');
-  variable_set('remove_cart', 'link');
-  variable_set('product_image', 'no_image');
-  variable_set('product_image_style', 'ajax_add_to_cart_style');
-  variable_set('display_tax', 'no_display');
+  variable_set('ajax_add_to_cart_checkout_redirect', 'cart_page');
+  variable_set('ajax_add_to_cart_show_labels', 'label');
+  variable_set('ajax_add_to_cart_empty_cart_message', 'Shopping cart is empty');
+  variable_set('ajax_add_to_cart_remove_cart', 'link');
+  variable_set('ajax_add_to_cart_product_image', 'no_image');
+  variable_set('ajax_add_to_cart_product_image_style', 'ajax_add_to_cart_style');
+  variable_set('ajax_add_to_cart_display_tax', 'no_display');
 
   // Cart teaser default configuration.
-  variable_set('empty_cart_teaser_message', 'Empty');
-  variable_set('item_suffix_text', 'item');
+  variable_set('ajax_add_to_cart_empty_cart_teaser_message', 'Empty');
+  variable_set('ajax_add_to_cart_item_suffix_text', 'item');
 
   // Add to cart message default configuration.
-  variable_set('display_popup', 'display_popup_message');
-  variable_set('success_message', 'Item successfully added to cart');
-  variable_set('popup_product_image_display', 1);
-  variable_set('popup_product_image_style', 'thumbnail');
-  variable_set('popup_product_name_display', 1);
-  variable_set('popup_product_name_label', 'no_display_label');
-  variable_set('popup_product_quantity_display', 1);
-  variable_set('popup_product_quantity_label', 'display_label');
-  variable_set('popup_product_price_display', 1);
-  variable_set('popup_product_price_label', 'display_label');
-  variable_set('popup_product_total_display', 1);
-  variable_set('popup_product_total_label', 'display_label');
-  variable_set('popup_checkout', 'Go to checkout');
-  variable_set('popup_continue_shopping', 'Continue shopping');
+  variable_set('ajax_add_to_cart_display_popup', 'display_popup_message');
+  variable_set('ajax_add_to_cart_success_message', 'Item successfully added to cart');
+  variable_set('ajax_add_to_cart_popup_product_image_display', 1);
+  variable_set('ajax_add_to_cart_popup_product_image_style', 'thumbnail');
+  variable_set('ajax_add_to_cart_popup_product_name_display', 1);
+  variable_set('ajax_add_to_cart_popup_product_name_label', 'no_display_label');
+  variable_set('ajax_add_to_cart_popup_product_quantity_display', 1);
+  variable_set('ajax_add_to_cart_popup_product_quantity_label', 'display_label');
+  variable_set('ajax_add_to_cart_popup_product_price_display', 1);
+  variable_set('ajax_add_to_cart_popup_product_price_label', 'display_label');
+  variable_set('ajax_add_to_cart_popup_product_total_display', 1);
+  variable_set('ajax_add_to_cart_popup_product_total_label', 'display_label');
+  variable_set('ajax_add_to_cart_popup_checkout', 'Go to checkout');
+  variable_set('ajax_add_to_cart_popup_continue_shopping', 'Continue shopping');
 }
 
 /**
@@ -47,28 +47,28 @@ function ajax_add_to_cart_install() {
  */
 function ajax_add_to_cart_uninstall() {
   // Delete the variables.
-  variable_del('currency_format');
-  variable_del('checkout_redirect');
-  variable_del('show_labels');
-  variable_del('empty_cart_message');
-  variable_del('remove_cart');
-  variable_del('product_image');
-  variable_del('product_image_style');
-  variable_del('display_tax');
-  variable_del('empty_cart_teaser_message');
-  variable_del('item_suffix_text');
-  variable_del('display_popup');
-  variable_del('success_message');
-  variable_del('popup_product_image_display');
-  variable_del('popup_product_image_style');
-  variable_del('popup_product_name_display');
-  variable_del('popup_product_name_label');
-  variable_del('popup_product_quantity_display');
-  variable_del('popup_product_quantity_label');
-  variable_del('popup_product_price_display');
-  variable_del('popup_product_price_label');
-  variable_del('popup_product_total_display');
-  variable_del('popup_product_total_label');
-  variable_del('popup_checkout');
-  variable_del('popup_continue_shopping');
+  variable_del('ajax_add_to_cart_currency_format');
+  variable_del('ajax_add_to_cart_checkout_redirect');
+  variable_del('ajax_add_to_cart_show_labels');
+  variable_del('ajax_add_to_cart_empty_cart_message');
+  variable_del('ajax_add_to_cart_remove_cart');
+  variable_del('ajax_add_to_cart_product_image');
+  variable_del('ajax_add_to_cart_product_image_style');
+  variable_del('ajax_add_to_cart_display_tax');
+  variable_del('ajax_add_to_cart_empty_cart_teaser_message');
+  variable_del('ajax_add_to_cart_item_suffix_text');
+  variable_del('ajax_add_to_cart_display_popup');
+  variable_del('ajax_add_to_cart_success_message');
+  variable_del('ajax_add_to_cart_popup_product_image_display');
+  variable_del('ajax_add_to_cart_popup_product_image_style');
+  variable_del('ajax_add_to_cart_popup_product_name_display');
+  variable_del('ajax_add_to_cart_popup_product_name_label');
+  variable_del('ajax_add_to_cart_popup_product_quantity_display');
+  variable_del('ajax_add_to_cart_popup_product_quantity_label');
+  variable_del('ajax_add_to_cart_popup_product_price_display');
+  variable_del('ajax_add_to_cart_popup_product_price_label');
+  variable_del('ajax_add_to_cart_popup_product_total_display');
+  variable_del('ajax_add_to_cart_popup_product_total_label');
+  variable_del('ajax_add_to_cart_popup_checkout');
+  variable_del('ajax_add_to_cart_popup_continue_shopping');
 }

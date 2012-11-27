@@ -32,25 +32,25 @@
     </span>
   </a>
   <div class="added-product-message">
-    <?php echo variable_get('success_message'); ?>
+    <?php echo variable_get('ajax_add_to_cart_success_message'); ?>
   </div>
   <div class="option-button-wrapper">
     <!-- Checkout link. -->
     <div class="option-button checkout">
-      <?php echo l(variable_get('popup_checkout'), 'cart'); ?>
+      <?php echo l(variable_get('ajax_add_to_cart_popup_checkout'), 'cart'); ?>
     </div>
     <!-- Continue shopping. -->
     <div class="option-button continue">
       <span class="add-to-cart-close">
-        <?php echo variable_get('popup_continue_shopping'); ?>
+        <?php echo variable_get('ajax_add_to_cart_popup_continue_shopping'); ?>
       </span>
     </div>
   </div>
   <div class="new-item-details">
     <!-- Product name. -->
-    <?php if (variable_get('popup_product_name_display') == 1): ?>
+    <?php if (variable_get('ajax_add_to_cart_popup_product_name_display') == 1): ?>
       <div class="product-name">
-        <?php if (variable_get('popup_product_name_label') == 'display_label'): ?>
+        <?php if (variable_get('ajax_add_to_cart_popup_product_name_label') == 'display_label'): ?>
           <p class="name-label">
             <?php echo t('Name:'); ?>
           </p>
@@ -61,9 +61,9 @@
       </div>
     <?php endif; ?>
     <!-- Product cost including tax. -->
-    <?php if (variable_get('popup_product_price_display') == 1): ?>
+    <?php if (variable_get('ajax_add_to_cart_popup_product_price_display') == 1): ?>
       <div class="product-cost-incl-tax">
-        <?php if (variable_get('popup_product_price_label') == 'display_label'): ?>
+        <?php if (variable_get('ajax_add_to_cart_popup_product_price_label') == 'display_label'): ?>
           <p class="cost-incl-tax-label">
             <?php echo t('Price:'); ?>
           </p>
@@ -73,10 +73,10 @@
         </p>
       </div>
     <?php endif; ?>
-    <?php if (variable_get('popup_product_quantity_display') == 1): ?>
+    <?php if (variable_get('ajax_add_to_cart_popup_product_quantity_display') == 1): ?>
     <!-- Product quantity. -->
     <div class="product-quantity">
-      <?php if (variable_get('popup_product_quantity_label') == 'display_label'): ?>
+      <?php if (variable_get('ajax_add_to_cart_popup_product_quantity_label') == 'display_label'): ?>
         <p class="quantity-label">
           <?php echo t('Quantity:'); ?>
         </p>
@@ -86,10 +86,10 @@
       </p>
     </div>
     <?php endif; ?>
-    <?php if (variable_get('popup_product_total_display') == 1): ?>
+    <?php if (variable_get('ajax_add_to_cart_popup_product_total_display') == 1): ?>
     <!-- Product total including tax. -->
     <div class="product-total-incl-tax">
-      <?php if (variable_get('popup_product_total_label') == 'display_label'): ?>
+      <?php if (variable_get('ajax_add_to_cart_popup_product_total_label') == 'display_label'): ?>
         <p class="total-label">
           <?php echo t('Total:'); ?>
         </p>

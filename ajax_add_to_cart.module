@@ -50,7 +50,8 @@ function ajax_add_to_cart_menu() {
   $items['admin/commerce/config/ajax-cart'] = array(
     'title' => 'AJAX Add to Cart',
     'description' => 'AJAX Add to Cart',
-    'page callback' => 'ajax_add_to_cart_general_settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ajax_add_to_cart_general_settings_form'),
     'access arguments' => array('administer ajax add to cart'),
     'file' => 'ajax_add_to_cart.admin.inc',
     'type' => MENU_NORMAL_ITEM,
@@ -59,7 +60,8 @@ function ajax_add_to_cart_menu() {
   $items['admin/commerce/config/ajax-cart/shopping-cart'] = array(
     'title' => 'Shopping Cart',
     'description' => 'Shopping Cart',
-    'page callback' => 'ajax_add_to_cart_ajax_cart',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ajax_add_to_cart_ajax_cart_settings_form'),
     'access arguments' => array('administer ajax add to cart'),
     'file' => 'ajax_add_to_cart.admin.inc',
     'type' => MENU_LOCAL_TASK,
@@ -69,7 +71,8 @@ function ajax_add_to_cart_menu() {
   $items['admin/commerce/config/ajax-cart/cart-teaser'] = array(
     'title' => 'Shopping cart teaser',
     'description' => 'Shopping cart teaser',
-    'page callback' => 'ajax_add_to_cart_cart_teaser',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ajax_add_to_cart_cart_teaser_settings_form'),
     'access arguments' => array('administer ajax add to cart'),
     'file' => 'ajax_add_to_cart.admin.inc',
     'type' => MENU_LOCAL_TASK,
@@ -79,7 +82,8 @@ function ajax_add_to_cart_menu() {
   $items['admin/commerce/config/ajax-cart/pop-up-message'] = array(
     'title' => 'Pop up Message',
     'description' => 'Pop up Message',
-    'page callback' => 'ajax_add_to_cart_popup_message',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ajax_add_to_cart_popup_message_settings_form'),
     'access arguments' => array('administer ajax add to cart'),
     'file' => 'ajax_add_to_cart.admin.inc',
     'type' => MENU_LOCAL_TASK,
@@ -529,7 +533,7 @@ function template_preprocess_custom_shopping_cart(&$variables) {
 
 /**
  * Template preprocess function for custom shopping cart teaser.
- * 
+ *
  *
  * @param array $variables
  *   Theme variable array.

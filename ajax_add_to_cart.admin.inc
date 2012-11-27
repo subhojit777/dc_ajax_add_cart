@@ -6,46 +6,6 @@
  */
 
 /**
- * Renders the AJAX Add to Cart general settings form.
- *
- * @return array
- *   Renderable array.
- */
-function ajax_add_to_cart_general_settings() {
-  return drupal_get_form('ajax_add_to_cart_general_settings_form');
-}
-
-/**
- * Renders the AJAX Add to Cart settings form.
- *
- * @return array
- *   Renderable array.
- */
-function ajax_add_to_cart_ajax_cart() {
-  return drupal_get_form('ajax_add_to_cart_ajax_cart_settings_form');
-}
-
-/**
- * Renders the AJAX Add to Cart teaser form.
- *
- * @return array
- *   Renderable array.
- */
-function ajax_add_to_cart_cart_teaser() {
-  return drupal_get_form('ajax_add_to_cart_cart_teaser_settings_form');
-}
-
-/**
- * Renders AJAX Add to Cart pop up message settings form.
- *
- * @return array
- *   Renderable array.
- */
-function ajax_add_to_cart_popup_message() {
-  return drupal_get_form('ajax_add_to_cart_popup_message_settings_form');
-}
-
-/**
  * AJAX Add to Cart general settings.
  *
  * @param array $form

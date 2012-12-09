@@ -1,8 +1,9 @@
-name = AJAX Add to Cart
+name = Commerce AJAX Add to Cart
 description = Ajaxifies addition of products to cart
 core = 7.x
 configure = admin/commerce/config/ajax-cart
 dependencies[] = commerce
 dependencies[] = commerce_cart
+package = Commerce (contrib)
 stylesheets[all][] = css/ajax_add_to_cart.css
 scripts[] = js/ajax_add_to_cart.js

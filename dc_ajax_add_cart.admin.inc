@@ -2,11 +2,11 @@
 
 /**
  * @file
- * ajax_add_to_cart.admin.inc
+ * dc_ajax_add_cart.admin.inc
  */
 
 /**
- * AJAX Add to Cart general settings.
+ * Commerce AJAX Add to Cart general settings.
  *
  * @param array $form
  *   Drupal form array.
@@ -17,8 +17,8 @@
  * @return array
  *   Drupal system settings form.
  */
-function ajax_add_to_cart_general_settings_form($form, &$form_state) {
-  $form['ajax_add_to_cart_currency_format'] = array(
+function dc_ajax_add_cart_general_settings_form($form, &$form_state) {
+  $form['dc_ajax_add_cart_currency_format'] = array(
     '#type' => 'select',
     '#title' => t('Currency format'),
     '#default_value' => variable_get('ajax_add_to_cart_currency_format'),
@@ -33,7 +33,7 @@ function ajax_add_to_cart_general_settings_form($form, &$form_state) {
 }
 
 /**
- * AJAX Add to Cart settings form.
+ * Commerce AJAX Add to Cart settings form.
  *
  * @param array $form
  *   Drupal form array.
@@ -44,7 +44,7 @@ function ajax_add_to_cart_general_settings_form($form, &$form_state) {
  * @return array
  *   Drupal system settings form.
  */
-function ajax_add_to_cart_ajax_cart_settings_form($form, &$form_state) {
+function dc_ajax_add_cart_ajax_cart_settings_form($form, &$form_state) {
   $image_style = array();
 
   // Get all image styles available.
@@ -52,7 +52,7 @@ function ajax_add_to_cart_ajax_cart_settings_form($form, &$form_state) {
     $image_style[$image_style_key] = $image_style_array['name'];
   }
 
-  $form['ajax_add_to_cart_checkout_redirect'] = array(
+  $form['dc_ajax_add_cart_checkout_redirect'] = array(
     '#type' => 'select',
     '#title' => t('Checkout button redirect'),
     '#default_value' => variable_get('ajax_add_to_cart_checkout_redirect'),
@@ -63,7 +63,7 @@ function ajax_add_to_cart_ajax_cart_settings_form($form, &$form_state) {
     '#decription' => t('Configure where you want to redirect after clicking checkout button on AJAX Shopping Cart.'),
   );
 
-  $form['ajax_add_to_cart_show_labels'] = array(
+  $form['dc_ajax_add_cart_show_labels'] = array(
     '#type' => 'radios',
     '#title' => t('Show labels'),
     '#default_value' => variable_get('ajax_add_to_cart_show_labels'),
@@ -74,14 +74,14 @@ function ajax_add_to_cart_ajax_cart_settings_form($form, &$form_state) {
     '#description' => t('Configure whether you want to show labels in AJAX Shopping Cart'),
   );
 
-  $form['ajax_add_to_cart_empty_cart_message'] = array(
+  $form['dc_ajax_add_cart_empty_cart_message'] = array(
     '#type' => 'textfield',
     '#title' => t('Empty cart message'),
     '#default_value' => variable_get('ajax_add_to_cart_empty_cart_message'),
     '#description' => t('Message that will be displayed if the cart is empty.'),
   );
 
-  $form['ajax_add_to_cart_remove_cart'] = array(
+  $form['dc_ajax_add_cart_remove_cart'] = array(
     '#type' => 'select',
     '#title' => t('Remove cart'),
     '#default_value' => variable_get('ajax_add_to_cart_remove_cart'),
@@ -92,7 +92,7 @@ function ajax_add_to_cart_ajax_cart_settings_form($form, &$form_state) {
     '#description' => t('Configure how you want to display the Remove from Cart button'),
   );
 
-  $form['ajax_add_to_cart_product_image'] = array(
+  $form['dc_ajax_add_cart_product_image'] = array(
     '#type' => 'radios',
     '#title' => t('Product image'),
     '#default_value' => variable_get('ajax_add_to_cart_product_image'),
@@ -102,7 +102,7 @@ function ajax_add_to_cart_ajax_cart_settings_form($form, &$form_state) {
     ),
     '#description' => t('Configure whether you want to show product image in AJAX Shopping Cart'),
     '#ajax' => array(
-      'callback' => 'ajax_add_to_cart_product_image_callback',
+      'callback' => 'dc_ajax_add_cart_product_image_callback',
       'wrapper' => 'product-image-style-setting-wrapper',
       'method' => 'replace',
       'effect' => 'fade',
@@ -114,7 +114,7 @@ function ajax_add_to_cart_ajax_cart_settings_form($form, &$form_state) {
     '#suffix' => '</div>',
   );
 
-  $form['ajax_add_to_cart_display_tax'] = array(
+  $form['dc_ajax_add_cart_display_tax'] = array(
     '#type' => 'radios',
     '#title' => t('Display tax applied'),
     '#default_value' => variable_get('ajax_add_to_cart_display_tax'),
@@ -125,8 +125,8 @@ function ajax_add_to_cart_ajax_cart_settings_form($form, &$form_state) {
     '#description' => t('Configure whether you want to display the tax applied on products.'),
   );
 
-  if (empty($form_state['values']['ajax_add_to_cart_product_image']) && variable_get('ajax_add_to_cart_product_image') == 'image') {
-    $form['product_image_style_wrapper']['ajax_add_to_cart_product_image_style'] = array(
+  if (empty($form_state['values']['dc_ajax_add_cart_product_image']) && variable_get('ajax_add_to_cart_product_image') == 'image') {
+    $form['product_image_style_wrapper']['dc_ajax_add_cart_product_image_style'] = array(
       '#type' => 'select',
       '#title' => t('Product image style'),
       '#default_value' => variable_get('ajax_add_to_cart_product_image_style'),
@@ -135,8 +135,9 @@ function ajax_add_to_cart_ajax_cart_settings_form($form, &$form_state) {
     );
   }
 
-  if (!empty($form_state['values']['ajax_add_to_cart_product_image']) && $form_state['values']['ajax_add_to_cart_product_image'] == 'image') {
-    $form['product_image_style_wrapper']['ajax_add_to_cart_product_image_style'] = array(
+  if (!empty($form_state['values']['dc_ajax_add_to_cart_product_image']) &&
+    $form_state['values']['dc_ajax_add_cart_product_image'] == 'image') {
+    $form['product_image_style_wrapper']['dc_ajax_add_cart_product_image_style'] = array(
       '#type' => 'select',
       '#title' => t('Product image style'),
       '#default_value' => variable_get('ajax_add_to_cart_product_image_style'),
@@ -160,12 +161,12 @@ function ajax_add_to_cart_ajax_cart_settings_form($form, &$form_state) {
  * @return array
  *   Product image style wrapper.
  */
-function ajax_add_to_cart_product_image_callback($form, &$form_state) {
+function dc_ajax_add_to_cart_product_image_callback($form, &$form_state) {
   return $form['product_image_style_wrapper'];
 }
 
 /**
- * AJAX Add to Cart teaser settings.
+ * Commerce AJAX Add to Cart teaser settings.
  *
  * @param array $form
  *   Drupal form array.
@@ -176,15 +177,15 @@ function ajax_add_to_cart_product_image_callback($form, &$form_state) {
  * @return array
  *   Drupal system settings form.
  */
-function ajax_add_to_cart_cart_teaser_settings_form($form, &$form_state) {
-  $form['ajax_add_to_cart_empty_cart_teaser_message'] = array(
+function dc_ajax_add_cart_cart_teaser_settings_form($form, &$form_state) {
+  $form['dc_ajax_add_cart_empty_cart_teaser_message'] = array(
     '#type' => 'textfield',
     '#title' => t('Empty cart message'),
     '#default_value' => variable_get('ajax_add_to_cart_empty_cart_teaser_message'),
     '#description' => t('Message that will be displayed on cart teaser if cart is empty.'),
   );
 
-  $form['ajax_add_to_cart_item_suffix_text'] = array(
+  $form['dc_ajax_add_cart_item_suffix_text'] = array(
     '#type' => 'textfield',
     '#title' => t('Item suffix text'),
     '#default_value' => variable_get('ajax_add_to_cart_item_suffix_text'),
@@ -206,7 +207,7 @@ function ajax_add_to_cart_cart_teaser_settings_form($form, &$form_state) {
  * @return array
  *   Drupal array form.
  */
-function ajax_add_to_cart_popup_message_settings_form($form, &$form_state) {
+function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
   $image_style = array();
 
   // Get all image styles available.
@@ -214,7 +215,7 @@ function ajax_add_to_cart_popup_message_settings_form($form, &$form_state) {
     $image_style[$image_style_key] = $image_style_array['name'];
   }
 
-  $form['ajax_add_to_cart_display_popup'] = array(
+  $form['dc_ajax_add_cart_display_popup'] = array(
     '#type' => 'radios',
     '#title' => t('Display popup message'),
     '#default_value' => variable_get('ajax_add_to_cart_display_popup'),
@@ -225,7 +226,7 @@ function ajax_add_to_cart_popup_message_settings_form($form, &$form_state) {
     '#description' => t('Configure whether you want to display a popup message after adding item to cart.'),
   );
 
-  $form['ajax_add_to_cart_success_message'] = array(
+  $form['dc_ajax_add_cart_success_message'] = array(
     '#type' => 'textfield',
     '#title' => t('Success message'),
     '#default_value' => variable_get('ajax_add_to_cart_success_message'),
@@ -241,13 +242,13 @@ function ajax_add_to_cart_popup_message_settings_form($form, &$form_state) {
   );
 
   // Product name display setting.
-  $form['product_details_popup']['ajax_add_to_cart_popup_product_name_display'] = array(
+  $form['product_details_popup']['dc_ajax_add_cart_popup_product_name_display'] = array(
     '#type' => 'checkbox',
     '#title' => t('Product name'),
     '#default_value' => variable_get('ajax_add_to_cart_popup_product_name_display'),
     '#disabled' => TRUE,
     '#ajax' => array(
-      'callback' => 'ajax_add_to_cart_popup_product_name_callback',
+      'callback' => 'dc_ajax_add_cart_popup_product_name_callback',
       'wrapper' => 'popup-product-name-label-setting-wrapper',
       'method' => 'replace',
       'effect' => 'fade',
@@ -260,12 +261,12 @@ function ajax_add_to_cart_popup_message_settings_form($form, &$form_state) {
   );
 
   // Product quantity display setting.
-  $form['product_details_popup']['ajax_add_to_cart_popup_product_quantity_display'] = array(
+  $form['product_details_popup']['dc_ajax_add_cart_popup_product_quantity_display'] = array(
     '#type' => 'checkbox',
     '#title' => t('Product quantity'),
     '#default_value' => variable_get('ajax_add_to_cart_popup_product_quantity_display'),
     '#ajax' => array(
-      'callback' => 'ajax_add_to_cart_popup_product_quantity_callback',
+      'callback' => 'dc_ajax_add_cart_popup_product_quantity_callback',
       'wrapper' => 'popup-product-quantity-label-setting-wrapper',
       'method' => 'replace',
       'effect' => 'fade',
@@ -278,12 +279,12 @@ function ajax_add_to_cart_popup_message_settings_form($form, &$form_state) {
   );
 
   // Product price dislpay setting.
-  $form['product_details_popup']['ajax_add_to_cart_popup_product_price_display'] = array(
+  $form['product_details_popup']['dc_ajax_add_cart_popup_product_price_display'] = array(
     '#type' => 'checkbox',
     '#title' => t('Product price'),
     '#default_value' => variable_get('ajax_add_to_cart_popup_product_price_display'),
     '#ajax' => array(
-      'callback' => 'ajax_add_to_cart_popup_product_price_callback',
+      'callback' => 'dc_ajax_add_cart_popup_product_price_callback',
       'wrapper' => 'popup-product-price-label-setting-wrapper',
       'method' => 'replace',
       'effect' => 'fade',
@@ -296,13 +297,13 @@ function ajax_add_to_cart_popup_message_settings_form($form, &$form_state) {
   );
 
   // Product total display setting.
-  $form['product_details_popup']['ajax_add_to_cart_popup_product_total_display'] = array(
+  $form['product_details_popup']['dc_ajax_add_cart_popup_product_total_display'] = array(
     '#type' => 'checkbox',
     '#title' => t('Product total'),
     '#default_value' => variable_get('ajax_add_to_cart_popup_product_total_display'),
     '#disabled' => TRUE,
     '#ajax' => array(
-      'callback' => 'ajax_add_to_cart_popup_product_total_callback',
+      'callback' => 'dc_ajax_add_cart_popup_product_total_callback',
       'wrapper' => 'popup-product-total-label-setting-wrapper',
       'method' => 'replace',
       'effect' => 'fade',
@@ -314,14 +315,14 @@ function ajax_add_to_cart_popup_message_settings_form($form, &$form_state) {
     '#suffix' => '</div>',
   );
 
-  $form['ajax_add_to_cart_popup_checkout'] = array(
+  $form['dc_ajax_add_cart_popup_checkout'] = array(
     '#type' => 'textfield',
     '#title' => t('Checkout text'),
     '#default_value' => variable_get('ajax_add_to_cart_popup_checkout'),
     '#description' => t('Configure the text you want to show in checkout link.'),
   );
 
-  $form['ajax_add_to_cart_popup_continue_shopping'] = array(
+  $form['dc_ajax_add_cart_popup_continue_shopping'] = array(
     '#type' => 'textfield',
     '#title' => t('Continue shopping text'),
     '#default_value' => variable_get('ajax_add_to_cart_popup_continue_shopping'),
@@ -330,7 +331,7 @@ function ajax_add_to_cart_popup_message_settings_form($form, &$form_state) {
 
   // Product name label setting AJAX form.
   if (empty($form_state['values']) && variable_get('ajax_add_to_cart_popup_product_name_display') == 1) {
-    $form['product_details_popup']['popup_product_name_label_wrapper']['ajax_add_to_cart_popup_product_name_label'] = array(
+    $form['product_details_popup']['popup_product_name_label_wrapper']['dc_ajax_add_cart_popup_product_name_label'] = array(
       '#type' => 'radios',
       '#title' => t('Display label'),
       '#default_value' => variable_get('ajax_add_to_cart_popup_product_name_label'),
@@ -342,8 +343,10 @@ function ajax_add_to_cart_popup_message_settings_form($form, &$form_state) {
     );
   }
 
-  if (!empty($form_state['values']['ajax_add_to_cart_popup_product_name_display']) && $form_state['values']['ajax_add_to_cart_popup_product_name_display'] == 1) {
-    $form['product_details_popup']['popup_product_name_label_wrapper']['ajax_add_to_cart_popup_product_name_label'] = array(
+  if
+    (!empty($form_state['values']['dc_ajax_add_cart_popup_product_name_display'])
+    && $form_state['values']['dc_ajax_add_cart_popup_product_name_display'] == 1) {
+    $form['product_details_popup']['popup_product_name_label_wrapper']['dc_ajax_add_cart_popup_product_name_label'] = array(
       '#type' => 'radios',
       '#title' => t('Display label'),
       '#default_value' => variable_get('ajax_add_to_cart_popup_product_name_label'),
@@ -357,7 +360,7 @@ function ajax_add_to_cart_popup_message_settings_form($form, &$form_state) {
 
   // Product quantity label setting AJAX form.
   if (empty($form_state['values']) && variable_get('ajax_add_to_cart_popup_product_quantity_display') == 1) {
-    $form['product_details_popup']['popup_product_quantity_label_wrapper']['ajax_add_to_cart_popup_product_quantity_label'] = array(
+    $form['product_details_popup']['popup_product_quantity_label_wrapper']['dc_ajax_add_cart_popup_product_quantity_label'] = array(
       '#type' => 'radios',
       '#title' => t('Display label'),
       '#default_value' => variable_get('ajax_add_to_cart_popup_product_quantity_label'),
@@ -369,8 +372,10 @@ function ajax_add_to_cart_popup_message_settings_form($form, &$form_state) {
     );
   }
 
-  if (!empty($form_state['values']['ajax_add_to_cart_popup_product_quantity_display']) && $form_state['values']['ajax_add_to_cart_popup_product_quantity_display'] == 1) {
-    $form['product_details_popup']['popup_product_quantity_label_wrapper']['ajax_add_to_cart_popup_product_quantity_label'] = array(
+  if
+    (!empty($form_state['values']['dc_ajax_add_cart_popup_product_quantity_display'])
+    && $form_state['values']['dc_ajax_add_cart_popup_product_quantity_display'] == 1) {
+    $form['product_details_popup']['popup_product_quantity_label_wrapper']['dc_ajax_add_cart_popup_product_quantity_label'] = array(
       '#type' => 'radios',
       '#title' => t('Display label'),
       '#default_value' => variable_get('ajax_add_to_cart_popup_product_quantity_label'),
@@ -384,7 +389,7 @@ function ajax_add_to_cart_popup_message_settings_form($form, &$form_state) {
 
   // Product price label setting AJAX form.
   if (empty($form_state['values']) && variable_get('ajax_add_to_cart_popup_product_price_display') == 1) {
-    $form['product_details_popup']['popup_product_price_label_wrapper']['ajax_add_to_cart_popup_product_price_label'] = array(
+    $form['product_details_popup']['popup_product_price_label_wrapper']['dc_ajax_add_cart_popup_product_price_label'] = array(
       '#type' => 'radios',
       '#title' => t('Display label'),
       '#default_value' => variable_get('ajax_add_to_cart_popup_product_price_label'),
@@ -396,8 +401,10 @@ function ajax_add_to_cart_popup_message_settings_form($form, &$form_state) {
     );
   }
 
-  if (!empty($form_state['values']['ajax_add_to_cart_popup_product_price_display']) && $form_state['values']['ajax_add_to_cart_popup_product_price_display'] == 1) {
-    $form['product_details_popup']['popup_product_price_label_wrapper']['ajax_add_to_cart_popup_product_price_label'] = array(
+  if
+    (!empty($form_state['values']['dc_ajax_add_cart_popup_product_price_display'])
+    && $form_state['values']['dc_ajax_add_cart_popup_product_price_display'] == 1) {
+    $form['product_details_popup']['popup_product_price_label_wrapper']['dc_ajax_add_cart_popup_product_price_label'] = array(
       '#type' => 'radios',
       '#title' => t('Display label'),
       '#default_value' => variable_get('ajax_add_to_cart_popup_product_price_label'),
@@ -411,7 +418,7 @@ function ajax_add_to_cart_popup_message_settings_form($form, &$form_state) {
 
   // Product total label setting AJAX form.
   if (empty($form_state['values']) && variable_get('ajax_add_to_cart_popup_product_total_display') == 1) {
-    $form['product_details_popup']['popup_product_total_label_wrapper']['ajax_add_to_cart_popup_product_total_label'] = array(
+    $form['product_details_popup']['popup_product_total_label_wrapper']['dc_ajax_add_cart_popup_product_total_label'] = array(
       '#type' => 'radios',
       '#title' => t('Display label'),
       '#default_value' => variable_get('ajax_add_to_cart_popup_product_total_label'),
@@ -423,8 +430,10 @@ function ajax_add_to_cart_popup_message_settings_form($form, &$form_state) {
     );
   }
 
-  if (!empty($form_state['values']['ajax_add_to_cart_popup_product_total_display']) && $form_state['values']['ajax_add_to_cart_popup_product_total_display'] == 1) {
-    $form['product_details_popup']['popup_product_total_label_wrapper']['ajax_add_to_cart_popup_product_total_label'] = array(
+  if
+    (!empty($form_state['values']['dc_ajax_add_cart_popup_product_total_display'])
+    && $form_state['values']['dc_ajax_add_cart_popup_product_total_display'] == 1) {
+    $form['product_details_popup']['popup_product_total_label_wrapper']['dc_ajax_add_cart_popup_product_total_label'] = array(
       '#type' => 'radios',
       '#title' => t('Display label'),
       '#default_value' => variable_get('ajax_add_to_cart_popup_product_total_label'),
@@ -448,7 +457,7 @@ function ajax_add_to_cart_popup_message_settings_form($form, &$form_state) {
  * @param array $form_state
  *   Current Drupal form state.
  */
-function ajax_add_to_cart_popup_product_name_callback($form, &$form_state) {
+function dc_ajax_add_cart_popup_product_name_callback($form, &$form_state) {
   return $form['product_details_popup']['popup_product_name_label_wrapper'];
 }
 
@@ -461,7 +470,7 @@ function ajax_add_to_cart_popup_product_name_callback($form, &$form_state) {
  * @param array $form_state
  *   Current Drupal form state.
  */
-function ajax_add_to_cart_popup_product_quantity_callback($form, &$form_state) {
+function dc_ajax_add_cart_popup_product_quantity_callback($form, &$form_state) {
   return $form['product_details_popup']['popup_product_quantity_label_wrapper'];
 }
 
@@ -474,7 +483,7 @@ function ajax_add_to_cart_popup_product_quantity_callback($form, &$form_state) {
  * @param array $form_state
  *   Current Drupal form state.
  */
-function ajax_add_to_cart_popup_product_price_callback($form, &$form_state) {
+function dc_ajax_add_cart_popup_product_price_callback($form, &$form_state) {
   return $form['product_details_popup']['popup_product_price_label_wrapper'];
 }
 
@@ -487,6 +496,6 @@ function ajax_add_to_cart_popup_product_price_callback($form, &$form_state) {
  * @param array $form_state
  *   Current Drupal form state.
  */
-function ajax_add_to_cart_popup_product_total_callback($form, &$form_state) {
+function dc_ajax_add_cart_popup_product_total_callback($form, &$form_state) {
   return $form['product_details_popup']['popup_product_total_label_wrapper'];
 }

@@ -5,5 +5,5 @@ configure = admin/commerce/config/ajax-cart
 dependencies[] = commerce
 dependencies[] = commerce_cart
 package = Commerce (contrib)
-stylesheets[all][] = css/ajax_add_to_cart.css
-scripts[] = js/ajax_add_to_cart.js
+stylesheets[all][] = css/dc_ajax_add_cart.css
+scripts[] = js/dc_ajax_add_cart.js

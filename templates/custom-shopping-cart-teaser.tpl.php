@@ -24,7 +24,7 @@
   <!-- Order object is not null and cart is not empty. -->
   <div class="custom-shopping-cart-teaser">
     <div class="cart-image">
-      <img src="<?php echo base_path() . drupal_get_path('module', 'ajax_add_to_cart') . '/images/shopping-cart.png' ?>" />
+      <img src="<?php echo base_path() . drupal_get_path('module', 'dc_ajax_add_cart') . '/images/shopping-cart.png' ?>" />
     </div>
     <div class="cart-product-quantity">
       <?php echo l(($quantity > 1) ? ($quantity . ' ' . $item_suffix_text . 's') : ($quantity . ' ' . $item_suffix_text), 'cart', array('attributes' => array('class' => array('quantity')))); ?>

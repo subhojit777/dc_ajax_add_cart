@@ -209,6 +209,15 @@ function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
   // AJAX commands array.
   $commands = array();
 
+  // Fetch line item and product details before resetting form.
+  $last_line_item = $form_state['line_item'];
+  $last_line_item_product = commerce_product_load($last_line_item->commerce_product[LANGUAGE_NONE][0]['product_id']);
+
+  // Clear form and form state cache.
+  $form_state = form_state_defaults();
+  $form_build_id = $_POST['form_build_id'];
+  form_set_cache($form_build_id, $form, $form_state);
+
   // If the user has ordered items.
   if ($commerce_cart['order']) {
     // Get the line items in cart with their quantity and total.
@@ -233,8 +242,6 @@ function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
     $commands[] = ajax_command_replace('div.ajax-shopping-cart-teaser', $ajax_shopping_cart_teaser_content);
 
     // Display add to cart message.
-    $last_line_item = $form_state['line_item'];
-    $last_line_item_product = $form_state['default_product'];
     if (variable_get(DISPLAY_POPUP) == 'display_popup_message') {
       $content = theme('add_to_cart_message', array('line_item' => $last_line_item, 'product' => $last_line_item_product));
       $commands[] = ajax_command_prepend('body', $content);

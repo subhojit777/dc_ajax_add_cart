@@ -28,10 +28,12 @@
  *   available. This is an array containing the details of the shipping you have
  *   included in order. If you have not included shipping in your order then
  *   this variable will not be available.
- * - $show_labels: Check whether to display labels in cart.
- * - $remove_cart: Check whether to display link or image in for the option
- *   remove product from cart.
- * - $empty_cart_message: Message to display if the cart is empty.
+ * - $configuration['show_labels']: Check whether to display labels in cart.
+ * - $configuration['remove_cart']: Check whether to display link or image in
+ *   for the option remove product from cart.
+ * - $configuration['display_tax']: Check whether to display tax.
+ * - $configuration['empty_cart_message']: Message to display if the cart is
+ *   empty.
  *
  * If you want to make changes in the structure Shopping Cart, copy this file to
  * your theme's templates directory.

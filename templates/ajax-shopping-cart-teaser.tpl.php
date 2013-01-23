@@ -16,8 +16,10 @@
  * - $total_amount: A formatted string that consists of the total amount and
  *   currency setting of AJAX Add to Cart. Placement of currency code or
  *   symbol is based on the Drupal currency setting.
- * - $item_suffix_text: Suffix text to show beside number of items.
- * - $empty_cart_teaser_message: Message to show if the cart is empty.
+ * - $configuration['item_suffix_text']: Suffix text to show beside number of
+ *   items.
+ * - $configuration['empty_cart_teaser_message']: Message to show if the cart
+ *   is empty.
  *
  * If you want to change the structure of Cart Teaser then copy this file to
  * your theme's templates directory and make your changes.

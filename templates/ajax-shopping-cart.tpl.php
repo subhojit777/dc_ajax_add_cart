@@ -69,7 +69,7 @@
                           <span class="quantity">' . intval($line_item->quantity) . '</span>
                           <span class="name">' . $product->title . '</span>
                           <span class="price">' . $product_prices[$product->product_id] . '</span>
-                          <span class="remove-from-cart">' . l($configuration['remove_cart'] == 'link' ? t('Remove form cart') : '<img src="' . base_path() . drupal_get_path('module', 'dc_ajax_add_cart') . '/images/remove-from-cart.png' . '" />', 'remove-product/nojs/' . $line_item->line_item_id, array('attributes' => array('class' => array('use-ajax')), 'html' => TRUE)) . '</span>
+                          <span class="remove-from-cart">' . l($configuration['remove_cart'] == 'link' ? t('Remove from cart') : '<img src="' . base_path() . drupal_get_path('module', 'dc_ajax_add_cart') . '/images/remove-from-cart.png' . '" />', 'remove-product/nojs/' . $line_item->line_item_id, array('attributes' => array('class' => array('use-ajax')), 'html' => TRUE)) . '</span>
                         </div>';
           elseif (property_exists($line_item, 'commerce_shipping_service') && isset($shipping)) :
             $content .= '<div class="ajax-shopping-cart-shipping">' . $shipping['service'] . ' ' . $shipping['price'] . '</div>';

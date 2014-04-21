@@ -418,29 +418,7 @@ function template_preprocess_ajax_shopping_cart(&$variables) {
     $product_prices = array();
     $shipping = array();
 
-    // The format of currency will be same for all prodcuts and depends on
-    // setting. Hence, we are creating the format of currency here.
-    // Later we just create the price string, this will speed up the execution.
-    if (variable_get(CURRENCY_FORMAT) == 'currency_symbol') {
-      if ($currency['symbol_placement'] == 'after') {
-        $currency_check = 'amount_symbol';
-        $product_price_total = commerce_currency_amount_to_decimal($variables['total']['amount'], $currency['code']) . ' ' . $currency['symbol'];
-      }
-      else {
-        $currency_check = 'symbol_amount';
-        $product_price_total = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($variables['total']['amount'], $currency['code']);
-      }
-    }
-    else {
-      if ($currency['code_placement'] == 'after') {
-        $currency_check = 'amount_code';
-        $product_price_total = commerce_currency_amount_to_decimal($variables['total']['amount'], $currency['code']) . ' ' . $currency['code'];
-      }
-      else {
-        $currency_check = 'code_amount';
-        $product_price_total = $currency['code'] . ' ' . commerce_currency_amount_to_decimal($variables['total']['amount'], $currency['code']);
-      }
-    }
+    $product_price_total = commerce_currency_format($variables['total']['amount'], $currency['code']);
 
     // Create the line item list and products array.
     foreach ($variables['line_items'] as $line_item_wrapper) {
@@ -453,51 +431,16 @@ function template_preprocess_ajax_shopping_cart(&$variables) {
       }
       // If line item is shipping service.
       elseif (property_exists($line_item, 'commerce_shipping_service')) {
-        // Shipping name.
         $shipping['service'] = $line_item->line_item_label;
-
-        // Shipping price.
-        switch ($currency_check) {
-          case 'amount_symbol':
-            $shipping['price'] = commerce_currency_amount_to_decimal($line_item->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']) . ' ' . $currency['symbol'];
-            break;
-
-          case 'symbol_amount':
-            $shipping['price'] = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($line_item->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
-            break;
-
-          case 'amount_code':
-            $shipping['price'] = commerce_currency_amount_to_decimal($line_item->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']) . ' ' . $currency['code'];
-            break;
-
-          case 'code_amount':
-            $shipping['price'] = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($line_item->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
-            break;
-        }
+        $shipping['price'] = commerce_currency_format($line_item->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
       }
+
       $line_item_list[$line_item->line_item_id] = $line_item;
     }
 
     // Create the currency array.
     foreach ($products as $product) {
-      // Build currency array.
-      switch ($currency_check) {
-        case 'amount_symbol':
-          $product_prices[$product->product_id] = commerce_currency_amount_to_decimal($product->commerce_price[LANGUAGE_NONE][0]['amount'], $currency['code']) . ' ' . $currency['symbol'];
-          break;
-
-        case 'symbol_amount':
-          $product_prices[$product->product_id] = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($product->commerce_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
-          break;
-
-        case 'amount_code':
-          $product_prices[$product->product_id] = commerce_currency_amount_to_decimal($product->commerce_price[LANGUAGE_NONE][0]['amount'], $currency['code']) . ' ' . $currency['code'];
-          break;
-
-        case 'code_amount':
-          $product_prices[$product->product_id] = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($product->commerce_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
-          break;
-      }
+      $product_prices[$product->product_id] = commerce_currency_format($product->commerce_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
     }
 
     // Create checkout url.

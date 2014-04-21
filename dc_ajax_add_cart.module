@@ -482,26 +482,7 @@ function template_preprocess_ajax_shopping_cart_teaser(&$variables) {
   // Default currency array.
   $currency = commerce_currency_load(commerce_default_currency());
 
-  // Create the product price string product total string.
-  if (variable_get(CURRENCY_FORMAT) == 'currency_symbol') {
-    if ($currency['symbol_placement'] == 'after') {
-      $total = commerce_currency_amount_to_decimal($variables['total']['amount'], $currency['code']) . ' ' . $currency['symbol'];
-    }
-    else {
-      $total = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($variables['total']['amount'], $currency['code']);
-    }
-  }
-  else {
-    if ($currency['code_placement'] == 'after') {
-      $total = commerce_currency_amount_to_decimal($variables['total']['amount'], $currency['code']) . ' ' . $currency['code'];
-    }
-    else {
-      $total = $currency['code'] . ' ' . commerce_currency_amount_to_decimal($variables['total']['amount'], $currency['code']);
-    }
-  }
-
-  // Create new theme variable.
-  $variables['total_amount'] = $total;
+  $variables['total_amount'] = commerce_currency_format($variables['total']['amount'], $currency['code']);
 
   // Create new theme variables related to configuration.
   $variables['configuration']['item_suffix_text'] = variable_get(ITEM_SUFFIX_TEXT);

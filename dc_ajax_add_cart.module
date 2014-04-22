@@ -432,7 +432,7 @@ function template_preprocess_ajax_shopping_cart(&$variables) {
     }
 
     // Create checkout url.
-    if (variable_get(CHECKOUT_REDIRECT) == 'cart_page') {
+    if (variable_get(CHECKOUT_REDIRECT, 'cart_page') == 'cart_page') {
       $checkout_url = l(t('Checkout'), 'cart');
     }
     else {
@@ -451,10 +451,10 @@ function template_preprocess_ajax_shopping_cart(&$variables) {
   }
 
   // Create new theme variables related to configuration.
-  $variables['configuration']['show_labels'] = variable_get(SHOW_LABELS);
-  $variables['configuration']['remove_cart'] = variable_get(REMOVE_CART);
-  $variables['configuration']['display_tax'] = variable_get(DISPLAY_TAX);
-  $variables['configuration']['empty_cart_message'] = variable_get(EMPTY_CART_MESSAGE);
+  $variables['configuration']['show_labels'] = variable_get(SHOW_LABELS, 'label');
+  $variables['configuration']['remove_cart'] = variable_get(REMOVE_CART, 'link');
+  $variables['configuration']['display_tax'] = variable_get(DISPLAY_TAX, 'no_display');
+  $variables['configuration']['empty_cart_message'] = variable_get(EMPTY_CART_MESSAGE, 'Shopping cart is empty');
 }
 
 /**
@@ -473,8 +473,8 @@ function template_preprocess_ajax_shopping_cart_teaser(&$variables) {
   $variables['total_amount'] = commerce_currency_format($variables['total']['amount'], $currency['code']);
 
   // Create new theme variables related to configuration.
-  $variables['configuration']['item_suffix_text'] = variable_get(ITEM_SUFFIX_TEXT);
-  $variables['configuration']['empty_cart_teaser_message'] = variable_get(EMPTY_CART_TEASER_MESSAGE);
+  $variables['configuration']['item_suffix_text'] = variable_get(ITEM_SUFFIX_TEXT, 'item');
+  $variables['configuration']['empty_cart_teaser_message'] = variable_get(EMPTY_CART_TEASER_MESSAGE, 'Empty');
 }
 
 /**

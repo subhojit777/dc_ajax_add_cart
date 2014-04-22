@@ -230,7 +230,7 @@ function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
     $commands[] = ajax_command_replace('div.ajax-shopping-cart-teaser', $ajax_shopping_cart_teaser_content);
 
     // Display add to cart message.
-    if (variable_get(DISPLAY_POPUP) == 'display_popup_message') {
+    if (variable_get(DISPLAY_POPUP, 'display_popup_message') == 'display_popup_message') {
       $content = theme('add_to_cart_message', array('line_item' => $last_line_item, 'product' => $last_line_item_product));
       $commands[] = ajax_command_prepend('body', $content);
     }
@@ -494,15 +494,15 @@ function template_preprocess_add_to_cart_message(&$variables) {
   $variables['product_price_total'] = commerce_currency_format($variables['line_item']->commerce_total[LANGUAGE_NONE][0]['amount'], $currency['code']);
 
   // Create new theme variables related to configuration.
-  $variables['configuration']['success_message'] = variable_get(SUCCESS_MESSAGE);
-  $variables['configuration']['popup_checkout'] = variable_get(POPUP_CHECKOUT);
-  $variables['configuration']['popup_continue_shopping'] = variable_get(POPUP_CONTINUE_SHOPPING);
-  $variables['configuration']['popup_product_name_display'] = variable_get(POPUP_PRODUCT_NAME_DISPLAY);
-  $variables['configuration']['popup_product_name_label'] = variable_get(POPUP_PRODUCT_NAME_LABEL);
-  $variables['configuration']['popup_product_price_display'] = variable_get(POPUP_PRODUCT_PRICE_DISPLAY);
-  $variables['configuration']['popup_product_price_label'] = variable_get(POPUP_PRODUCT_PRICE_LABEL);
-  $variables['configuration']['popup_product_quantity_display'] = variable_get(POPUP_PRODUCT_QUANTITY_DISPLAY);
-  $variables['configuration']['popup_product_quantity_label'] = variable_get(POPUP_PRODUCT_QUANTITY_LABEL);
-  $variables['configuration']['popup_product_total_display'] = variable_get(POPUP_PRODUCT_TOTAL_DISPLAY);
-  $variables['configuration']['popup_product_total_label'] = variable_get(POPUP_PRODUCT_TOTAL_LABEL);
+  $variables['configuration']['success_message'] = variable_get(SUCCESS_MESSAGE, 'Item successfully added to cart');
+  $variables['configuration']['popup_checkout'] = variable_get(POPUP_CHECKOUT, 'Go to checkout');
+  $variables['configuration']['popup_continue_shopping'] = variable_get(POPUP_CONTINUE_SHOPPING, 'Continue shopping');
+  $variables['configuration']['popup_product_name_display'] = variable_get(POPUP_PRODUCT_NAME_DISPLAY, 1);
+  $variables['configuration']['popup_product_name_label'] = variable_get(POPUP_PRODUCT_NAME_LABEL, 'no_display_label');
+  $variables['configuration']['popup_product_price_display'] = variable_get(POPUP_PRODUCT_PRICE_DISPLAY, 1);
+  $variables['configuration']['popup_product_price_label'] = variable_get(POPUP_PRODUCT_PRICE_LABEL, 'display_label');
+  $variables['configuration']['popup_product_quantity_display'] = variable_get(POPUP_PRODUCT_QUANTITY_DISPLAY, 1);
+  $variables['configuration']['popup_product_quantity_label'] = variable_get(POPUP_PRODUCT_QUANTITY_LABEL, 'display_label');
+  $variables['configuration']['popup_product_total_display'] = variable_get(POPUP_PRODUCT_TOTAL_DISPLAY, 1);
+  $variables['configuration']['popup_product_total_label'] = variable_get(POPUP_PRODUCT_TOTAL_LABEL, 'display_label');
 }

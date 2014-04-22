@@ -502,30 +502,8 @@ function template_preprocess_add_to_cart_message(&$variables) {
   // Default currency array.
   $currency = commerce_currency_load(commerce_default_currency());
 
-  // Create the product price string product total string.
-  if (variable_get(CURRENCY_FORMAT) == 'currency_symbol') {
-    if ($currency['symbol_placement'] == 'after') {
-      $product_price = commerce_currency_amount_to_decimal($variables['line_item']->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']) . ' ' . $currency['symbol'];
-      $product_price_total = commerce_currency_amount_to_decimal($variables['line_item']->commerce_total[LANGUAGE_NONE][0]['amount'], $currency['code']) . ' ' . $currency['symbol'];
-    }
-    else {
-      $product_price = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($variables['line_item']->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
-      $product_price_total = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($variables['line_item']->commerce_total[LANGUAGE_NONE][0]['amount'], $currency['code']);
-    }
-  }
-  else {
-    if ($currency['code_placement'] == 'after') {
-      $product_price = commerce_currency_amount_to_decimal($variables['line_item']->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']) . ' ' . $currency['code'];
-      $product_price_total = commerce_currency_amount_to_decimal($variables['line_item']->commerce_total[LANGUAGE_NONE][0]['amount'], $currency['code']) . ' ' . $currency['code'];
-    }
-    else {
-      $product_price = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($variables['line_item']->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
-      $product_price_total = $currency['symbol'] . ' ' . commerce_currency_amount_to_decimal($variables['line_item']->commerce_total[LANGUAGE_NONE][0]['amount'], $currency['code']);
-    }
-  }
-
-  $variables['product_per_unit_price'] = $product_price;
-  $variables['product_price_total'] = $product_price_total;
+  $variables['product_per_unit_price'] = commerce_currency_format($variables['line_item']->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
+  $variables['product_price_total'] = commerce_currency_format($variables['line_item']->commerce_total[LANGUAGE_NONE][0]['amount'], $currency['code']);
 
   // Create new theme variables related to configuration.
   $variables['configuration']['success_message'] = variable_get(SUCCESS_MESSAGE);

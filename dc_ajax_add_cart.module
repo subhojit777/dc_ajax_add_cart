@@ -178,6 +178,9 @@ function dc_ajax_add_cart_form_alter(&$form, &$form_state, $form_id) {
       'method' => 'replace',
       'effect' => 'slide',
     );
+
+    // Rebuild form.
+    $form['#submit'][] = 'dc_ajax_add_cart_rebuild_add_to_cart_form';
   }
 }
 
@@ -200,11 +203,6 @@ function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
   // Fetch line item and product details before resetting form.
   $last_line_item = $form_state['line_item'];
   $last_line_item_product = commerce_product_load($last_line_item->commerce_product[LANGUAGE_NONE][0]['product_id']);
-
-  // Clear form and form state cache.
-  $form_state = form_state_defaults();
-  $form_build_id = $_POST['form_build_id'];
-  form_set_cache($form_build_id, $form, $form_state);
 
   // If the user has ordered items.
   if ($commerce_cart['order']) {
@@ -505,4 +503,17 @@ function template_preprocess_add_to_cart_message(&$variables) {
   $variables['configuration']['popup_product_quantity_label'] = variable_get(POPUP_PRODUCT_QUANTITY_LABEL, 'display_label');
   $variables['configuration']['popup_product_total_display'] = variable_get(POPUP_PRODUCT_TOTAL_DISPLAY, 1);
   $variables['configuration']['popup_product_total_label'] = variable_get(POPUP_PRODUCT_TOTAL_LABEL, 'display_label');
+}
+
+/**
+ * Rebuild add to cart form.
+ *
+ * @param array $form
+ *   Drupal form array.
+ * @param array $form_state
+ *   Drupal form state array.
+ */
+function dc_ajax_add_cart_rebuild_add_to_cart_form($form, &$form_state) {
+  $form_state['rebuild'] = TRUE;
+  $form_state['input'] = array();
 }

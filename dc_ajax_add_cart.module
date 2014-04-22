@@ -6,8 +6,6 @@
  */
 
 // Variable constants.
-define('CURRENCY_FORMAT', 'dc_ajax_add_cart_currency_format');
-
 define('CHECKOUT_REDIRECT', 'dc_ajax_add_cart_checkout_redirect');
 define('SHOW_LABELS', 'dc_ajax_add_cart_show_labels');
 define('EMPTY_CART_MESSAGE', 'dc_ajax_add_cart_empty_cart_message');
@@ -70,30 +68,20 @@ function dc_ajax_add_cart_menu() {
   ) + $items['remove-product/nojs/%'];
 
   $items['admin/commerce/config/ajax-cart'] = array(
-    'title' => 'Commerce AJAX Add to Cart',
-    'description' => 'Commerce AJAX Add to Cart',
+    'title' => 'AJAX Shopping Cart',
+    'description' => 'AJAX Shopping Cart',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('dc_ajax_add_cart_general_settings_form'),
+    'page arguments' => array('dc_ajax_add_cart_ajax_cart_settings_form'),
     'access arguments' => array('administer commerce ajax add to cart'),
     'file' => 'dc_ajax_add_cart.admin.inc',
     'type' => MENU_NORMAL_ITEM,
+    'weight' => 10,
   );
 
   $items['admin/commerce/config/ajax-cart/default'] = array(
     'title' => 'General settings',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'file' => 'dc_ajax_add_cart.admin.inc',
-  );
-
-  $items['admin/commerce/config/ajax-cart/shopping-cart'] = array(
-    'title' => 'Shopping Cart',
-    'description' => 'Shopping Cart',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('dc_ajax_add_cart_ajax_cart_settings_form'),
-    'access arguments' => array('administer commerce ajax add to cart'),
-    'file' => 'dc_ajax_add_cart.admin.inc',
-    'type' => MENU_LOCAL_TASK,
-    'weight' => 10,
   );
 
   $items['admin/commerce/config/ajax-cart/cart-teaser'] = array(

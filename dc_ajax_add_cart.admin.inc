@@ -6,33 +6,6 @@
  */
 
 /**
- * Commerce AJAX Add to Cart general settings.
- *
- * @param array $form
- *   Drupal form array.
- *
- * @param array $form_state
- *   Current form state array.
- *
- * @return array
- *   Drupal system settings form.
- */
-function dc_ajax_add_cart_general_settings_form($form, &$form_state) {
-  $form['dc_ajax_add_cart_currency_format'] = array(
-    '#type' => 'select',
-    '#title' => t('Currency format'),
-    '#default_value' => variable_get(CURRENCY_FORMAT, 'currency_symbol'),
-    '#options' => array(
-      'currency_code' => t('Currency code'),
-      'currency_symbol' => t('Currency symbol'),
-    ),
-    '#description' => t('Select whether you want to display the currency code or currency symbol. The placement of currency symbol will be done as per the currency convention.'),
-  );
-
-  return system_settings_form($form);
-}
-
-/**
  * Commerce AJAX Add to Cart settings form.
  *
  * @param array $form

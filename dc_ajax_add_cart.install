@@ -10,7 +10,6 @@
  */
 function dc_ajax_add_cart_uninstall() {
   // Delete the variables.
-  variable_del('dc_ajax_add_cart_currency_format');
   variable_del('dc_ajax_add_cart_checkout_redirect');
   variable_del('dc_ajax_add_cart_show_labels');
   variable_del('dc_ajax_add_cart_empty_cart_message');

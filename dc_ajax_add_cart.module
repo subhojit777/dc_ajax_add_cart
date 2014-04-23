@@ -409,6 +409,12 @@ function template_preprocess_ajax_shopping_cart(&$variables) {
   if ($variables['order']) {
     $header = array();
     $row = array();
+    $image_remove_cart_path = drupal_get_path('module', 'dc_ajax_add_cart') . '/images/remove-from-cart.png';
+    $image_remove_cart = theme('image', array(
+      'path' => $image_remove_cart_path,
+      'alt' => t('Remove from cart'),
+      'title' => t('Remove from cart'),
+    ));
 
     // Default currency array.
     $currency = commerce_currency_load(commerce_default_currency());
@@ -470,7 +476,7 @@ function template_preprocess_ajax_shopping_cart(&$variables) {
           array('data' => intval($line_item->quantity), 'class' => array('quantity')),
           array('data' => $product->title, 'class' => array('name')),
           array('data' => $product_prices[$product->product_id], 'class' => array('price')),
-          array('data' => l(variable_get(DC_AJAX_ADD_CART_REMOVE_CART, 'link') == 'link' ? t('Remove from cart') : '<img src="' . base_path() . drupal_get_path('module', 'dc_ajax_add_cart') . '/images/remove-from-cart.png' . '" />', 'remove-product/nojs/' . $line_item->line_item_id,
+          array('data' => l(variable_get(DC_AJAX_ADD_CART_REMOVE_CART, 'link') == 'link' ? t('Remove from cart') : $image_remove_cart, 'remove-product/nojs/' . $line_item->line_item_id,
             array(
               'attributes' => array(
                 'class' => array('use-ajax'),
@@ -517,8 +523,12 @@ function template_preprocess_ajax_shopping_cart(&$variables) {
 function template_preprocess_ajax_shopping_cart_teaser(&$variables) {
   // Default currency array.
   $currency = commerce_currency_load(commerce_default_currency());
+  $image_cart_icon_path = drupal_get_path('module', 'dc_ajax_add_cart') . '/images/shopping-cart.png';
 
   $variables['total_amount'] = commerce_currency_format($variables['total']['amount'], $currency['code']);
+  $variables['cart_icon'] = theme('image', array(
+    'path' => $image_cart_icon_path,
+  ));
 
   // Create new theme variables related to configuration.
   $variables['configuration']['item_suffix_text'] = variable_get(DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT, 'item');

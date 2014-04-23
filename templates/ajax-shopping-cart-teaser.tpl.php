@@ -16,6 +16,7 @@
  * - $total_amount: A formatted string that consists of the total amount and
  *   currency setting of AJAX Add to Cart. Placement of currency code or
  *   symbol is based on the Drupal currency setting.
+ * - $cart_icon: Cart icon.
  * - $configuration['item_suffix_text']: Suffix text to show beside number of
  *   items.
  * - $configuration['empty_cart_teaser_message']: Message to show if the cart
@@ -32,7 +33,7 @@
   <!-- Order object is not null and cart is not empty. -->
   <div class="ajax-shopping-cart-teaser">
     <div class="cart-image">
-      <img src="<?php echo base_path() . drupal_get_path('module', 'dc_ajax_add_cart') . '/images/shopping-cart.png' ?>" />
+      <?php print $cart_icon; ?>
     </div>
     <div class="cart-product-quantity">
       <?php echo l(($quantity > 1) ? ($quantity . ' ' . $configuration['item_suffix_text'] . 's') : ($quantity . ' ' . $configuration['item_suffix_text']), 'cart', array('attributes' => array('class' => array('quantity')))); ?>
@@ -47,7 +48,7 @@
   <!-- Cart is empty or order object is null. -->
   <div class="ajax-shopping-cart-teaser">
     <div class="cart-image">
-      <img src="<?php echo base_path() . drupal_get_path('module', 'dc_ajax_add_cart') . '/images/shopping-cart.png' ?>" />
+      <?php print $cart_icon; ?>
     </div>
     <div class="cart-product-quantity">
       <p class="empty-cart">

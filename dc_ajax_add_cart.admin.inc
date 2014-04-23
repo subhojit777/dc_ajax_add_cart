@@ -58,17 +58,6 @@ function dc_ajax_add_cart_ajax_cart_settings_form($form, &$form_state) {
     '#description' => t('Configure how you want to display the Remove from Cart button'),
   );
 
-  $form['dc_ajax_add_cart_display_tax'] = array(
-    '#type' => 'radios',
-    '#title' => t('Display tax applied'),
-    '#default_value' => variable_get(DISPLAY_TAX, 'no_display'),
-    '#options' => array(
-      'display' => t('Yes'),
-      'no_display' => t('No'),
-    ),
-    '#description' => t('Configure whether you want to display the tax applied on products.'),
-  );
-
   return system_settings_form($form);
 }
 

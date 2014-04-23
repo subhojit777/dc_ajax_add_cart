@@ -10,7 +10,6 @@ define('CHECKOUT_REDIRECT', 'dc_ajax_add_cart_checkout_redirect');
 define('SHOW_LABELS', 'dc_ajax_add_cart_show_labels');
 define('EMPTY_CART_MESSAGE', 'dc_ajax_add_cart_empty_cart_message');
 define('REMOVE_CART', 'dc_ajax_add_cart_remove_cart');
-define('DISPLAY_TAX', 'dc_ajax_add_cart_display_tax');
 
 define('EMPTY_CART_TEASER_MESSAGE', 'dc_ajax_add_cart_empty_cart_teaser_message');
 define('ITEM_SUFFIX_TEXT', 'dc_ajax_add_cart_item_suffix_text');
@@ -479,7 +478,6 @@ function template_preprocess_ajax_shopping_cart(&$variables) {
   // Create new theme variables related to configuration.
   $variables['configuration']['show_labels'] = variable_get(SHOW_LABELS, 'label');
   $variables['configuration']['remove_cart'] = variable_get(REMOVE_CART, 'link');
-  $variables['configuration']['display_tax'] = variable_get(DISPLAY_TAX, 'no_display');
   $variables['configuration']['empty_cart_message'] = variable_get(EMPTY_CART_MESSAGE, 'Shopping cart is empty');
 }
 

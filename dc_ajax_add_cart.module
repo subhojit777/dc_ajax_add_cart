@@ -200,9 +200,10 @@ function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
   // AJAX commands array.
   $commands = array();
 
-  // Fetch line item and product details before resetting form.
+  // Gather information to display product information in popup message.
   $last_line_item = $form_state['line_item'];
   $last_line_item_product = commerce_product_load($last_line_item->commerce_product[LANGUAGE_NONE][0]['product_id']);
+  $last_line_item_quantity = $form_state['values']['quantity'];
 
   // If the user has ordered items.
   if ($commerce_cart['order']) {
@@ -229,7 +230,7 @@ function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
 
     // Display add to cart message.
     if (variable_get(DISPLAY_POPUP, 'display_popup_message') == 'display_popup_message') {
-      $content = theme('add_to_cart_message', array('line_item' => $last_line_item, 'product' => $last_line_item_product));
+      $content = theme('add_to_cart_message', array('line_item' => $last_line_item, 'product' => $last_line_item_product, 'quantity' => $last_line_item_quantity));
       $commands[] = ajax_command_prepend('body', $content);
     }
 
@@ -377,7 +378,7 @@ function dc_ajax_add_cart_theme($existing, $type, $theme, $path) {
       'template' => 'templates/ajax-shopping-cart-teaser',
     ),
     'add_to_cart_message' => array(
-      'variables' => array('line_item' => NULL, 'product' => NULL),
+      'variables' => array('line_item' => NULL, 'product' => NULL, 'quantity' => NULL),
       'template' => 'templates/add-to-cart-message',
     ),
   );
@@ -516,7 +517,7 @@ function template_preprocess_add_to_cart_message(&$variables) {
   $currency = commerce_currency_load(commerce_default_currency());
 
   $variables['product_per_unit_price'] = commerce_currency_format($variables['line_item']->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
-  $variables['product_price_total'] = commerce_currency_format($variables['line_item']->commerce_total[LANGUAGE_NONE][0]['amount'], $currency['code']);
+  $variables['product_price_total'] = commerce_currency_format($variables['quantity'] * $variables['line_item']->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
 
   // Create new theme variables related to configuration.
   $variables['configuration']['success_message'] = variable_get(SUCCESS_MESSAGE, 'Item successfully added to cart');

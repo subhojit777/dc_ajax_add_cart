@@ -103,7 +103,7 @@
         </p>
       <?php endif; ?>
       <p class="quantity">
-        <?php echo intval($line_item->quantity); ?>
+        <?php echo intval($quantity); ?>
       </p>
     </div>
     <?php endif; ?>

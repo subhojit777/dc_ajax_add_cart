@@ -541,5 +541,4 @@ function template_preprocess_add_to_cart_message(&$variables) {
  */
 function dc_ajax_add_cart_rebuild_add_to_cart_form($form, &$form_state) {
   $form_state['rebuild'] = TRUE;
-  $form_state['input'] = array();
 }

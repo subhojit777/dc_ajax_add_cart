@@ -77,7 +77,7 @@
           </p>
         <?php endif; ?>
         <p class="name">
-          <?php echo $product->title; ?>
+          <?php echo check_plain($product->title); ?>
         </p>
       </div>
     <?php endif; ?>

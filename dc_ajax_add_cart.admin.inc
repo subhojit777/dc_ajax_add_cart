@@ -85,7 +85,7 @@ function dc_ajax_add_cart_cart_teaser_settings_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Item suffix text'),
     '#default_value' => variable_get(ITEM_SUFFIX_TEXT, 'item'),
-    '#description' => t('Suffix text that will be displayed after the number of items in cart teaser. Multiple items will be detected and the text will be changed acording to that.'),
+    '#description' => t('Suffix text that will be displayed after the number of items in cart teaser. Multiple items will be detected and the text will be changed according to that.'),
   );
 
   return system_settings_form($form);

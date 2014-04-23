@@ -6,26 +6,26 @@
  */
 
 // Variable constants.
-define('CHECKOUT_REDIRECT', 'dc_ajax_add_cart_checkout_redirect');
-define('SHOW_LABELS', 'dc_ajax_add_cart_show_labels');
-define('EMPTY_CART_MESSAGE', 'dc_ajax_add_cart_empty_cart_message');
-define('REMOVE_CART', 'dc_ajax_add_cart_remove_cart');
+define('DC_AJAX_ADD_CART_CHECKOUT_REDIRECT', 'dc_ajax_add_cart_checkout_redirect');
+define('DC_AJAX_ADD_CART_SHOW_LABELS', 'dc_ajax_add_cart_show_labels');
+define('DC_AJAX_ADD_CART_EMPTY_CART_MESSAGE', 'dc_ajax_add_cart_empty_cart_message');
+define('DC_AJAX_ADD_CART_REMOVE_CART', 'dc_ajax_add_cart_remove_cart');
 
-define('EMPTY_CART_TEASER_MESSAGE', 'dc_ajax_add_cart_empty_cart_teaser_message');
-define('ITEM_SUFFIX_TEXT', 'dc_ajax_add_cart_item_suffix_text');
+define('DC_AJAX_ADD_CART_EMPTY_CART_TEASER_MESSAGE', 'dc_ajax_add_cart_empty_cart_teaser_message');
+define('DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT', 'dc_ajax_add_cart_item_suffix_text');
 
-define('DISPLAY_POPUP', 'dc_ajax_add_cart_display_popup');
-define('SUCCESS_MESSAGE', 'dc_ajax_add_cart_success_message');
-define('POPUP_PRODUCT_NAME_DISPLAY', 'dc_ajax_add_cart_popup_product_name_display');
-define('POPUP_PRODUCT_NAME_LABEL', 'dc_ajax_add_cart_popup_product_name_label');
-define('POPUP_PRODUCT_QUANTITY_DISPLAY', 'dc_ajax_add_cart_popup_product_quantity_display');
-define('POPUP_PRODUCT_QUANTITY_LABEL', 'dc_ajax_add_cart_popup_product_quantity_label');
-define('POPUP_PRODUCT_PRICE_DISPLAY', 'dc_ajax_add_cart_popup_product_price_display');
-define('POPUP_PRODUCT_PRICE_LABEL', 'dc_ajax_add_cart_popup_product_price_label');
-define('POPUP_PRODUCT_TOTAL_DISPLAY', 'dc_ajax_add_cart_popup_product_total_display');
-define('POPUP_PRODUCT_TOTAL_LABEL', 'dc_ajax_add_cart_popup_product_total_label');
-define('POPUP_CHECKOUT', 'dc_ajax_add_cart_popup_checkout');
-define('POPUP_CONTINUE_SHOPPING', 'dc_ajax_add_cart_popup_continue_shopping');
+define('DC_AJAX_ADD_CART_DISPLAY_POPUP', 'dc_ajax_add_cart_display_popup');
+define('DC_AJAX_ADD_CART_SUCCESS_MESSAGE', 'dc_ajax_add_cart_success_message');
+define('DC_AJAX_ADD_CART_POPUP_PRODUCT_NAME_DISPLAY', 'dc_ajax_add_cart_popup_product_name_display');
+define('DC_AJAX_ADD_CART_POPUP_PRODUCT_NAME_LABEL', 'dc_ajax_add_cart_popup_product_name_label');
+define('DC_AJAX_ADD_CART_POPUP_PRODUCT_QUANTITY_DISPLAY', 'dc_ajax_add_cart_popup_product_quantity_display');
+define('DC_AJAX_ADD_CART_POPUP_PRODUCT_QUANTITY_LABEL', 'dc_ajax_add_cart_popup_product_quantity_label');
+define('DC_AJAX_ADD_CART_POPUP_PRODUCT_PRICE_DISPLAY', 'dc_ajax_add_cart_popup_product_price_display');
+define('DC_AJAX_ADD_CART_POPUP_PRODUCT_PRICE_LABEL', 'dc_ajax_add_cart_popup_product_price_label');
+define('DC_AJAX_ADD_CART_POPUP_PRODUCT_TOTAL_DISPLAY', 'dc_ajax_add_cart_popup_product_total_display');
+define('DC_AJAX_ADD_CART_POPUP_PRODUCT_TOTAL_LABEL', 'dc_ajax_add_cart_popup_product_total_label');
+define('DC_AJAX_ADD_CART_POPUP_CHECKOUT', 'dc_ajax_add_cart_popup_checkout');
+define('DC_AJAX_ADD_CART_POPUP_CONTINUE_SHOPPING', 'dc_ajax_add_cart_popup_continue_shopping');
 
 /**
  * Implements hook_init().
@@ -228,8 +228,12 @@ function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
     $commands[] = ajax_command_replace('div.ajax-shopping-cart-teaser', $ajax_shopping_cart_teaser_content);
 
     // Display add to cart message.
-    if (variable_get(DISPLAY_POPUP, 'display_popup_message') == 'display_popup_message') {
-      $content = theme('add_to_cart_message', array('line_item' => $last_line_item, 'product' => $last_line_item_product, 'quantity' => $last_line_item_quantity));
+    if (variable_get(DC_AJAX_ADD_CART_DISPLAY_POPUP, 'display_popup_message') == 'display_popup_message') {
+      $content = theme('add_to_cart_message', array(
+        'line_item' => $last_line_item,
+        'product' => $last_line_item_product,
+        'quantity' => $last_line_item_quantity,
+      ));
       $commands[] = ajax_command_prepend('body', $content);
     }
 
@@ -373,11 +377,19 @@ function dc_ajax_add_cart_theme($existing, $type, $theme, $path) {
       'template' => 'templates/ajax-shopping-cart',
     ),
     'ajax_shopping_cart_teaser' => array(
-      'variables' => array('order' => NULL, 'quantity' => NULL, 'total' => NULL),
+      'variables' => array(
+        'order' => NULL,
+        'quantity' => NULL,
+        'total' => NULL,
+      ),
       'template' => 'templates/ajax-shopping-cart-teaser',
     ),
     'add_to_cart_message' => array(
-      'variables' => array('line_item' => NULL, 'product' => NULL, 'quantity' => NULL),
+      'variables' => array(
+        'line_item' => NULL,
+        'product' => NULL,
+        'quantity' => NULL,
+      ),
       'template' => 'templates/add-to-cart-message',
     ),
   );
@@ -433,7 +445,7 @@ function template_preprocess_ajax_shopping_cart(&$variables) {
     }
 
     // Create checkout url.
-    if (variable_get(CHECKOUT_REDIRECT, 'cart_page') == 'cart_page') {
+    if (variable_get(DC_AJAX_ADD_CART_CHECKOUT_REDIRECT, 'cart_page') == 'cart_page') {
       $checkout_url = l(t('Checkout'), 'cart');
     }
     else {
@@ -441,7 +453,7 @@ function template_preprocess_ajax_shopping_cart(&$variables) {
     }
 
     // Shopping cart.
-    if (variable_get(SHOW_LABELS, 'label')  == 'label') {
+    if (variable_get(DC_AJAX_ADD_CART_SHOW_LABELS, 'label') == 'label') {
       $header = array(
         array('data' => t('Quantity'), 'class' => array('quantity-label')),
         array('data' => t('Items'), 'class' => array('item-label')),
@@ -458,7 +470,7 @@ function template_preprocess_ajax_shopping_cart(&$variables) {
           array('data' => intval($line_item->quantity), 'class' => array('quantity')),
           array('data' => $product->title, 'class' => array('name')),
           array('data' => $product_prices[$product->product_id], 'class' => array('price')),
-          array('data' => l(variable_get(REMOVE_CART, 'link') == 'link' ? t('Remove from cart') : '<img src="' . base_path() . drupal_get_path('module', 'dc_ajax_add_cart') . '/images/remove-from-cart.png' . '" />', 'remove-product/nojs/' . $line_item->line_item_id, array('attributes' => array('class' => array('use-ajax')), 'html' => TRUE)), 'class' => array('remove-from-cart'))
+          array('data' => l(variable_get(DC_AJAX_ADD_CART_REMOVE_CART, 'link') == 'link' ? t('Remove from cart') : '<img src="' . base_path() . drupal_get_path('module', 'dc_ajax_add_cart') . '/images/remove-from-cart.png' . '" />', 'remove-product/nojs/' . $line_item->line_item_id, array('attributes' => array('class' => array('use-ajax')), 'html' => TRUE)), 'class' => array('remove-from-cart'))
         );
       }
     }
@@ -469,16 +481,23 @@ function template_preprocess_ajax_shopping_cart(&$variables) {
     $variables['product_prices'] = $product_prices;
     $variables['product_price_total'] = $product_price_total;
     $variables['checkout_url'] = $checkout_url;
-    $variables['products_list_html'] = theme('table', array('header' => $header, 'rows' => $row, 'attributes' => array('class' => array('ajax-shopping-cart-table')), 'sticky' => FALSE));
+    $variables['products_list_html'] = theme('table', array(
+      'header' => $header,
+      'rows' => $row,
+      'attributes' => array(
+        'class' => array('ajax-shopping-cart-table'),
+      ),
+      'sticky' => FALSE,
+    ));
     if (!empty($shipping)) {
       $variables['shipping'] = $shipping;
     }
   }
 
   // Create new theme variables related to configuration.
-  $variables['configuration']['show_labels'] = variable_get(SHOW_LABELS, 'label');
-  $variables['configuration']['remove_cart'] = variable_get(REMOVE_CART, 'link');
-  $variables['configuration']['empty_cart_message'] = variable_get(EMPTY_CART_MESSAGE, 'Shopping cart is empty');
+  $variables['configuration']['show_labels'] = variable_get(DC_AJAX_ADD_CART_SHOW_LABELS, 'label');
+  $variables['configuration']['remove_cart'] = variable_get(DC_AJAX_ADD_CART_REMOVE_CART, 'link');
+  $variables['configuration']['empty_cart_message'] = variable_get(DC_AJAX_ADD_CART_EMPTY_CART_MESSAGE, 'Shopping cart is empty');
 }
 
 /**
@@ -497,8 +516,8 @@ function template_preprocess_ajax_shopping_cart_teaser(&$variables) {
   $variables['total_amount'] = commerce_currency_format($variables['total']['amount'], $currency['code']);
 
   // Create new theme variables related to configuration.
-  $variables['configuration']['item_suffix_text'] = variable_get(ITEM_SUFFIX_TEXT, 'item');
-  $variables['configuration']['empty_cart_teaser_message'] = variable_get(EMPTY_CART_TEASER_MESSAGE, 'Empty');
+  $variables['configuration']['item_suffix_text'] = variable_get(DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT, 'item');
+  $variables['configuration']['empty_cart_teaser_message'] = variable_get(DC_AJAX_ADD_CART_EMPTY_CART_TEASER_MESSAGE, 'Empty');
 }
 
 /**
@@ -518,17 +537,17 @@ function template_preprocess_add_to_cart_message(&$variables) {
   $variables['product_price_total'] = commerce_currency_format($variables['quantity'] * $variables['line_item']->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
 
   // Create new theme variables related to configuration.
-  $variables['configuration']['success_message'] = variable_get(SUCCESS_MESSAGE, 'Item successfully added to cart');
-  $variables['configuration']['popup_checkout'] = variable_get(POPUP_CHECKOUT, 'Go to checkout');
-  $variables['configuration']['popup_continue_shopping'] = variable_get(POPUP_CONTINUE_SHOPPING, 'Continue shopping');
-  $variables['configuration']['popup_product_name_display'] = variable_get(POPUP_PRODUCT_NAME_DISPLAY, 1);
-  $variables['configuration']['popup_product_name_label'] = variable_get(POPUP_PRODUCT_NAME_LABEL, 'no_display_label');
-  $variables['configuration']['popup_product_price_display'] = variable_get(POPUP_PRODUCT_PRICE_DISPLAY, 1);
-  $variables['configuration']['popup_product_price_label'] = variable_get(POPUP_PRODUCT_PRICE_LABEL, 'display_label');
-  $variables['configuration']['popup_product_quantity_display'] = variable_get(POPUP_PRODUCT_QUANTITY_DISPLAY, 1);
-  $variables['configuration']['popup_product_quantity_label'] = variable_get(POPUP_PRODUCT_QUANTITY_LABEL, 'display_label');
-  $variables['configuration']['popup_product_total_display'] = variable_get(POPUP_PRODUCT_TOTAL_DISPLAY, 1);
-  $variables['configuration']['popup_product_total_label'] = variable_get(POPUP_PRODUCT_TOTAL_LABEL, 'display_label');
+  $variables['configuration']['success_message'] = variable_get(DC_AJAX_ADD_CART_SUCCESS_MESSAGE, 'Item successfully added to cart');
+  $variables['configuration']['popup_checkout'] = variable_get(DC_AJAX_ADD_CART_POPUP_CHECKOUT, 'Go to checkout');
+  $variables['configuration']['popup_continue_shopping'] = variable_get(DC_AJAX_ADD_CART_POPUP_CONTINUE_SHOPPING, 'Continue shopping');
+  $variables['configuration']['popup_product_name_display'] = variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_NAME_DISPLAY, 1);
+  $variables['configuration']['popup_product_name_label'] = variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_NAME_LABEL, 'no_display_label');
+  $variables['configuration']['popup_product_price_display'] = variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_PRICE_DISPLAY, 1);
+  $variables['configuration']['popup_product_price_label'] = variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_PRICE_LABEL, 'display_label');
+  $variables['configuration']['popup_product_quantity_display'] = variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_QUANTITY_DISPLAY, 1);
+  $variables['configuration']['popup_product_quantity_label'] = variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_QUANTITY_LABEL, 'display_label');
+  $variables['configuration']['popup_product_total_display'] = variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_TOTAL_DISPLAY, 1);
+  $variables['configuration']['popup_product_total_label'] = variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_TOTAL_LABEL, 'display_label');
 }
 
 /**

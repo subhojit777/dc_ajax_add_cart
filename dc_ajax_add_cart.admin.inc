@@ -21,7 +21,7 @@ function dc_ajax_add_cart_ajax_cart_settings_form($form, &$form_state) {
   $form['dc_ajax_add_cart_checkout_redirect'] = array(
     '#type' => 'select',
     '#title' => t('Checkout button redirect'),
-    '#default_value' => variable_get(CHECKOUT_REDIRECT, 'cart_page'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_CHECKOUT_REDIRECT, 'cart_page'),
     '#options' => array(
       'cart_page' => t('Cart page'),
       'checkout_page' => t('Checkout page'),
@@ -32,7 +32,7 @@ function dc_ajax_add_cart_ajax_cart_settings_form($form, &$form_state) {
   $form['dc_ajax_add_cart_show_labels'] = array(
     '#type' => 'radios',
     '#title' => t('Show labels'),
-    '#default_value' => variable_get(SHOW_LABELS, 'label'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_SHOW_LABELS, 'label'),
     '#options' => array(
       'label' => t('Yes'),
       'no_label' => t('No'),
@@ -43,14 +43,14 @@ function dc_ajax_add_cart_ajax_cart_settings_form($form, &$form_state) {
   $form['dc_ajax_add_cart_empty_cart_message'] = array(
     '#type' => 'textfield',
     '#title' => t('Empty cart message'),
-    '#default_value' => variable_get(EMPTY_CART_MESSAGE, 'Shopping cart is empty'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_EMPTY_CART_MESSAGE, 'Shopping cart is empty'),
     '#description' => t('Message that will be displayed if the cart is empty.'),
   );
 
   $form['dc_ajax_add_cart_remove_cart'] = array(
     '#type' => 'select',
     '#title' => t('Remove cart'),
-    '#default_value' => variable_get(REMOVE_CART, 'link'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_REMOVE_CART, 'link'),
     '#options' => array(
       'link' => t('Display remove from cart as link'),
       'image' => t('Display remove from cart as image'),
@@ -77,14 +77,14 @@ function dc_ajax_add_cart_cart_teaser_settings_form($form, &$form_state) {
   $form['dc_ajax_add_cart_empty_cart_teaser_message'] = array(
     '#type' => 'textfield',
     '#title' => t('Empty cart message'),
-    '#default_value' => variable_get(EMPTY_CART_TEASER_MESSAGE, 'Empty'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_EMPTY_CART_TEASER_MESSAGE, 'Empty'),
     '#description' => t('Message that will be displayed on cart teaser if cart is empty.'),
   );
 
   $form['dc_ajax_add_cart_item_suffix_text'] = array(
     '#type' => 'textfield',
     '#title' => t('Item suffix text'),
-    '#default_value' => variable_get(ITEM_SUFFIX_TEXT, 'item'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT, 'item'),
     '#description' => t('Suffix text that will be displayed after the number of items in cart teaser. Multiple items will be detected and the text will be changed according to that.'),
   );
 
@@ -107,7 +107,7 @@ function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
   $form['dc_ajax_add_cart_display_popup'] = array(
     '#type' => 'radios',
     '#title' => t('Display popup message'),
-    '#default_value' => variable_get(DISPLAY_POPUP, 'display_popup_message'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_DISPLAY_POPUP, 'display_popup_message'),
     '#options' => array(
       'display_popup_message' => t('Yes'),
       'no_display_popup_message' => t('No'),
@@ -118,7 +118,7 @@ function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
   $form['dc_ajax_add_cart_success_message'] = array(
     '#type' => 'textfield',
     '#title' => t('Success message'),
-    '#default_value' => variable_get(SUCCESS_MESSAGE, 'Item successfully added to cart'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_SUCCESS_MESSAGE, 'Item successfully added to cart'),
     '#description' => t('Success message that will appear on popup after adding item to cart.'),
   );
 
@@ -134,7 +134,7 @@ function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
   $form['product_details_popup']['dc_ajax_add_cart_popup_product_name_display'] = array(
     '#type' => 'checkbox',
     '#title' => t('Product name'),
-    '#default_value' => variable_get(POPUP_PRODUCT_NAME_DISPLAY, 1),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_NAME_DISPLAY, 1),
     '#disabled' => TRUE,
     '#ajax' => array(
       'callback' => 'dc_ajax_add_cart_popup_product_name_callback',
@@ -153,7 +153,7 @@ function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
   $form['product_details_popup']['dc_ajax_add_cart_popup_product_quantity_display'] = array(
     '#type' => 'checkbox',
     '#title' => t('Product quantity'),
-    '#default_value' => variable_get(POPUP_PRODUCT_QUANTITY_DISPLAY, 1),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_QUANTITY_DISPLAY, 1),
     '#ajax' => array(
       'callback' => 'dc_ajax_add_cart_popup_product_quantity_callback',
       'wrapper' => 'popup-product-quantity-label-setting-wrapper',
@@ -171,7 +171,7 @@ function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
   $form['product_details_popup']['dc_ajax_add_cart_popup_product_price_display'] = array(
     '#type' => 'checkbox',
     '#title' => t('Product price'),
-    '#default_value' => variable_get(POPUP_PRODUCT_PRICE_DISPLAY, 1),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_PRICE_DISPLAY, 1),
     '#ajax' => array(
       'callback' => 'dc_ajax_add_cart_popup_product_price_callback',
       'wrapper' => 'popup-product-price-label-setting-wrapper',
@@ -189,7 +189,7 @@ function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
   $form['product_details_popup']['dc_ajax_add_cart_popup_product_total_display'] = array(
     '#type' => 'checkbox',
     '#title' => t('Product total'),
-    '#default_value' => variable_get(POPUP_PRODUCT_TOTAL_DISPLAY, 1),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_TOTAL_DISPLAY, 1),
     '#disabled' => TRUE,
     '#ajax' => array(
       'callback' => 'dc_ajax_add_cart_popup_product_total_callback',
@@ -207,23 +207,23 @@ function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
   $form['dc_ajax_add_cart_popup_checkout'] = array(
     '#type' => 'textfield',
     '#title' => t('Checkout text'),
-    '#default_value' => variable_get(POPUP_CHECKOUT, 'Go to checkout'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_POPUP_CHECKOUT, 'Go to checkout'),
     '#description' => t('Configure the text you want to show in checkout link.'),
   );
 
   $form['dc_ajax_add_cart_popup_continue_shopping'] = array(
     '#type' => 'textfield',
     '#title' => t('Continue shopping text'),
-    '#default_value' => variable_get(POPUP_CONTINUE_SHOPPING, 'Continue shopping'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_POPUP_CONTINUE_SHOPPING, 'Continue shopping'),
     '#description' => t('Configure the text you want to show in continue shopping link.'),
   );
 
   // Product name label setting AJAX form.
-  if (empty($form_state['values']) && variable_get(POPUP_PRODUCT_NAME_DISPLAY, 1) == 1) {
+  if (empty($form_state['values']) && variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_NAME_DISPLAY, 1) == 1) {
     $form['product_details_popup']['popup_product_name_label_wrapper']['dc_ajax_add_cart_popup_product_name_label'] = array(
       '#type' => 'radios',
       '#title' => t('Display label'),
-      '#default_value' => variable_get(POPUP_PRODUCT_NAME_LABEL, 'no_display_label'),
+      '#default_value' => variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_NAME_LABEL, 'no_display_label'),
       '#options' => array(
         'display_label' => t('Yes'),
         'no_display_label' => t('No'),
@@ -237,7 +237,7 @@ function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
     $form['product_details_popup']['popup_product_name_label_wrapper']['dc_ajax_add_cart_popup_product_name_label'] = array(
       '#type' => 'radios',
       '#title' => t('Display label'),
-      '#default_value' => variable_get(POPUP_PRODUCT_NAME_LABEL, 'no_display_label'),
+      '#default_value' => variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_NAME_LABEL, 'no_display_label'),
       '#options' => array(
         'display_label' => t('Yes'),
         'no_display_label' => t('No'),
@@ -247,11 +247,11 @@ function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
   }
 
   // Product quantity label setting AJAX form.
-  if (empty($form_state['values']) && variable_get(POPUP_PRODUCT_QUANTITY_DISPLAY, 1) == 1) {
+  if (empty($form_state['values']) && variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_QUANTITY_DISPLAY, 1) == 1) {
     $form['product_details_popup']['popup_product_quantity_label_wrapper']['dc_ajax_add_cart_popup_product_quantity_label'] = array(
       '#type' => 'radios',
       '#title' => t('Display label'),
-      '#default_value' => variable_get(POPUP_PRODUCT_QUANTITY_LABEL, 'display_label'),
+      '#default_value' => variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_QUANTITY_LABEL, 'display_label'),
       '#options' => array(
         'display_label' => t('Yes'),
         'no_display_label' => t('No'),
@@ -264,7 +264,7 @@ function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
     $form['product_details_popup']['popup_product_quantity_label_wrapper']['dc_ajax_add_cart_popup_product_quantity_label'] = array(
       '#type' => 'radios',
       '#title' => t('Display label'),
-      '#default_value' => variable_get(POPUP_PRODUCT_QUANTITY_LABEL, 'display_label'),
+      '#default_value' => variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_QUANTITY_LABEL, 'display_label'),
       '#options' => array(
         'display_label' => t('Yes'),
         'no_display_label' => t('No'),
@@ -274,11 +274,11 @@ function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
   }
 
   // Product price label setting AJAX form.
-  if (empty($form_state['values']) && variable_get(POPUP_PRODUCT_PRICE_DISPLAY, 1) == 1) {
+  if (empty($form_state['values']) && variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_PRICE_DISPLAY, 1) == 1) {
     $form['product_details_popup']['popup_product_price_label_wrapper']['dc_ajax_add_cart_popup_product_price_label'] = array(
       '#type' => 'radios',
       '#title' => t('Display label'),
-      '#default_value' => variable_get(POPUP_PRODUCT_PRICE_LABEL, 'display_label'),
+      '#default_value' => variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_PRICE_LABEL, 'display_label'),
       '#options' => array(
         'display_label' => t('Yes'),
         'no_display_label' => t('No'),
@@ -291,7 +291,7 @@ function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
     $form['product_details_popup']['popup_product_price_label_wrapper']['dc_ajax_add_cart_popup_product_price_label'] = array(
       '#type' => 'radios',
       '#title' => t('Display label'),
-      '#default_value' => variable_get(POPUP_PRODUCT_PRICE_LABEL, 'display_label'),
+      '#default_value' => variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_PRICE_LABEL, 'display_label'),
       '#options' => array(
         'display_label' => t('Yes'),
         'no_display_label' => t('No'),
@@ -301,11 +301,11 @@ function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
   }
 
   // Product total label setting AJAX form.
-  if (empty($form_state['values']) && variable_get(POPUP_PRODUCT_TOTAL_DISPLAY, 1) == 1) {
+  if (empty($form_state['values']) && variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_TOTAL_DISPLAY, 1) == 1) {
     $form['product_details_popup']['popup_product_total_label_wrapper']['dc_ajax_add_cart_popup_product_total_label'] = array(
       '#type' => 'radios',
       '#title' => t('Display label'),
-      '#default_value' => variable_get(POPUP_PRODUCT_TOTAL_LABEL, 'display_label'),
+      '#default_value' => variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_TOTAL_LABEL, 'display_label'),
       '#options' => array(
         'display_label' => t('Yes'),
         'no_display_label' => t('No'),
@@ -318,7 +318,7 @@ function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
     $form['product_details_popup']['popup_product_total_label_wrapper']['dc_ajax_add_cart_popup_product_total_label'] = array(
       '#type' => 'radios',
       '#title' => t('Display label'),
-      '#default_value' => variable_get(POPUP_PRODUCT_TOTAL_LABEL, 'display_label'),
+      '#default_value' => variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_TOTAL_LABEL, 'display_label'),
       '#options' => array(
         'display_label' => t('Yes'),
         'no_display_label' => t('No'),

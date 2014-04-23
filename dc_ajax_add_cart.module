@@ -395,6 +395,9 @@ function dc_ajax_add_cart_theme($existing, $type, $theme, $path) {
 function template_preprocess_ajax_shopping_cart(&$variables) {
   // Check whether order object exists.
   if ($variables['order']) {
+    $header = array();
+    $row = array();
+
     // Default currency array.
     $currency = commerce_currency_load(commerce_default_currency());
 
@@ -437,12 +440,36 @@ function template_preprocess_ajax_shopping_cart(&$variables) {
       $checkout_url = l(t('Checkout'), 'checkout');
     }
 
+    // Shopping cart.
+    if (variable_get(SHOW_LABELS, 'label')  == 'label') {
+      $header = array(
+        array('data' => t('Quantity'), 'class' => array('quantity-label')),
+        array('data' => t('Items'), 'class' => array('item-label')),
+        array('data' => t('Price'), 'class' => array('price-label')),
+        '',
+      );
+    }
+
+    foreach ($line_item_list as $line_item) {
+      if (property_exists($line_item, 'commerce_product')) {
+        $product = commerce_product_load($line_item->commerce_product[LANGUAGE_NONE][0]['product_id']);
+
+        $row[] = array(
+          array('data' => intval($line_item->quantity), 'class' => array('quantity')),
+          array('data' => $product->title, 'class' => array('name')),
+          array('data' => $product_prices[$product->product_id], 'class' => array('price')),
+          array('data' => l(variable_get(REMOVE_CART, 'link') == 'link' ? t('Remove from cart') : '<img src="' . base_path() . drupal_get_path('module', 'dc_ajax_add_cart') . '/images/remove-from-cart.png' . '" />', 'remove-product/nojs/' . $line_item->line_item_id, array('attributes' => array('class' => array('use-ajax')), 'html' => TRUE)), 'class' => array('remove-from-cart'))
+        );
+      }
+    }
+
     // Create new theme variables.
     $variables['line_item_list'] = $line_item_list;
     $variables['products'] = $products;
     $variables['product_prices'] = $product_prices;
     $variables['product_price_total'] = $product_price_total;
     $variables['checkout_url'] = $checkout_url;
+    $variables['products_list_html'] = theme('table', array('header' => $header, 'rows' => $row, 'attributes' => array('class' => array('ajax-shopping-cart-table')), 'sticky' => FALSE));
     if (!empty($shipping)) {
       $variables['shipping'] = $shipping;
     }

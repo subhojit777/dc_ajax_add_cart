@@ -91,80 +91,11 @@ a.add-to-cart-close {
 }
 
 .ajax-shopping-cart-wrapper {
-  float: left;
   width: 370px;
 }
 
 .ajax-shopping-cart-table {
-  float: left;
   width: 100%;
-}
-
-.ajax-shopping-cart-labels .quantity-label,
-.ajax-shopping-cart-labels .item-label,
-.ajax-shopping-cart-labels .price-label {
-  font-weight: bold;
-  padding: 0 5px;
-}
-
-.ajax-shopping-cart-labels .quantity-label {
-  float: left;
-  text-align: right;
-  width: 15%;
-}
-
-.ajax-shopping-cart-labels .item-label {
-  float: left;
-  text-align: center;
-  width: 20%;
-}
-
-.ajax-shopping-cart-labels .price-label {
-  float: left;
-  text-align: center;
-  width: 15%;
-}
-
-
-.product-line-item {
-  border-bottom: 1px solid #cccccc;
-  display: table-row;
-  float: left;
-  width: 100%;
-}
-
-.product-line-item span {
-  margin: 5px 0;
-  padding: 0 5px;
-}
-
-.product-line-item .quantity {
-  float: left;
-  text-align: center;
-  width: 15%;
-}
-
-.product-line-item .name {
-  float: left;
-  text-align: center;
-  width: 20%;
-}
-
-.product-line-item .price {
-  float: left;
-  text-align: center;
-  width: 15%;
-}
-
-.product-line-item .remove-from-cart {
-  float: right;
-  text-align: center;
-  width: 20%;
-}
-
-.ajax-shopping-cart-total,
-.ajax-shopping-cart-checkout {
-  margin-top: 10px;
 }
 
 .ajax-shopping-cart-total {
@@ -178,10 +109,5 @@ a.add-to-cart-close {
 .ajax-shopping-cart-shipping {
   clear: both;
   float: left;
-  margin-top: 10px;
-}
-
-.ajax-shopping-cart-tax-wrapper {
-  float: left;
-  margin-top: 10px;
+  margin-bottom: 10px;
 }

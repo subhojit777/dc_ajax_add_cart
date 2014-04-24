@@ -476,11 +476,13 @@ function template_preprocess_ajax_shopping_cart(&$variables) {
           array('data' => intval($line_item->quantity), 'class' => array('quantity')),
           array('data' => $product->title, 'class' => array('name')),
           array('data' => $product_prices[$product->product_id], 'class' => array('price')),
-          array('data' => l(variable_get(DC_AJAX_ADD_CART_REMOVE_CART, 'link') == 'link' ? t('Remove from cart') : $image_remove_cart, 'remove-product/nojs/' . $line_item->line_item_id,
+          array(
+            'data' => l(variable_get(DC_AJAX_ADD_CART_REMOVE_CART, 'link') == 'link' ? t('Remove from cart') : $image_remove_cart,
+            'remove-product/nojs/' . $line_item->line_item_id,
             array(
               'attributes' => array(
                 'class' => array('use-ajax'),
-            ), 'html' => TRUE)), 'class' => array('remove-from-cart')),
+              ), 'html' => TRUE)), 'class' => array('remove-from-cart')),
         );
       }
     }

@@ -142,17 +142,17 @@ function dc_ajax_add_cart_remove_commerce_line_item($ajax, $line_item_id) {
 
     // Check whether the user has any product in cart.
     $content_cart = theme('ajax_shopping_cart', array(
-                                                    'order' => $commerce_cart['order'],
-                                                    'line_items' => $line_items,
-                                                    'quantity' => $quantity,
-                                                    'total' => $total)
-                                                  );
+      'order' => $commerce_cart['order'],
+      'line_items' => $line_items,
+      'quantity' => $quantity,
+      'total' => $total,
+    ));
     $commands[] = ajax_command_replace('div.ajax-shopping-cart-wrapper', $content_cart);
     $content_teaser = theme('ajax_shopping_cart_teaser', array(
-                                                            'order' => $commerce_cart['order'],
-                                                            'quantity' => $quantity,
-                                                            'total' => $total)
-                                                          );
+      'order' => $commerce_cart['order'],
+      'quantity' => $quantity,
+      'total' => $total,
+    ));
     $commands[] = ajax_command_replace('div.ajax-shopping-cart-teaser', $content_teaser);
 
     // Ajaxifies the updation of cart.
@@ -212,11 +212,11 @@ function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
     $total = commerce_line_items_total($line_items);
 
     $ajax_shopping_cart_content = theme('ajax_shopping_cart', array(
-                                                                    'order' => $commerce_cart['order'],
-                                                                    'line_items' => $line_items,
-                                                                    'quantity' => $quantity,
-                                                                    'total' => $total)
-                                                                  );
+      'order' => $commerce_cart['order'],
+      'line_items' => $line_items,
+      'quantity' => $quantity,
+      'total' => $total,
+    ));
     $commands[] = ajax_command_replace('div.ajax-shopping-cart-wrapper', $ajax_shopping_cart_content);
 
     // Update the contents of shopping cart.
@@ -264,14 +264,17 @@ function dc_ajax_add_cart_block_info() {
  */
 function dc_ajax_add_cart_block_view($delta = '') {
   $block = array();
+
   switch ($delta) {
     case 'ajax_shopping_cart':
       $block['subject'] = t('Shopping cart');
       $block['content'] = dc_ajax_add_cart_get_shopping_cart();
+
       break;
 
     case 'ajax_shopping_cart_teaser':
       $block['content'] = dc_ajax_add_cart_get_shopping_cart_teaser();
+
       break;
   }
 
@@ -297,11 +300,11 @@ function dc_ajax_add_cart_get_shopping_cart() {
   }
 
   $content = theme('ajax_shopping_cart', array(
-                                              'order' => $commerce_cart['order'],
-                                              'line_items' => $line_items,
-                                              'quantity' => $quantity,
-                                              'total' => $total)
-                                          );
+    'order' => $commerce_cart['order'],
+    'line_items' => $line_items,
+    'quantity' => $quantity,
+    'total' => $total,
+  ));
 
   return $content;
 }
@@ -328,10 +331,10 @@ function dc_ajax_add_cart_get_shopping_cart_teaser() {
   }
 
   $content = theme('ajax_shopping_cart_teaser', array(
-                                                    'order' => $commerce_cart['order'],
-                                                    'quantity' => $quantity,
-                                                    'total' => $total)
-                                                  );
+    'order' => $commerce_cart['order'],
+    'quantity' => $quantity,
+    'total' => $total,
+  ));
 
   return $content;
 }

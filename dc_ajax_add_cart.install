@@ -2,7 +2,9 @@
 
 /**
  * @file
- * ajax_add_to_cart.install file.
+ * Ajax add to cart installation file.
+ *
+ * Delete the variables on module's uninstallation.
  */
 
 /**

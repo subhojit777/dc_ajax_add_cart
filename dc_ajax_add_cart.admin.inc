@@ -2,20 +2,13 @@
 
 /**
  * @file
- * dc_ajax_add_cart.admin.inc
+ * Ajax add to cart administration UI.
  */
 
 /**
  * Commerce AJAX Add to Cart settings form.
  *
- * @param array $form
- *   Drupal form array.
- *
- * @param array $form_state
- *   Current form state.
- *
- * @return array
- *   Drupal system settings form.
+ * @ingroup forms
  */
 function dc_ajax_add_cart_ajax_cart_settings_form($form, &$form_state) {
   $form['dc_ajax_add_cart_checkout_redirect'] = array(
@@ -64,14 +57,7 @@ function dc_ajax_add_cart_ajax_cart_settings_form($form, &$form_state) {
 /**
  * Commerce AJAX Add to Cart teaser settings.
  *
- * @param array $form
- *   Drupal form array.
- *
- * @param array $form_state
- *   Current form state.
- *
- * @return array
- *   Drupal system settings form.
+ * @ingroup forms
  */
 function dc_ajax_add_cart_cart_teaser_settings_form($form, &$form_state) {
   $form['dc_ajax_add_cart_empty_cart_teaser_message'] = array(
@@ -94,14 +80,7 @@ function dc_ajax_add_cart_cart_teaser_settings_form($form, &$form_state) {
 /**
  * Popup message settings.
  *
- * @param array $form
- *   Drupal array form.
- *
- * @param array $form_state
- *   Current form state.
- *
- * @return array
- *   Drupal array form.
+ * @ingroup forms
  */
 function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
   $form['dc_ajax_add_cart_display_popup'] = array(
@@ -333,11 +312,7 @@ function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
 /**
  * Callback function for rendering name label setting form.
  *
- * @param array $form
- *   Drupal form array.
- *
- * @param array $form_state
- *   Current Drupal form state.
+ * @ingroup forms
  */
 function dc_ajax_add_cart_popup_product_name_callback($form, &$form_state) {
   return $form['product_details_popup']['popup_product_name_label_wrapper'];
@@ -346,11 +321,7 @@ function dc_ajax_add_cart_popup_product_name_callback($form, &$form_state) {
 /**
  * Callback function for rendering quantity label setting form.
  *
- * @param array $form
- *   Drupal form array.
- *
- * @param array $form_state
- *   Current Drupal form state.
+ * @ingroup forms
  */
 function dc_ajax_add_cart_popup_product_quantity_callback($form, &$form_state) {
   return $form['product_details_popup']['popup_product_quantity_label_wrapper'];
@@ -359,11 +330,7 @@ function dc_ajax_add_cart_popup_product_quantity_callback($form, &$form_state) {
 /**
  * Callback function for rendering price label setting form.
  *
- * @param array $form
- *   Drupal form array.
- *
- * @param array $form_state
- *   Current Drupal form state.
+ * @ingroup forms
  */
 function dc_ajax_add_cart_popup_product_price_callback($form, &$form_state) {
   return $form['product_details_popup']['popup_product_price_label_wrapper'];
@@ -372,11 +339,7 @@ function dc_ajax_add_cart_popup_product_price_callback($form, &$form_state) {
 /**
  * Callback function for rendering total label setting form.
  *
- * @param array $form
- *   Drupal form array.
- *
- * @param array $form_state
- *   Current Drupal form state.
+ * @ingroup forms
  */
 function dc_ajax_add_cart_popup_product_total_callback($form, &$form_state) {
   return $form['product_details_popup']['popup_product_total_label_wrapper'];

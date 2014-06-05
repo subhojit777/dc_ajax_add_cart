@@ -2,7 +2,10 @@
 
 /**
  * @file
- * dc_ajax_add_cart.module.
+ * Ajax add to cart module.
+ *
+ * Allows you to add products AJAX-ically to cart. You can remove products
+ * AJAX-ically from cart.
  */
 
 // Variable constants.

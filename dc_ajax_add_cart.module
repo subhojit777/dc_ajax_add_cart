@@ -365,7 +365,7 @@ function dc_ajax_add_cart_get_commerce_cart_details() {
 /**
  * Implements hook_theme().
  */
-function dc_ajax_add_cart_theme($existing, $type, $theme, $path) {
+function dc_ajax_add_cart_theme() {
   return array(
     'ajax_shopping_cart' => array(
       'variables' => array(

@@ -21,8 +21,8 @@
  * - $configuration['empty_cart_teaser_message']: Message to show if the cart
  *   is empty.
  * If you want to change the structure of Cart Teaser then copy this file to
- * your theme's templates directory and make your changes.
- * DO NOT change this file.
+ * your theme's templates directory and make your changes. DO NOT change this
+ * file.
  */
 ?>
 

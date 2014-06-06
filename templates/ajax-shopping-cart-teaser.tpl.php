@@ -33,11 +33,11 @@
       <?php print $cart_icon; ?>
     </div>
     <div class="cart-product-quantity">
-      <?php echo l(($quantity > 1) ? ($quantity . ' ' . $configuration['item_suffix_text'] . 's') : ($quantity . ' ' . $configuration['item_suffix_text']), 'cart', array('attributes' => array('class' => array('quantity')))); ?>
+      <?php print l(($quantity > 1) ? ($quantity . ' ' . $configuration['item_suffix_text'] . 's') : ($quantity . ' ' . $configuration['item_suffix_text']), 'cart', array('attributes' => array('class' => array('quantity')))); ?>
     </div>
     <div class="cart-product-total">
       <p class="total-amount">
-        <?php echo $total_amount; ?>
+        <?php print $total_amount; ?>
       </p>
     </div>
   </div>
@@ -49,12 +49,12 @@
     </div>
     <div class="cart-product-quantity">
       <p class="empty-cart">
-        <?php echo $configuration['empty_cart_teaser_message']; ?>
+        <?php print $configuration['empty_cart_teaser_message']; ?>
       </p>
     </div>
     <div class="cart-product-total">
       <p class="total-amount">
-        <?php echo $total_amount; ?>
+        <?php print $total_amount; ?>
       </p>
     </div>
   </div>

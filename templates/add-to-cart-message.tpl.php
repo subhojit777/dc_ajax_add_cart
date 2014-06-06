@@ -46,21 +46,21 @@
   <!-- Close button. -->
   <a class="add-to-cart-close">
     <span class="element-invisible">
-      <?php echo t('Close'); ?>
+      <?php print t('Close'); ?>
     </span>
   </a>
   <div class="added-product-message">
-    <?php echo $configuration['success_message']; ?>
+    <?php print $configuration['success_message']; ?>
   </div>
   <div class="option-button-wrapper">
     <!-- Checkout link. -->
     <div class="option-button checkout">
-      <?php echo l($configuration['popup_checkout'], 'cart'); ?>
+      <?php print l($configuration['popup_checkout'], 'cart'); ?>
     </div>
     <!-- Continue shopping. -->
     <div class="option-button continue">
       <span class="add-to-cart-close">
-        <?php echo $configuration['popup_continue_shopping']; ?>
+        <?php print $configuration['popup_continue_shopping']; ?>
       </span>
     </div>
   </div>
@@ -70,11 +70,11 @@
       <div class="product-name">
         <?php if ($configuration['popup_product_name_label'] == 'display_label'): ?>
           <p class="name-label">
-            <?php echo t('Name:'); ?>
+            <?php print t('Name:'); ?>
           </p>
         <?php endif; ?>
         <p class="name">
-          <?php echo check_plain($product->title); ?>
+          <?php print check_plain($product->title); ?>
         </p>
       </div>
     <?php endif; ?>
@@ -83,11 +83,11 @@
       <div class="product-cost-incl-tax">
         <?php if ($configuration['popup_product_price_label'] == 'display_label'): ?>
           <p class="cost-incl-tax-label">
-            <?php echo t('Price:'); ?>
+            <?php print t('Price:'); ?>
           </p>
         <?php endif; ?>
         <p class="cost-incl-tax">
-          <?php echo $product_per_unit_price; ?>
+          <?php print $product_per_unit_price; ?>
         </p>
       </div>
     <?php endif; ?>
@@ -96,11 +96,11 @@
     <div class="product-quantity">
       <?php if ($configuration['popup_product_quantity_label'] == 'display_label'): ?>
         <p class="quantity-label">
-          <?php echo t('Quantity:'); ?>
+          <?php print t('Quantity:'); ?>
         </p>
       <?php endif; ?>
       <p class="quantity">
-        <?php echo intval($quantity); ?>
+        <?php print intval($quantity); ?>
       </p>
     </div>
     <?php endif; ?>
@@ -109,11 +109,11 @@
     <div class="product-total-incl-tax">
       <?php if ($configuration['popup_product_total_label'] == 'display_label'): ?>
         <p class="total-label">
-          <?php echo t('Total:'); ?>
+          <?php print t('Total:'); ?>
         </p>
       <?php endif; ?>
       <p class="total-incl-tax">
-        <?php echo $product_price_total; ?>
+        <?php print $product_price_total; ?>
       </p>
     </div>
     <?php endif; ?>

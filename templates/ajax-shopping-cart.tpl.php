@@ -53,10 +53,10 @@
       <?php endif; ?>
 
       <div class="ajax-shopping-cart-total">
-        <?php echo t('Total:') . ' ' . $product_price_total; ?>
+        <?php print t('Total:') . ' ' . $product_price_total; ?>
       </div>
       <div class="ajax-shopping-cart-checkout">
-        <?php echo $checkout_url; ?>
+        <?php print $checkout_url; ?>
       </div>
     </div>
   </div>
@@ -64,7 +64,7 @@
   <!-- Cart is empty or order object is null. -->
   <div class="ajax-shopping-cart-wrapper">
     <div class="empty-shopping-cart">
-      <?php echo $configuration['empty_cart_message']; ?>
+      <?php print $configuration['empty_cart_message']; ?>
     </div>
     <div class="ajax-shopping-cart-total"></div>
     <div class="ajax-shopping-cart-checkout"></div>

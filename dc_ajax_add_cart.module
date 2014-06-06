@@ -405,12 +405,12 @@ function dc_ajax_add_cart_theme() {
  *
  * Default template: ajax-shopping-cart.tpl.php.
  *
- * @param $variables
+ * @param array $variables
  *   An associative array containing:
- *   - $order: Order object of the current user.
- *   - $line_items: Line items wrapper.
- *   - $quantity: Number of items in the cart.
- *   - $total: Array containing the total amount and the default currency you
+ *   - order: Order object of the current user.
+ *   - line_items: Line items wrapper.
+ *   - quantity: Number of items in the cart.
+ *   - total: Array containing the total amount and the default currency you
  *     are in the site.
  */
 function template_preprocess_ajax_shopping_cart(&$variables) {
@@ -526,11 +526,11 @@ function template_preprocess_ajax_shopping_cart(&$variables) {
  *
  * Default template: ajax-shopping-cart-teaser.tpl.php.
  *
- * @param $variables
+ * @param array $variables
  *   An associative array containing:
- *   - $order: Order object for the current user.
- *   - $quantity: Number of items present in the cart.
- *   - $total: Array containing the total amount and default currency code used
+ *   - order: Order object for the current user.
+ *   - quantity: Number of items present in the cart.
+ *   - total: Array containing the total amount and default currency code used
  *     in the site.
  */
 function template_preprocess_ajax_shopping_cart_teaser(&$variables) {
@@ -553,11 +553,11 @@ function template_preprocess_ajax_shopping_cart_teaser(&$variables) {
  *
  * Default template: add-to-cart-message.tpl.php.
  *
- * @param $variables
+ * @param array $variables
  *   An associative array containing:
- *   - $order: Order object for the current user.
- *   - $quantity: Number of items present in the cart.
- *   - $total: Array containing the total amount and default currency code used
+ *   - order: Order object for the current user.
+ *   - quantity: Number of items present in the cart.
+ *   - total: Array containing the total amount and default currency code used
  *     in the site.
  */
 function template_preprocess_add_to_cart_message(&$variables) {

@@ -37,7 +37,6 @@
  *   label.
  * If you want to change the structure of Add to Cart Message popup, then copy
  * this file to your theme's templates directory and do your changes.
- *
  * DO NOT change this file.
  */
 ?>

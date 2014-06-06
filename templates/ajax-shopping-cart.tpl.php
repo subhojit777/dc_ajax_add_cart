@@ -36,7 +36,6 @@
  *   empty.
  * If you want to make changes in the structure Shopping Cart, copy this file to
  * your theme's templates directory.
- *
  * DO NOT change this file.
  */
 ?>

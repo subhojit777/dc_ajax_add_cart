@@ -112,16 +112,17 @@ function dc_ajax_add_cart_menu() {
 }
 
 /**
- * This function removes the product item from cart.
+ * Menu callback: Removes the product item from cart.
  *
  * @param string $ajax
  *   Page argument, ajaxifies the removal of product from cart.
- *
  * @param int $line_item_id
  *   Line item ID.
  *
  * @return array
- *   Array containing data for ajaxification of product removal.
+ *   Ajax command array for product removal.
+ *
+ * @see dc_ajax_add_cart_menu().
  */
 function dc_ajax_add_cart_remove_commerce_line_item($ajax, $line_item_id) {
   // Initially quantity of products in cart will be zero.
@@ -187,13 +188,16 @@ function dc_ajax_add_cart_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * Callback function to ajaxify the shopping cart.
+ * AJAX-ify the product add to cart.
+ *
+ * AJAX callback for all Commerce add to cart form.
  *
  * @param array $form
  *   Drupal form array.
- *
  * @param array $form_state
  *   Current form state.
+ *
+ * @ingroup callbacks
  */
 function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
   // Get the current status of commerce cart.
@@ -224,10 +228,10 @@ function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
 
     // Update the contents of shopping cart.
     $ajax_shopping_cart_teaser_content = theme('ajax_shopping_cart_teaser', array(
-                                                                                  'order' => $commerce_cart['order'],
-                                                                                  'quantity' => $quantity,
-                                                                                  'total' => $total)
-                                                                                );
+      'order' => $commerce_cart['order'],
+      'quantity' => $quantity,
+      'total' => $total
+    ));
     $commands[] = ajax_command_replace('div.ajax-shopping-cart-teaser', $ajax_shopping_cart_teaser_content);
 
     // Display add to cart message.
@@ -402,13 +406,17 @@ function dc_ajax_add_cart_theme() {
 }
 
 /**
- * Template preprocess function for ajax shopping cart block.
+ * Add more variables to shopping cart block.
+ *
+ * Default template: ajax-shopping-cart.tpl.php.
  *
  * @param array $variables
- *   Theme variable array.
- *
- * @return array
- *   Theme variable array.
+ *   An associative array containing:
+ *   - $order: Order object of the current user.
+ *   - $line_items: Line items wrapper.
+ *   - $quantity: Number of items in the cart.
+ *   - $total: Array containing the total amount and the default currency you
+ *     are in the site.
  */
 function template_preprocess_ajax_shopping_cart(&$variables) {
   // Check whether order object exists.
@@ -519,13 +527,16 @@ function template_preprocess_ajax_shopping_cart(&$variables) {
 }
 
 /**
- * Template preprocess function for ajax shopping cart teaser.
+ * Add more variables to shopping cart teaser.
+ *
+ * Default template: ajax-shopping-cart-teaser.tpl.php.
  *
  * @param array $variables
- *   Theme variable array.
- *
- * @return array
- *   Theme variable array.
+ *   An associative array containing:
+ *   - $order: Order object for the current user.
+ *   - $quantity: Number of items present in the cart.
+ *   - $total: Array containing the total amount and default currency code used
+ *     in the site.
  */
 function template_preprocess_ajax_shopping_cart_teaser(&$variables) {
   // Default currency array.
@@ -543,13 +554,16 @@ function template_preprocess_ajax_shopping_cart_teaser(&$variables) {
 }
 
 /**
- * Template preprocess function for add to cart message popup.
+ * Add more variables to add to cart message popup message.
+ *
+ * Default template: add-to-cart-message.tpl.php.
  *
  * @param array $variables
- *   Theme variable array.
- *
- * @return array
- *   Theme variable array.
+ *   An associative array containing:
+ *   - $order: Order object for the current user.
+ *   - $quantity: Number of items present in the cart.
+ *   - $total: Array containing the total amount and default currency code used
+ *     in the site.
  */
 function template_preprocess_add_to_cart_message(&$variables) {
   // Default currency array.
@@ -575,10 +589,7 @@ function template_preprocess_add_to_cart_message(&$variables) {
 /**
  * Rebuild add to cart form.
  *
- * @param array $form
- *   Drupal form array.
- * @param array $form_state
- *   Drupal form state array.
+ * @ingroup forms
  */
 function dc_ajax_add_cart_rebuild_add_to_cart_form($form, &$form_state) {
   $form_state['rebuild'] = TRUE;

@@ -11,7 +11,6 @@
  * - $quantity: Number of items present in the cart.
  * - $total: Array containing the total amount and default currency code used
  *   in the site.
- *
  * Other variables:
  * - $total_amount: A formatted string that consists of the total amount and
  *   currency setting of AJAX Add to Cart. Placement of currency code or

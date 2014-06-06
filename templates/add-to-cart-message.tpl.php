@@ -9,7 +9,6 @@
  * Available variables:
  * - $line_item: The line item object recently ordered.
  * - $product: The product object recently added to cart.
- *
  * Other variables:
  * - $product_per_unit_price: Per unit price of the product. It has currency
  *   code or symbol attached to it. Currency code or symbol depends on the

@@ -12,7 +12,6 @@
  * - $quantity: Number of items in the cart.
  * - $total: Array containing the total amount and the default currency you are
  *   in the site.
- *
  * Other variables:
  * - $line_item_list: Array containing all line item objects.
  * - $products: Array containing all product objects that are stored in the

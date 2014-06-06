@@ -122,7 +122,7 @@ function dc_ajax_add_cart_menu() {
  * @return array
  *   Ajax command array for product removal.
  *
- * @see dc_ajax_add_cart_menu().
+ * @see dc_ajax_add_cart_menu()
  */
 function dc_ajax_add_cart_remove_commerce_line_item($ajax, $line_item_id) {
   // Initially quantity of products in cart will be zero.
@@ -192,11 +192,6 @@ function dc_ajax_add_cart_form_alter(&$form, &$form_state, $form_id) {
  *
  * AJAX callback for all Commerce add to cart form.
  *
- * @param array $form
- *   Drupal form array.
- * @param array $form_state
- *   Current form state.
- *
  * @ingroup callbacks
  */
 function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
@@ -230,7 +225,7 @@ function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
     $ajax_shopping_cart_teaser_content = theme('ajax_shopping_cart_teaser', array(
       'order' => $commerce_cart['order'],
       'quantity' => $quantity,
-      'total' => $total
+      'total' => $total,
     ));
     $commands[] = ajax_command_replace('div.ajax-shopping-cart-teaser', $ajax_shopping_cart_teaser_content);
 
@@ -410,7 +405,7 @@ function dc_ajax_add_cart_theme() {
  *
  * Default template: ajax-shopping-cart.tpl.php.
  *
- * @param array $variables
+ * @param $variables
  *   An associative array containing:
  *   - $order: Order object of the current user.
  *   - $line_items: Line items wrapper.
@@ -531,7 +526,7 @@ function template_preprocess_ajax_shopping_cart(&$variables) {
  *
  * Default template: ajax-shopping-cart-teaser.tpl.php.
  *
- * @param array $variables
+ * @param $variables
  *   An associative array containing:
  *   - $order: Order object for the current user.
  *   - $quantity: Number of items present in the cart.
@@ -558,7 +553,7 @@ function template_preprocess_ajax_shopping_cart_teaser(&$variables) {
  *
  * Default template: add-to-cart-message.tpl.php.
  *
- * @param array $variables
+ * @param $variables
  *   An associative array containing:
  *   - $order: Order object for the current user.
  *   - $quantity: Number of items present in the cart.

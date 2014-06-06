@@ -35,7 +35,6 @@
  *   product total.
  * - $configuration['popup_product_total_label']: Check whether to display total
  *   label.
- *
  * If you want to change the structure of Add to Cart Message popup, then copy
  * this file to your theme's templates directory and do your changes.
  *

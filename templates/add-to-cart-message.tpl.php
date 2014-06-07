@@ -18,11 +18,13 @@
  *   AJAX Add to Cart settings.
  * - $configuration['success_message']: Success message to be shown on popup.
  * - $configuration['popup_checkout']: Checkout link text.
+ * - $checkout_link: Link to checkout page.
  * - $configuration['popup_continue_shopping']: Continue shopping button text.
  * - $configuration['popup_product_name_display']: Check whether to show the
  *   name of product.
  * - $configuration['popup_product_name_label']: Check whether to display name
  *   label.
+ * - $product_name: Product name.
  * - $configuration['popup_product_price_display']: Check whether to show the
  *   per unit price of product.
  * - $configuration['popup_product_price_label']: Check whether to display price
@@ -55,7 +57,7 @@
   <div class="option-button-wrapper">
     <!-- Checkout link. -->
     <div class="option-button checkout">
-      <?php print l($configuration['popup_checkout'], 'cart'); ?>
+      <?php print $checkout_link; ?>
     </div>
     <!-- Continue shopping. -->
     <div class="option-button continue">
@@ -74,7 +76,7 @@
           </p>
         <?php endif; ?>
         <p class="name">
-          <?php print check_plain($product->title); ?>
+          <?php print $product_name; ?>
         </p>
       </div>
     <?php endif; ?>

@@ -16,9 +16,9 @@
  *   currency setting of AJAX Add to Cart. Placement of currency code or
  *   symbol is based on the Drupal currency setting.
  * - $cart_icon: Cart icon.
- * - $configuration['item_suffix_text']: Suffix text to show beside number of
- *   items.
  * - $configuration['empty_cart_teaser_message']: Message to show if the cart
+ *   is empty.
+ * - $cart_link: Link in teaser block that takes you to cart page.
  *   is empty.
  * If you want to change the structure of Cart Teaser then copy this file to
  * your theme's templates directory and make your changes. DO NOT change this
@@ -33,7 +33,7 @@
       <?php print $cart_icon; ?>
     </div>
     <div class="cart-product-quantity">
-      <?php print l(($quantity > 1) ? ($quantity . ' ' . $configuration['item_suffix_text'] . 's') : ($quantity . ' ' . $configuration['item_suffix_text']), 'cart', array('attributes' => array('class' => array('quantity')))); ?>
+      <?php print $cart_link; ?>
     </div>
     <div class="cart-product-total">
       <p class="total-amount">

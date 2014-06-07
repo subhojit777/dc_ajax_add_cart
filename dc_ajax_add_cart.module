@@ -31,14 +31,6 @@ define('DC_AJAX_ADD_CART_POPUP_CHECKOUT', 'dc_ajax_add_cart_popup_checkout');
 define('DC_AJAX_ADD_CART_POPUP_CONTINUE_SHOPPING', 'dc_ajax_add_cart_popup_continue_shopping');
 
 /**
- * Implements hook_init().
- */
-function dc_ajax_add_cart_init() {
-  // Add the Drupal AJAX library.
-  drupal_add_library('system', 'drupal.ajax');
-}
-
-/**
  * Implements hook_permission().
  */
 function dc_ajax_add_cart_permission() {
@@ -181,6 +173,9 @@ function dc_ajax_add_cart_form_alter(&$form, &$form_state, $form_id) {
       'method' => 'replace',
       'effect' => 'slide',
     );
+    $form['#attached']['css'][] = drupal_get_path('module', 'dc_ajax_add_cart') . '/css/dc_ajax_add_cart.css';
+    $form['#attached']['js'][] = drupal_get_path('module', 'dc_ajax_add_cart') . '/js/dc_ajax_add_cart.js';
+    $form['#attached']['library'][] = array('system', 'drupal.ajax');
 
     // Rebuild form.
     $form['#submit'][] = 'dc_ajax_add_cart_rebuild_add_to_cart_form';
@@ -271,11 +266,13 @@ function dc_ajax_add_cart_block_view($delta = '') {
     case 'ajax_shopping_cart':
       $block['subject'] = t('Shopping cart');
       $block['content'] = dc_ajax_add_cart_get_shopping_cart();
+      drupal_add_css(drupal_get_path('module', 'dc_ajax_add_cart') . '/css/dc_ajax_add_cart.css');
 
       break;
 
     case 'ajax_shopping_cart_teaser':
       $block['content'] = dc_ajax_add_cart_get_shopping_cart_teaser();
+      drupal_add_css(drupal_get_path('module', 'dc_ajax_add_cart') . '/css/dc_ajax_add_cart.css');
 
       break;
   }

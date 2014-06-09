@@ -500,7 +500,7 @@ function template_preprocess_ajax_shopping_cart(&$variables) {
   // Create new theme variables related to configuration.
   $variables['configuration']['show_labels'] = variable_get(DC_AJAX_ADD_CART_SHOW_LABELS, 'label');
   $variables['configuration']['remove_cart'] = variable_get(DC_AJAX_ADD_CART_REMOVE_CART, 'link');
-  $variables['configuration']['empty_cart_message'] = variable_get(DC_AJAX_ADD_CART_EMPTY_CART_MESSAGE, 'Shopping cart is empty');
+  $variables['configuration']['empty_cart_message'] = check_plain(variable_get(DC_AJAX_ADD_CART_EMPTY_CART_MESSAGE, 'Shopping cart is empty'));
 }
 
 /**
@@ -526,8 +526,8 @@ function template_preprocess_ajax_shopping_cart_teaser(&$variables) {
   ));
 
   // Create new theme variables related to configuration.
-  $variables['configuration']['empty_cart_teaser_message'] = variable_get(DC_AJAX_ADD_CART_EMPTY_CART_TEASER_MESSAGE, 'Empty');
-  $cart_link_text = format_plural($variables['quantity'], '1 ' . variable_get(DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT, 'item'), '@count ' . variable_get(DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT, 'item') . 's');
+  $variables['configuration']['empty_cart_teaser_message'] = check_plain(variable_get(DC_AJAX_ADD_CART_EMPTY_CART_TEASER_MESSAGE, 'Empty'));
+  $cart_link_text = format_plural($variables['quantity'], '1 ' . check_plain(variable_get(DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT, 'item')), '@count ' . check_plain(variable_get(DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT, 'item') . 's'));
   $variables['cart_link'] = l($cart_link_text, 'cart', array('attributes' => array('class' => array('quantity'))));
 }
 
@@ -551,10 +551,10 @@ function template_preprocess_add_to_cart_message(&$variables) {
   $variables['product_price_total'] = commerce_currency_format($variables['quantity'] * $variables['line_item']->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
 
   // Create new theme variables related to configuration.
-  $variables['configuration']['success_message'] = variable_get(DC_AJAX_ADD_CART_SUCCESS_MESSAGE, 'Item successfully added to cart');
-  $variables['configuration']['popup_checkout'] = variable_get(DC_AJAX_ADD_CART_POPUP_CHECKOUT, 'Go to checkout');
+  $variables['configuration']['success_message'] = check_plain(variable_get(DC_AJAX_ADD_CART_SUCCESS_MESSAGE, 'Item successfully added to cart'));
+  $variables['configuration']['popup_checkout'] = check_plain(variable_get(DC_AJAX_ADD_CART_POPUP_CHECKOUT, 'Go to checkout'));
   $variables['checkout_link'] = l(variable_get(DC_AJAX_ADD_CART_POPUP_CHECKOUT, 'Go to checkout'), 'cart');
-  $variables['configuration']['popup_continue_shopping'] = variable_get(DC_AJAX_ADD_CART_POPUP_CONTINUE_SHOPPING, 'Continue shopping');
+  $variables['configuration']['popup_continue_shopping'] = check_plain(variable_get(DC_AJAX_ADD_CART_POPUP_CONTINUE_SHOPPING, 'Continue shopping'));
   $variables['configuration']['popup_product_name_display'] = variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_NAME_DISPLAY, 1);
   $variables['configuration']['popup_product_name_label'] = variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_NAME_LABEL, 'no_display_label');
   $variables['product_name'] = check_plain($variables['product']->title);

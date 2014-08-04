@@ -1,0 +1,4 @@
+Commerce AJAX Add to Cart, 2014-08-05
+-------------------------------------
+- Issue #1966860 by subhojit777: Added How can I hide the block if the cart is
+  empty

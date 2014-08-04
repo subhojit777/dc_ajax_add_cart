@@ -13,6 +13,7 @@ define('DC_AJAX_ADD_CART_CHECKOUT_REDIRECT', 'dc_ajax_add_cart_checkout_redirect
 define('DC_AJAX_ADD_CART_SHOW_LABELS', 'dc_ajax_add_cart_show_labels');
 define('DC_AJAX_ADD_CART_EMPTY_CART_MESSAGE', 'dc_ajax_add_cart_empty_cart_message');
 define('DC_AJAX_ADD_CART_REMOVE_CART', 'dc_ajax_add_cart_remove_cart');
+define('DC_AJAX_ADD_CART_HIDE_EMPTY_CART', 'dc_ajax_add_cart_hide_empty_cart');
 
 define('DC_AJAX_ADD_CART_EMPTY_CART_TEASER_MESSAGE', 'dc_ajax_add_cart_empty_cart_teaser_message');
 define('DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT', 'dc_ajax_add_cart_item_suffix_text');
@@ -266,30 +267,37 @@ function dc_ajax_add_cart_block_view($delta = '') {
 
   switch ($delta) {
     case 'ajax_shopping_cart':
-      $block['subject'] = t('Shopping cart');
-
       // Get the current status of cart and other details.
       $commerce_cart = dc_ajax_add_cart_get_commerce_cart_details();
 
-      if ($commerce_cart['order']) {
-        $line_items = $commerce_cart['wrapper']->commerce_line_items;
-        $quantity = commerce_line_items_quantity($line_items, commerce_product_line_item_types());
-        $total = commerce_line_items_total($line_items);
+      // Hide cart if it is empty.
+      if ($commerce_cart['order'] && !(variable_get(DC_AJAX_ADD_CART_HIDE_EMPTY_CART, 0))) {
+        $block['subject'] = t('Shopping cart');
+
+        if ($commerce_cart['order']) {
+          $line_items = $commerce_cart['wrapper']->commerce_line_items;
+          $quantity = commerce_line_items_quantity($line_items, commerce_product_line_item_types());
+          $total = commerce_line_items_total($line_items);
+        }
+        else {
+          $line_items = NULL;
+          $quantity = 0;
+          $total = NULL;
+        }
+        $block['content'] = array(
+          '#theme' => 'dc_ajax_shopping_cart',
+          '#order' => $commerce_cart['order'],
+          '#line_items' => $line_items,
+          '#quantity' => $quantity,
+          '#total' => $total,
+        );
+
+        drupal_add_css(drupal_get_path('module', 'dc_ajax_add_cart') . '/css/dc_ajax_add_cart.css');
       }
       else {
-        $line_items = NULL;
-        $quantity = 0;
-        $total = NULL;
+        $block['content'] = '';
       }
-      $block['content'] = array(
-        '#theme' => 'dc_ajax_shopping_cart',
-        '#order' => $commerce_cart['order'],
-        '#line_items' => $line_items,
-        '#quantity' => $quantity,
-        '#total' => $total,
-      );
 
-      drupal_add_css(drupal_get_path('module', 'dc_ajax_add_cart') . '/css/dc_ajax_add_cart.css');
 
       break;
 

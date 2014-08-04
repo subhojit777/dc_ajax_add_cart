@@ -51,6 +51,13 @@ function dc_ajax_add_cart_ajax_cart_settings_form($form, &$form_state) {
     '#description' => t('Configure how you want to display the Remove from Cart button'),
   );
 
+  $form['dc_ajax_add_cart_hide_empty_cart'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Hide empty cart'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_HIDE_EMPTY_CART, 0),
+    '#description' => t('Check this if you want to hide cart if it is empty'),
+  );
+
   return system_settings_form($form);
 }
 

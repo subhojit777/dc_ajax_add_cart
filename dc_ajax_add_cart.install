@@ -16,6 +16,7 @@ function dc_ajax_add_cart_uninstall() {
   variable_del('dc_ajax_add_cart_show_labels');
   variable_del('dc_ajax_add_cart_empty_cart_message');
   variable_del('dc_ajax_add_cart_remove_cart');
+  variable_del('dc_ajax_add_cart_hide_empty_cart');
   variable_del('dc_ajax_add_cart_empty_cart_teaser_message');
   variable_del('dc_ajax_add_cart_item_suffix_text');
   variable_del('dc_ajax_add_cart_display_popup');

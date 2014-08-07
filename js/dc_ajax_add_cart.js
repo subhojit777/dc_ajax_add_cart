@@ -1,7 +1,7 @@
 (function ($, Drupal, window, document, undefined) {
   Drupal.behaviors.dcAjaxAddCart = {
     attach: function (context, settings) {
-      $('.add-to-cart-close').live('click', function() {
+      $('body').delegate('.add-to-cart-close', 'click', function() {
         $('#add-to-cart-overlay').fadeOut('fast');
         $('.add-cart-message-wrapper').css('display', 'none');
       });

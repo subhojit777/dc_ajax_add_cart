@@ -1,3 +1,11 @@
+Commerce AJAX Add to Cart 7.x-1.x, 2014-08-07
+-------------------------------------
+- Issue #2315413 by subhojit777: Fixed Javascript Compatibility. Using jQuery's
+  delegate() instead of deprecated live() function. However, as per jQuery
+  version 1.7+ we should have used on(), but Drupal provides jQuery version 1.4
+  by default.
+
+
 Commerce AJAX Add to Cart, 2014-08-05
 -------------------------------------
 - Issue #1966860 by subhojit777: Added How can I hide the block if the cart is

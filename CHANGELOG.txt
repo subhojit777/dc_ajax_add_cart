@@ -1,3 +1,9 @@
+Commerce AJAX Add to Cart 7.x-1.x, 2014-08-10
+-------------------------------------
+- Issue #2318625 by subhojit777: Fixed remove from cart ajax is not working in
+  pages that do not have add to cart button.
+
+
 Commerce AJAX Add to Cart 7.x-1.x, 2014-08-07
 -------------------------------------
 - Issue #2315413 by subhojit777: Fixed Javascript Compatibility. Using jQuery's

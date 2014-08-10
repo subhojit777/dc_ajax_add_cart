@@ -176,7 +176,6 @@ function dc_ajax_add_cart_form_alter(&$form, &$form_state, $form_id) {
     );
     $form['#attached']['css'][] = drupal_get_path('module', 'dc_ajax_add_cart') . '/css/dc_ajax_add_cart.css';
     $form['#attached']['js'][] = drupal_get_path('module', 'dc_ajax_add_cart') . '/js/dc_ajax_add_cart.js';
-    $form['#attached']['library'][] = array('system', 'drupal.ajax');
 
     // Rebuild form.
     $form['#submit'][] = 'dc_ajax_add_cart_rebuild_add_to_cart_form';
@@ -292,6 +291,7 @@ function dc_ajax_add_cart_block_view($delta = '') {
           '#total' => $total,
         );
 
+        drupal_add_library('system', 'drupal.ajax', TRUE);
         drupal_add_css(drupal_get_path('module', 'dc_ajax_add_cart') . '/css/dc_ajax_add_cart.css');
       }
       else {

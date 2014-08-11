@@ -36,7 +36,7 @@ function dc_ajax_add_cart_ajax_cart_settings_form($form, &$form_state) {
   $form['dc_ajax_add_cart_empty_cart_message'] = array(
     '#type' => 'textfield',
     '#title' => t('Empty cart message'),
-    '#default_value' => variable_get(DC_AJAX_ADD_CART_EMPTY_CART_MESSAGE, 'Shopping cart is empty'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_EMPTY_CART_MESSAGE, t('Shopping cart is empty')),
     '#description' => t('Message that will be displayed if the cart is empty.'),
   );
 
@@ -58,7 +58,25 @@ function dc_ajax_add_cart_ajax_cart_settings_form($form, &$form_state) {
     '#description' => t('Check this if you want to hide cart if it is empty'),
   );
 
+  $form['#submit'][] = 'dc_ajax_add_cart_ajax_cart_settings_form_submit';
+
   return system_settings_form($form);
+}
+
+/**
+ * Submit handler for shopping cart block settings.
+ *
+ * It ensures that any string setting is translatable and sanitized.
+ *
+ * @ingroup forms
+ */
+function dc_ajax_add_cart_ajax_cart_settings_form_submit($form, &$form_state) {
+  switch ($form_state['values']) {
+    case 'dc_ajax_add_cart_empty_cart_message':
+      $form_state['values']['dc_ajax_add_cart_empty_cart_message'] = t('@check_plain', array('@check_plain' => $form_state['values']['dc_ajax_add_cart_empty_cart_message']));
+
+      break;
+  }
 }
 
 /**
@@ -70,18 +88,41 @@ function dc_ajax_add_cart_cart_teaser_settings_form($form, &$form_state) {
   $form['dc_ajax_add_cart_empty_cart_teaser_message'] = array(
     '#type' => 'textfield',
     '#title' => t('Empty cart message'),
-    '#default_value' => variable_get(DC_AJAX_ADD_CART_EMPTY_CART_TEASER_MESSAGE, 'Empty'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_EMPTY_CART_TEASER_MESSAGE, t('Empty')),
     '#description' => t('Message that will be displayed on cart teaser if cart is empty.'),
   );
 
   $form['dc_ajax_add_cart_item_suffix_text'] = array(
     '#type' => 'textfield',
     '#title' => t('Item suffix text'),
-    '#default_value' => variable_get(DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT, 'item'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT, t('item')),
     '#description' => t('Suffix text that will be displayed after the number of items in cart teaser. Multiple items will be detected and the text will be changed according to that.'),
   );
 
+  $form['#submit'][] = 'dc_ajax_add_cart_cart_teaser_settings_form_submit';
+
   return system_settings_form($form);
+}
+
+/**
+ * Submit handler for shopping cart teaser block.
+ *
+ * It ensures that any string setting is translatable and sanitized.
+ *
+ * @ingroup forms
+ */
+function dc_ajax_add_cart_cart_teaser_settings_form_submit($form, &$form_state) {
+  switch ($form_state['values']) {
+    case 'dc_ajax_add_cart_empty_cart_teaser_message':
+      $form_state['values']['dc_ajax_add_cart_empty_cart_teaser_message'] = t('@check_plain', array('@check_plain' => $form_state['values']['dc_ajax_add_cart_empty_cart_teaser_message']));
+
+      break;
+
+    case 'dc_ajax_add_cart_item_suffix_text':
+      $form_state['values']['dc_ajax_add_cart_item_suffix_text'] = t('@check_plain', array('@check_plain' => $form_state['values']['dc_ajax_add_cart_item_suffix_text']));
+
+      break;
+  }
 }
 
 /**
@@ -104,7 +145,7 @@ function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
   $form['dc_ajax_add_cart_success_message'] = array(
     '#type' => 'textfield',
     '#title' => t('Success message'),
-    '#default_value' => variable_get(DC_AJAX_ADD_CART_SUCCESS_MESSAGE, 'Item successfully added to cart'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_SUCCESS_MESSAGE, t('Item successfully added to cart')),
     '#description' => t('Success message that will appear on popup after adding item to cart.'),
   );
 
@@ -193,14 +234,14 @@ function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
   $form['dc_ajax_add_cart_popup_checkout'] = array(
     '#type' => 'textfield',
     '#title' => t('Checkout text'),
-    '#default_value' => variable_get(DC_AJAX_ADD_CART_POPUP_CHECKOUT, 'Go to checkout'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_POPUP_CHECKOUT, t('Go to checkout')),
     '#description' => t('Configure the text you want to show in checkout link.'),
   );
 
   $form['dc_ajax_add_cart_popup_continue_shopping'] = array(
     '#type' => 'textfield',
     '#title' => t('Continue shopping text'),
-    '#default_value' => variable_get(DC_AJAX_ADD_CART_POPUP_CONTINUE_SHOPPING, 'Continue shopping'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_POPUP_CONTINUE_SHOPPING, t('Continue shopping')),
     '#description' => t('Configure the text you want to show in continue shopping link.'),
   );
 
@@ -313,7 +354,35 @@ function dc_ajax_add_cart_popup_message_settings_form($form, &$form_state) {
     );
   }
 
+  $form['#submit'][] = 'dc_ajax_add_cart_popup_message_settings_form_submit';
+
   return system_settings_form($form);
+}
+
+/**
+ * Submit handler for shopping cart teaser block.
+ *
+ * It ensures that any string setting is translatable and sanitized.
+ *
+ * @ingroup forms
+ */
+function dc_ajax_add_cart_popup_message_settings_form_submit($form, &$form_state) {
+  switch ($form_state['values']) {
+    case 'dc_ajax_add_cart_success_message':
+      $form_state['values']['dc_ajax_add_cart_success_message'] = t('@check_plain', array('@check_plain' => $form_state['values']['dc_ajax_add_cart_success_message']));
+
+      break;
+
+    case 'dc_ajax_add_cart_popup_checkout':
+      $form_state['values']['dc_ajax_add_cart_popup_checkout'] = t('@check_plain', array('@check_plain' => $form_state['values']['dc_ajax_add_cart_popup_checkout']));
+
+      break;
+
+    case 'dc_ajax_add_cart_popup_continue_shopping':
+      $form_state['values']['dc_ajax_add_cart_popup_continue_shopping'] = t('@check_plain', array('@check_plain' => $form_state['values']['dc_ajax_add_cart_popup_continue_shopping']));
+
+      break;
+  }
 }
 
 /**

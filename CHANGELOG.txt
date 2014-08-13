@@ -1,3 +1,8 @@
+Commerce AJAX Add to Cart 7.x-1.x, 2014-08-13
+-------------------------------------
+- Issue #2319311 by subhojit777: Fixed Pop up message does not follows product
+  variation
+
 Commerce AJAX Add to Cart 7.x-1.x, 2014-08-11
 -------------------------------------
 - Issue #2318641 by subhojit777: String translations corrected.

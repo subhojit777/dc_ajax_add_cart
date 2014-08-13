@@ -196,11 +196,6 @@ function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
   // AJAX commands array.
   $commands = array();
 
-  // Gather information to display product information in popup message.
-  $last_line_item = $form_state['line_item'];
-  $last_line_item_product = commerce_product_load($last_line_item->commerce_product[LANGUAGE_NONE][0]['product_id']);
-  $last_line_item_quantity = $form_state['values']['quantity'];
-
   // If the user has ordered items.
   if ($commerce_cart['order']) {
     // Get the line items in cart with their quantity and total.
@@ -226,6 +221,11 @@ function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
 
     // Display add to cart message.
     if (variable_get(DC_AJAX_ADD_CART_DISPLAY_POPUP, 'display_popup_message') == 'display_popup_message') {
+      // Gather information to display product information in popup message.
+      $last_line_item = $form_state['line_item'];
+      $last_line_item_product = commerce_product_load($form_state['values']['product_id']);
+      $last_line_item_quantity = $form_state['values']['quantity'];
+
       $content = theme('dc_ajax_add_to_cart_message', array(
         'line_item' => $last_line_item,
         'product' => $last_line_item_product,
@@ -555,13 +555,15 @@ function template_preprocess_dc_ajax_add_to_cart_message(&$variables) {
   // Default currency array.
   $currency = commerce_currency_load(commerce_default_currency());
 
-  $variables['product_per_unit_price'] = commerce_currency_format($variables['line_item']->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
-  $variables['product_price_total'] = commerce_currency_format($variables['quantity'] * $variables['line_item']->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
+  $product_price = field_get_items('commerce_product', $variables['product'], 'commerce_price');
+
+  $variables['product_per_unit_price'] = commerce_currency_format($product_price[0]['amount'], $currency['code']);
+  $variables['product_price_total'] = commerce_currency_format($variables['quantity'] * $product_price[0]['amount'], $currency['code']);
 
   // Create new theme variables related to configuration.
   $variables['configuration']['success_message'] = check_plain(variable_get(DC_AJAX_ADD_CART_SUCCESS_MESSAGE, t('Item successfully added to cart')));
   $variables['configuration']['popup_checkout'] = check_plain(variable_get(DC_AJAX_ADD_CART_POPUP_CHECKOUT, t('Go to checkout')));
-  $variables['checkout_link'] = l(variable_get(DC_AJAX_ADD_CART_POPUP_CHECKOUT, 'Go to checkout'), 'cart');
+  $variables['checkout_link'] = l(variable_get(DC_AJAX_ADD_CART_POPUP_CHECKOUT, t('Go to checkout')), 'cart');
   $variables['configuration']['popup_continue_shopping'] = check_plain(variable_get(DC_AJAX_ADD_CART_POPUP_CONTINUE_SHOPPING, t('Continue shopping')));
   $variables['configuration']['popup_product_name_display'] = variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_NAME_DISPLAY, 1);
   $variables['configuration']['popup_product_name_label'] = variable_get(DC_AJAX_ADD_CART_POPUP_PRODUCT_NAME_LABEL, 'no_display_label');

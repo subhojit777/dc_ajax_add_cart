@@ -471,8 +471,10 @@ function template_preprocess_dc_ajax_shopping_cart(&$variables) {
       if (property_exists($line_item, 'commerce_product')) {
         $product = commerce_product_load($line_item->commerce_product[LANGUAGE_NONE][0]['product_id']);
 
+        $updateable_quantity = drupal_get_form('dc_ajax_add_cart_update_quantity', $line_item);
+
         $row[] = array(
-          array('data' => intval($line_item->quantity), 'class' => array('quantity')),
+          array('data' => drupal_render($updateable_quantity), 'class' => array('quantity')),
           array('data' => $product->title, 'class' => array('name')),
           array('data' => $product_prices[$product->product_id], 'class' => array('price')),
           array(
@@ -583,4 +585,59 @@ function template_preprocess_dc_ajax_add_to_cart_message(&$variables) {
  */
 function dc_ajax_add_cart_rebuild_add_to_cart_form($form, &$form_state) {
   $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Update line item quantity.
+ *
+ * @param object $line_item
+ *   Line item.
+ *
+ * @see dc_ajax_add_cart_update_quantity_refresh()
+ *
+ * @ingroup forms
+ */
+function dc_ajax_add_cart_update_quantity($form, &$form_state, $line_item) {
+  $form = array();
+
+  $form['line_item_id'] = array(
+    '#type' => 'hidden',
+    '#value' => $line_item->line_item_id,
+  );
+
+  $form['quantity'] = array(
+    '#type' => 'textfield',
+    '#size' => 3,
+    '#maxlength' => 3,
+    '#default_value' => intval($line_item->quantity),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Refresh'),
+    '#ajax' => array(
+      'callback' => 'dc_ajax_add_cart_update_quantity_refresh',
+      'method' => 'replace',
+    ),
+  );
+
+  return $form;
+}
+
+/**
+ * Callback that will update the quantity of line item.
+ *
+ * @ingroup callbacks
+ */
+function dc_ajax_add_cart_update_quantity_refresh($form, &$form_state) {
+  $line_item = commerce_line_item_load($form_state['values']['line_item_id']);
+
+  if ($form_state['values']['quantity'] != 0) {
+    $line_item->quantity = $form_state['values']['quantity'];
+  }
+  else {
+    commerce_line_item_delete($form_state['values']['line_item_id']);
+  }
+
+  commerce_line_item_save($line_item);
 }

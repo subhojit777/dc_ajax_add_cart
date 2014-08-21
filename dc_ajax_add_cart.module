@@ -471,7 +471,7 @@ function template_preprocess_dc_ajax_shopping_cart(&$variables) {
       if (property_exists($line_item, 'commerce_product')) {
         $product = commerce_product_load($line_item->commerce_product[LANGUAGE_NONE][0]['product_id']);
 
-        $updateable_quantity = drupal_get_form('dc_ajax_add_cart_update_quantity', $line_item);
+        $updateable_quantity = drupal_get_form('dc_ajax_add_cart_update_quantity_' . $line_item->line_item_id, $line_item);
 
         $row[] = array(
           array('data' => drupal_render($updateable_quantity), 'class' => array('quantity')),
@@ -609,7 +609,7 @@ function dc_ajax_add_cart_update_quantity($form, &$form_state, $line_item) {
 
   $form['submit_' . $line_item->line_item_id] = array(
     '#type' => 'submit',
-    '#value' => t('Refresh'),
+    '#value' => t('Update'),
     '#line_item_id' => $line_item->line_item_id,
     '#ajax' => array(
       'callback' => 'dc_ajax_add_cart_update_quantity_refresh',
@@ -682,4 +682,19 @@ function dc_ajax_add_cart_update_quantity_refresh($form, &$form_state) {
  */
 function dc_ajax_add_cart_rebuild_update_quantity_form($form, &$form_state) {
   $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Implements hook_forms().
+ */
+function dc_ajax_add_cart_forms($form_id, $args) {
+  $forms = array();
+
+  if (strpos($form_id, 'dc_ajax_add_cart_update_quantity_') !== FALSE) {
+    $forms[$form_id] = array(
+      'callback' => 'dc_ajax_add_cart_update_quantity',
+    );
+  }
+
+  return $forms;
 }

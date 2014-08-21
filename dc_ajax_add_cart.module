@@ -600,26 +600,24 @@ function dc_ajax_add_cart_rebuild_add_to_cart_form($form, &$form_state) {
 function dc_ajax_add_cart_update_quantity($form, &$form_state, $line_item) {
   $form = array();
 
-  $form['line_item_id'] = array(
-    '#type' => 'hidden',
-    '#value' => $line_item->line_item_id,
-  );
-
-  $form['quantity'] = array(
+  $form['quantity_' . $line_item->line_item_id] = array(
     '#type' => 'textfield',
     '#size' => 3,
     '#maxlength' => 3,
     '#default_value' => intval($line_item->quantity),
   );
 
-  $form['submit'] = array(
+  $form['submit_' . $line_item->line_item_id] = array(
     '#type' => 'submit',
     '#value' => t('Refresh'),
+    '#line_item_id' => $line_item->line_item_id,
     '#ajax' => array(
       'callback' => 'dc_ajax_add_cart_update_quantity_refresh',
       'method' => 'replace',
     ),
   );
+
+  $form['#submit'][] = 'dc_ajax_add_cart_rebuild_update_quantity_form';
 
   return $form;
 }
@@ -630,14 +628,58 @@ function dc_ajax_add_cart_update_quantity($form, &$form_state, $line_item) {
  * @ingroup callbacks
  */
 function dc_ajax_add_cart_update_quantity_refresh($form, &$form_state) {
-  $line_item = commerce_line_item_load($form_state['values']['line_item_id']);
+  // AJAX commands array.
+  $commands = array();
 
-  if ($form_state['values']['quantity'] != 0) {
-    $line_item->quantity = $form_state['values']['quantity'];
+  // If altered quantity is not zero, then update line item's quantity.
+  // Otherwise delete line item.
+  if ($form_state['values']['quantity_' . $form_state['triggering_element']['#line_item_id']] != 0) {
+    $line_item = commerce_line_item_load($form_state['triggering_element']['#line_item_id']);
+    $line_item->quantity = $form_state['values']['quantity_' . $form_state['triggering_element']['#line_item_id']];
+    commerce_line_item_save($line_item);
   }
   else {
-    commerce_line_item_delete($form_state['values']['line_item_id']);
+    commerce_line_item_delete($form_state['triggering_element']['#line_item_id']);
   }
 
-  commerce_line_item_save($line_item);
+  // Get the current status of commerce cart.
+  $commerce_cart = dc_ajax_add_cart_get_commerce_cart_details();
+
+  // If the user has ordered items.
+  if ($commerce_cart['order']) {
+    // Get the line items in cart with their quantity and total.
+    $line_items = $commerce_cart['wrapper']->commerce_line_items;
+    $quantity = commerce_line_items_quantity($line_items, commerce_product_line_item_types());
+    $total = commerce_line_items_total($line_items);
+
+    $ajax_shopping_cart_content = theme('dc_ajax_shopping_cart', array(
+      'order' => $commerce_cart['order'],
+      'line_items' => $line_items,
+      'quantity' => $quantity,
+      'total' => $total,
+    ));
+    $commands[] = ajax_command_replace('div.ajax-shopping-cart-wrapper', $ajax_shopping_cart_content);
+
+    // Update the contents of shopping cart.
+    $ajax_shopping_cart_teaser_content = theme('dc_ajax_shopping_cart_teaser', array(
+      'order' => $commerce_cart['order'],
+      'quantity' => $quantity,
+      'total' => $total,
+    ));
+    $commands[] = ajax_command_replace('div.ajax-shopping-cart-teaser', $ajax_shopping_cart_teaser_content);
+
+    return array(
+      '#type' => 'ajax',
+      '#commands' => $commands,
+    );
+  }
+}
+
+/**
+ * Rebuild update quantity form.
+ *
+ * @ingroup forms
+ */
+function dc_ajax_add_cart_rebuild_update_quantity_form($form, &$form_state) {
+  $form_state['rebuild'] = TRUE;
 }

@@ -471,10 +471,16 @@ function template_preprocess_dc_ajax_shopping_cart(&$variables) {
       if (property_exists($line_item, 'commerce_product')) {
         $product = commerce_product_load($line_item->commerce_product[LANGUAGE_NONE][0]['product_id']);
 
-        $updateable_quantity = drupal_get_form('dc_ajax_add_cart_update_quantity_' . $line_item->line_item_id, $line_item);
+        if (variable_get('dc_ajax_add_cart_update_quantity', 0) == 1) {
+          $updateable_quantity = drupal_get_form('dc_ajax_add_cart_update_quantity_' . $line_item->line_item_id, $line_item);
+          $quantity = drupal_render($updateable_quantity);
+        }
+        else {
+          $quantity = intval($line_item->quantity);
+        }
 
         $row[] = array(
-          array('data' => drupal_render($updateable_quantity), 'class' => array('quantity')),
+          array('data' => $quantity, 'class' => array('quantity')),
           array('data' => $product->title, 'class' => array('name')),
           array('data' => $product_prices[$product->product_id], 'class' => array('price')),
           array(

@@ -58,6 +58,13 @@ function dc_ajax_add_cart_ajax_cart_settings_form($form, &$form_state) {
     '#description' => t('Check this if you want to hide cart if it is empty'),
   );
 
+  $form['dc_ajax_add_cart_update_quantity'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Updateable product quantity'),
+    '#default_value' => variable_get('dc_ajax_add_cart_update_quantity', 0),
+    '#description' => t('Check this if you want to update the product quantity in the shopping cart itself. Note that the update operation is also AJAX.'),
+  );
+
   $form['#submit'][] = 'dc_ajax_add_cart_ajax_cart_settings_form_submit';
 
   return system_settings_form($form);

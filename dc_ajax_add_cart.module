@@ -268,21 +268,41 @@ function dc_ajax_add_cart_block_view($delta = '') {
     case 'ajax_shopping_cart':
       // Get the current status of cart and other details.
       $commerce_cart = dc_ajax_add_cart_get_commerce_cart_details();
+      $hide_empty_cart = FALSE;
+
+      if ($commerce_cart['order']) {
+        $line_items = $commerce_cart['wrapper']->commerce_line_items;
+        $quantity = commerce_line_items_quantity($line_items, commerce_product_line_item_types());
+        $total = commerce_line_items_total($line_items);
+
+        if (variable_get(DC_AJAX_ADD_CART_HIDE_EMPTY_CART, 0) && ($quantity == 0)) {
+          $hide_empty_cart = TRUE;
+        }
+      }
+      else {
+        $line_items = NULL;
+        $quantity = 0;
+        $total = NULL;
+
+        if (variable_get(DC_AJAX_ADD_CART_HIDE_EMPTY_CART, 0)) {
+          $hide_empty_cart = TRUE;
+        }
+      }
 
       // Hide cart if it is empty.
-      if ($commerce_cart['order'] && !(variable_get(DC_AJAX_ADD_CART_HIDE_EMPTY_CART, 0))) {
+      if ($hide_empty_cart) {
+        $block['content'] = theme('html_tag', array(
+          'element' => array(
+            '#tag' => 'div',
+            '#attributes' => array(
+              'class' => 'ajax-shopping-cart-wrapper',
+            ),
+          ),
+        ));
+      }
+      else {
         $block['subject'] = t('Shopping cart');
 
-        if ($commerce_cart['order']) {
-          $line_items = $commerce_cart['wrapper']->commerce_line_items;
-          $quantity = commerce_line_items_quantity($line_items, commerce_product_line_item_types());
-          $total = commerce_line_items_total($line_items);
-        }
-        else {
-          $line_items = NULL;
-          $quantity = 0;
-          $total = NULL;
-        }
         $block['content'] = array(
           '#theme' => 'dc_ajax_shopping_cart',
           '#order' => $commerce_cart['order'],
@@ -294,10 +314,6 @@ function dc_ajax_add_cart_block_view($delta = '') {
         drupal_add_library('system', 'drupal.ajax', TRUE);
         drupal_add_css(drupal_get_path('module', 'dc_ajax_add_cart') . '/css/dc_ajax_add_cart.css');
       }
-      else {
-        $block['content'] = '';
-      }
-
 
       break;
 

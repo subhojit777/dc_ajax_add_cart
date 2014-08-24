@@ -1,3 +1,8 @@
+Commerce AJAX Add to Cart 7.x-1.x, 2014-08-24
+-------------------------------------
+- by subhojit777: Fixed removing product from cart does not honors "hide cart if
+  empty" setting
+
 Commerce AJAX Add to Cart 7.x-1.x, 2014-08-23
 -------------------------------------
 - Issue #2326163 by subhojit777: Fixed cart block does not appears after adding

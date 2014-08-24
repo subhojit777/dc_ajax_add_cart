@@ -138,13 +138,26 @@ function dc_ajax_add_cart_remove_commerce_line_item($ajax, $line_item_id) {
     $commands = array();
 
     // Check whether the user has any product in cart.
-    $content_cart = theme('dc_ajax_shopping_cart', array(
-      'order' => $commerce_cart['order'],
-      'line_items' => $line_items,
-      'quantity' => $quantity,
-      'total' => $total,
-    ));
+    if (variable_get(DC_AJAX_ADD_CART_HIDE_EMPTY_CART, 0) && ($quantity == 0)) {
+      $content_cart = theme('html_tag', array(
+        'element' => array(
+          '#tag' => 'div',
+          '#attributes' => array(
+            'class' => 'ajax-shopping-cart-wrapper',
+          ),
+        ),
+      ));
+    }
+    else {
+      $content_cart = theme('dc_ajax_shopping_cart', array(
+        'order' => $commerce_cart['order'],
+        'line_items' => $line_items,
+        'quantity' => $quantity,
+        'total' => $total,
+      ));
+    }
     $commands[] = ajax_command_replace('div.ajax-shopping-cart-wrapper', $content_cart);
+
     $content_teaser = theme('dc_ajax_shopping_cart_teaser', array(
       'order' => $commerce_cart['order'],
       'quantity' => $quantity,

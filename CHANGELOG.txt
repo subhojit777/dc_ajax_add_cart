@@ -1,3 +1,8 @@
+Commerce AJAX Add to Cart 7.x-1.x, 2014-10-13
+-------------------------------------
+- Issue #2338129 by subhojit777: Fixed Show correct selling price (discounted
+  price if applicable)
+
 Commerce AJAX Add to Cart 7.x-1.x, 2014-08-24
 -------------------------------------
 - by subhojit777: Fixed removing product from cart does not honors "hide cart if

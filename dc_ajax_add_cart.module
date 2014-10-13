@@ -463,6 +463,7 @@ function template_preprocess_dc_ajax_shopping_cart(&$variables) {
       if (property_exists($line_item, 'commerce_product')) {
         $product = commerce_product_load($line_item->commerce_product[LANGUAGE_NONE][0]['product_id']);
         $products[$product->product_id] = $product;
+        $product_prices[$product->product_id] = commerce_currency_format($line_item->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
       }
       // If line item is shipping service.
       elseif (property_exists($line_item, 'commerce_shipping_service')) {
@@ -471,11 +472,6 @@ function template_preprocess_dc_ajax_shopping_cart(&$variables) {
       }
 
       $line_item_list[$line_item->line_item_id] = $line_item;
-    }
-
-    // Create the currency array.
-    foreach ($products as $product) {
-      $product_prices[$product->product_id] = commerce_currency_format($product->commerce_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
     }
 
     // Create checkout url.
@@ -592,10 +588,10 @@ function template_preprocess_dc_ajax_add_to_cart_message(&$variables) {
   // Default currency array.
   $currency = commerce_currency_load(commerce_default_currency());
 
-  $product_price = field_get_items('commerce_product', $variables['product'], 'commerce_price');
+  $product_price = commerce_product_calculate_sell_price($variables['product']);
 
-  $variables['product_per_unit_price'] = commerce_currency_format($product_price[0]['amount'], $currency['code']);
-  $variables['product_price_total'] = commerce_currency_format($variables['quantity'] * $product_price[0]['amount'], $currency['code']);
+  $variables['product_per_unit_price'] = commerce_currency_format($product_price['amount'], $currency['code']);
+  $variables['product_price_total'] = commerce_currency_format($variables['quantity'] * $product_price['amount'], $currency['code']);
 
   // Create new theme variables related to configuration.
   $variables['configuration']['success_message'] = check_plain(variable_get(DC_AJAX_ADD_CART_SUCCESS_MESSAGE, t('Item successfully added to cart')));

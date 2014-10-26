@@ -203,11 +203,25 @@ function dc_ajax_add_cart_form_alter(&$form, &$form_state, $form_id) {
  * @ingroup callbacks
  */
 function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
-  // Get the current status of commerce cart.
-  $commerce_cart = dc_ajax_add_cart_get_commerce_cart_details();
+  $form_errors = form_get_errors();
 
   // AJAX commands array.
   $commands = array();
+
+  if (!empty($form_errors)) {
+    // Show Drupal status message without page refresh.
+    // @see https://www.drupal.org/node/1271004#comment-7205478
+    $commands[] = ajax_command_remove('div.messages');
+    $commands[] = ajax_command_before('#main-content', theme('status_messages'));
+
+    return array(
+      '#type' => 'ajax',
+      '#commands' => $commands,
+    );
+  }
+
+  // Get the current status of commerce cart.
+  $commerce_cart = dc_ajax_add_cart_get_commerce_cart_details();
 
   // If the user has ordered items.
   if ($commerce_cart['order']) {
@@ -246,6 +260,9 @@ function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
       ));
       $commands[] = ajax_command_prepend('body', $content);
     }
+
+    // Clear status messages if any.
+    $commands[] = ajax_command_remove('div.messages');
 
     return array(
       '#type' => 'ajax',

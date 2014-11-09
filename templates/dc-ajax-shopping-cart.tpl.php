@@ -22,6 +22,7 @@
  * - $product_price_total: Total amount including taxes. The total has currency
  *   code or symbol attached to it. Currency code or symbol depends on the AJAX
  *   Add to Cart settings.
+ * - $checkout_link: Array containing properties to generate checkout link.
  * - $checkout_url: The checkout url depends on AJAX Add to Cart settings.
  * - $products_list_html: Products list as HTML content.
  * - $shipping: If you have included shipping prices then this variable will be

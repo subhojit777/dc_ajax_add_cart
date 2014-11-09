@@ -1,3 +1,7 @@
+Commerce AJAX Add to Cart 7.x-1.x, 2014-11-09
+-------------------------------------
+- Issue #2369391 by subhojit777, Grienauer: Added Theme for $checkout_url
+
 Commerce AJAX Add to Cart 7.x-1.x, 2014-10-26
 -------------------------------------
 - Issue #2362869 by subhojit777: Fixed Respect required fields on add to cart

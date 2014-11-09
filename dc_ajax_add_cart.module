@@ -493,10 +493,34 @@ function template_preprocess_dc_ajax_shopping_cart(&$variables) {
 
     // Create checkout url.
     if (variable_get(DC_AJAX_ADD_CART_CHECKOUT_REDIRECT, 'cart_page') == 'cart_page') {
-      $checkout_url = l(t('Checkout'), 'cart');
+      $variables['checkout_link'] = array(
+        'text' => t('Checkout'),
+        'path' => 'cart',
+        'attributes' => array(
+          'class' => array(
+            'dc-ajax-add-cart-checkout-link',
+            'dc-ajax-add-cart-checkout-cart',
+          ),
+        ),
+        'query' => array(),
+        'fragment' => '',
+        'html' => FALSE,
+      );
     }
     else {
-      $checkout_url = l(t('Checkout'), 'checkout');
+      $variables['checkout_link'] = array(
+        'text' => t('Checkout'),
+        'path' => 'checkout',
+        'attributes' => array(
+          'class' => array(
+            'dc-ajax-add-cart-checkout-link',
+            'dc-ajax-add-cart-checkout-checkout',
+          ),
+        ),
+        'query' => array(),
+        'fragment' => '',
+        'html' => FALSE,
+      );
     }
 
     // Shopping cart.
@@ -541,7 +565,12 @@ function template_preprocess_dc_ajax_shopping_cart(&$variables) {
     $variables['products'] = $products;
     $variables['product_prices'] = $product_prices;
     $variables['product_price_total'] = $product_price_total;
-    $variables['checkout_url'] = $checkout_url;
+    $variables['checkout_url'] = l($variables['checkout_link']['text'], $variables['checkout_link']['path'], array(
+      'attributes' => $variables['checkout_link']['attributes'],
+      'query' => $variables['checkout_link']['query'],
+      'fragment' => $variables['checkout_link']['fragment'],
+      'html' => $variables['checkout_link']['html'],
+    ));
     $variables['products_list_html'] = theme('table', array(
       'header' => $header,
       'rows' => $row,

@@ -142,6 +142,7 @@ function dc_ajax_add_cart_remove_commerce_line_item($ajax, $line_item_id) {
       $content_cart = theme('html_tag', array(
         'element' => array(
           '#tag' => 'div',
+          '#value' => '',
           '#attributes' => array(
             'class' => 'ajax-shopping-cart-wrapper',
           ),
@@ -324,6 +325,7 @@ function dc_ajax_add_cart_block_view($delta = '') {
         $block['content'] = theme('html_tag', array(
           'element' => array(
             '#tag' => 'div',
+            '#value' => '',
             '#attributes' => array(
               'class' => 'ajax-shopping-cart-wrapper',
             ),

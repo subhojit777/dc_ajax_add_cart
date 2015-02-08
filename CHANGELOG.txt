@@ -1,3 +1,8 @@
+Commerce AJAX Add to Cart 7.x-1.x, 2015-02-08
+-------------------------------------
+- Issue #2365599 by subhojit777: Added pass cart render array to template
+  The template array has been added for shopping cart block.
+
 Commerce AJAX Add to Cart 7.x-1.x, 2014-11-09
 -------------------------------------
 - Issue #2369391 by subhojit777, Grienauer: Added Theme for $checkout_url

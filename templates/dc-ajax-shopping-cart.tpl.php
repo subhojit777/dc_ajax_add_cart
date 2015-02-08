@@ -44,7 +44,30 @@
 <?php if($order && $quantity != 0): ?>
   <!-- Order object present and cart is not empty. -->
   <div class="ajax-shopping-cart-wrapper">
-    <?php print $products_list_html; ?>
+    <table <?php if (!empty($products_list['classes'])) { print 'class="'. $products_list['classes'] . '" '; } ?>>
+      <?php if (!empty($products_list['header'])) : ?>
+        <thead>
+          <tr>
+            <?php foreach ($products_list['header'] as $header): ?>
+              <th <?php if (!empty($header['header_classes'])) { print 'class="'. $header['header_classes'] . '" '; } ?>>
+                <?php print $header['data']; ?>
+              </th>
+            <?php endforeach; ?>
+          </tr>
+        </thead>
+      <?php endif; ?>
+      <tbody>
+        <?php foreach ($products_list['row'] as $line_item_id => $row): ?>
+          <tr <?php if (!empty($products_list['row_classes'][$line_item_id])) { print 'class="' . $products_list['row_classes'][$line_item_id] .'"';  } ?>>
+            <?php foreach ($row as $field): ?>
+              <td <?php if (!empty($field['field_classes'])) { print 'class="'. $field['field_classes'] . '" '; } ?>>
+                <?php print $field['data']; ?>
+              </td>
+            <?php endforeach; ?>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
 
     <div class="ajax-shopping-cart-more-info clearfix">
       <?php if (!empty($shipping)): ?>

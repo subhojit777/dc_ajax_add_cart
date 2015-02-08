@@ -527,11 +527,20 @@ function template_preprocess_dc_ajax_shopping_cart(&$variables) {
 
     // Shopping cart.
     if (variable_get(DC_AJAX_ADD_CART_SHOW_LABELS, 'label') == 'label') {
-      $header = array(
-        array('data' => t('Quantity'), 'class' => array('quantity-label')),
-        array('data' => t('Items'), 'class' => array('item-label')),
-        array('data' => t('Price'), 'class' => array('price-label')),
-        '',
+      $variables['products_list']['header'][] = array(
+        'data' => t('Quantity'),
+        'header_classes' => 'quantity-label',
+      );
+      $variables['products_list']['header'][] = array(
+        'data' => t('Items'),
+        'header_classes' => 'item-label',
+      );
+      $variables['products_list']['header'][] = array(
+        'data' => t('Price'),
+        'header_classes' => 'price-label',
+      );
+      $variables['products_list']['header'][] = array(
+        'data' => '',
       );
     }
 
@@ -547,18 +556,29 @@ function template_preprocess_dc_ajax_shopping_cart(&$variables) {
           $quantity = intval($line_item->quantity);
         }
 
-        $row[] = array(
-          array('data' => $quantity, 'class' => array('quantity')),
-          array('data' => $product->title, 'class' => array('name')),
-          array('data' => $product_prices[$product->product_id], 'class' => array('price')),
-          array(
-            'data' => l(variable_get(DC_AJAX_ADD_CART_REMOVE_CART, 'link') == 'link' ? t('Remove from cart') : $image_remove_cart,
-            'remove-product/nojs/' . $line_item->line_item_id,
-            array(
+        $variables['products_list']['row'][$line_item->line_item_id]['quantity'] = array(
+          'data' => $quantity,
+          'field_classes' => 'quantity',
+        );
+        $variables['products_list']['row'][$line_item->line_item_id]['title'] = array(
+          'data' => $product->title,
+          'field_classes' => 'name',
+        );
+        $variables['products_list']['row'][$line_item->line_item_id]['price'] = array(
+          'data' => $product_prices[$product->product_id],
+          'field_classes' => 'price',
+        );
+        $variables['products_list']['row'][$line_item->line_item_id]['remove'] = array(
+          'data' => l(variable_get(DC_AJAX_ADD_CART_REMOVE_CART, 'link') == 'link' ? t('Remove from cart') : $image_remove_cart,
+            'remove-product/nojs/' . $line_item->line_item_id, array(
               'attributes' => array(
                 'class' => array('use-ajax'),
-              ), 'html' => TRUE)), 'class' => array('remove-from-cart')),
+              ),
+              'html' => TRUE,
+            )),
+          'field_classes' => 'remove-from-cart',
         );
+        $variables['products_list']['row_classes'][$line_item->line_item_id] = 'ajax-cart-row';
       }
     }
 
@@ -573,14 +593,7 @@ function template_preprocess_dc_ajax_shopping_cart(&$variables) {
       'fragment' => $variables['checkout_link']['fragment'],
       'html' => $variables['checkout_link']['html'],
     ));
-    $variables['products_list_html'] = theme('table', array(
-      'header' => $header,
-      'rows' => $row,
-      'attributes' => array(
-        'class' => array('ajax-shopping-cart-table'),
-      ),
-      'sticky' => FALSE,
-    ));
+    $variables['products_list']['classes'] = 'ajax-shopping-cart-table';
     if (!empty($shipping)) {
       $variables['shipping'] = $shipping;
     }

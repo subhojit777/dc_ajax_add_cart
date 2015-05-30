@@ -46,7 +46,7 @@
 <div class="add-to-cart-overlay" id="add-to-cart-overlay"></div>
 <div class="add-cart-message-wrapper">
   <!-- Close button. -->
-  <a class="add-to-cart-close">
+  <a class="add-to-cart-close" data-dismiss="add-cart-message">
     <span class="element-invisible">
       <?php print t('Close'); ?>
     </span>
@@ -60,10 +60,8 @@
       <?php print $checkout_link; ?>
     </div>
     <!-- Continue shopping. -->
-    <div class="option-button continue">
-      <span class="add-to-cart-close">
-        <?php print $configuration['popup_continue_shopping']; ?>
-      </span>
+    <div class="option-button continue" data-dismiss="add-cart-message">
+      <?php print $configuration['popup_continue_shopping']; ?>
     </div>
   </div>
   <div class="new-item-details">

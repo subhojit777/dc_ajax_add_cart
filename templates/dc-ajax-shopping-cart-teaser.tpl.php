@@ -27,8 +27,6 @@
 ?>
 
 <?php if($order && $quantity != 0): ?>
-  <!-- Order object is not null and cart is not empty. -->
-  <div class="ajax-shopping-cart-teaser">
     <div class="cart-image">
       <?php print $cart_icon; ?>
     </div>
@@ -40,10 +38,7 @@
         <?php print $total_amount; ?>
       </p>
     </div>
-  </div>
 <?php elseif($quantity == 0 || !$order): ?>
-  <!-- Cart is empty or order object is null. -->
-  <div class="ajax-shopping-cart-teaser">
     <div class="cart-image">
       <?php print $cart_icon; ?>
     </div>
@@ -57,5 +52,4 @@
         <?php print $total_amount; ?>
       </p>
     </div>
-  </div>
 <?php endif; ?>

@@ -157,14 +157,14 @@ function dc_ajax_add_cart_remove_commerce_line_item($ajax, $line_item_id) {
         'total' => $total,
       ));
     }
-    $commands[] = ajax_command_replace('div.ajax-shopping-cart-wrapper', $content_cart);
+    $commands[] = dc_ajax_add_cart_command_html('div.ajax-shopping-cart-wrapper', $content_cart);
 
     $content_teaser = theme('dc_ajax_shopping_cart_teaser', array(
       'order' => $commerce_cart['order'],
       'quantity' => $quantity,
       'total' => $total,
     ));
-    $commands[] = ajax_command_replace('div.ajax-shopping-cart-teaser', $content_teaser);
+    $commands[] = dc_ajax_add_cart_command_html('div.ajax-shopping-cart-teaser', $content_teaser);
 
     // Ajaxifies the updation of cart.
     return array(
@@ -188,7 +188,6 @@ function dc_ajax_add_cart_form_alter(&$form, &$form_state, $form_id) {
       'method' => 'replace',
       'effect' => 'slide',
     );
-    $form['#attached']['css'][] = drupal_get_path('module', 'dc_ajax_add_cart') . '/css/dc_ajax_add_cart.css';
     $form['#attached']['js'][] = drupal_get_path('module', 'dc_ajax_add_cart') . '/js/dc_ajax_add_cart.js';
 
     // Rebuild form.
@@ -237,7 +236,7 @@ function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
       'quantity' => $quantity,
       'total' => $total,
     ));
-    $commands[] = ajax_command_replace('div.ajax-shopping-cart-wrapper', $ajax_shopping_cart_content);
+    $commands[] = dc_ajax_add_cart_command_html('div.ajax-shopping-cart-wrapper', $ajax_shopping_cart_content);
 
     // Update the contents of shopping cart.
     $ajax_shopping_cart_teaser_content = theme('dc_ajax_shopping_cart_teaser', array(
@@ -245,7 +244,7 @@ function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
       'quantity' => $quantity,
       'total' => $total,
     ));
-    $commands[] = ajax_command_replace('div.ajax-shopping-cart-teaser', $ajax_shopping_cart_teaser_content);
+    $commands[] = dc_ajax_add_cart_command_html('div.ajax-shopping-cart-teaser', $ajax_shopping_cart_teaser_content);
 
     // Display add to cart message.
     if (variable_get(DC_AJAX_ADD_CART_DISPLAY_POPUP, 'display_popup_message') == 'display_popup_message') {
@@ -335,16 +334,18 @@ function dc_ajax_add_cart_block_view($delta = '') {
       else {
         $block['subject'] = t('Shopping cart');
 
-        $block['content'] = array(
-          '#theme' => 'dc_ajax_shopping_cart',
-          '#order' => $commerce_cart['order'],
-          '#line_items' => $line_items,
-          '#quantity' => $quantity,
-          '#total' => $total,
-        );
+        $block['content'] = '<div class="ajax-shopping-cart-wrapper">';
+        $block['content'] .= theme('dc_ajax_shopping_cart', array(
+          'order' => $commerce_cart['order'],
+          'line_items' => $line_items,
+          'quantity' => $quantity,
+          'total' => $total,
+        ));
+        $block['content'] .= '</div>';
 
         drupal_add_library('system', 'drupal.ajax', TRUE);
         drupal_add_css(drupal_get_path('module', 'dc_ajax_add_cart') . '/css/dc_ajax_add_cart.css');
+        drupal_add_js(drupal_get_path('module', 'dc_ajax_add_cart') . '/js/dc_ajax_add_cart_html.js');
       }
 
       break;
@@ -364,12 +365,13 @@ function dc_ajax_add_cart_block_view($delta = '') {
         $total = NULL;
       }
 
-      $block['content'] = array(
-        '#theme' => 'dc_ajax_shopping_cart_teaser',
-        '#order' => $commerce_cart['order'],
-        '#quantity' => $quantity,
-        '#total' => $total,
-      );
+      $block['content'] = '<div class="ajax-shopping-cart-teaser">';
+      $block['content'] .= theme('dc_ajax_shopping_cart_teaser', array(
+        'order' => $commerce_cart['order'],
+        'quantity' => $quantity,
+        'total' => $total,
+      ));
+      $block['content'] .= '</div>';
 
       drupal_add_css(drupal_get_path('module', 'dc_ajax_add_cart') . '/css/dc_ajax_add_cart.css');
 
@@ -750,7 +752,7 @@ function dc_ajax_add_cart_update_quantity_refresh($form, &$form_state) {
       'quantity' => $quantity,
       'total' => $total,
     ));
-    $commands[] = ajax_command_replace('div.ajax-shopping-cart-wrapper', $ajax_shopping_cart_content);
+    $commands[] = dc_ajax_add_cart_command_html('div.ajax-shopping-cart-wrapper', $ajax_shopping_cart_content);
 
     // Update the contents of shopping cart.
     $ajax_shopping_cart_teaser_content = theme('dc_ajax_shopping_cart_teaser', array(
@@ -758,7 +760,7 @@ function dc_ajax_add_cart_update_quantity_refresh($form, &$form_state) {
       'quantity' => $quantity,
       'total' => $total,
     ));
-    $commands[] = ajax_command_replace('div.ajax-shopping-cart-teaser', $ajax_shopping_cart_teaser_content);
+    $commands[] = dc_ajax_add_cart_command_html('div.ajax-shopping-cart-teaser', $ajax_shopping_cart_teaser_content);
 
     return array(
       '#type' => 'ajax',
@@ -789,4 +791,32 @@ function dc_ajax_add_cart_forms($form_id, $args) {
   }
 
   return $forms;
+}
+
+/**
+ * Creates a Ajax 'replace' command.
+ *
+ * This command is specifically for dc_ajax_add_cart module.
+ * Unlike `ajax_command_replace()`, this command will not produce extra div
+ * wrapper with 'display: block' style.
+ *
+ * This command is implemented by
+ * Drupal.ajax.prototype.commands.dc_ajax_add_cart_html () defined in
+ * js/dc_ajax_add_cart_html.js.
+ *
+ * @param string $selector
+ *   A jQuery selector string. If the command is a response to a request from
+ *   an #ajax form element then this value can be NULL.
+ * @param string $html
+ *   The data to use with the jQuery replaceWith() method.
+ *
+ * @return array
+ *   An array suitable for use with the ajax_render() function.
+ */
+function dc_ajax_add_cart_command_html($selector, $html) {
+  return array(
+    'command' => 'dc_ajax_add_cart_html',
+    'selector' => $selector,
+    'data' => $html,
+  );
 }

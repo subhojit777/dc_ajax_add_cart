@@ -42,8 +42,6 @@
 
 <?php $content = ''; ?>
 <?php if($order && $quantity != 0): ?>
-  <!-- Order object present and cart is not empty. -->
-  <div class="ajax-shopping-cart-wrapper">
     <table <?php if (!empty($products_list['classes'])) { print 'class="'. $products_list['classes'] . '" '; } ?>>
       <?php if (!empty($products_list['header'])) : ?>
         <thead>
@@ -83,14 +81,10 @@
         <?php print $checkout_url; ?>
       </div>
     </div>
-  </div>
 <?php elseif($quantity == 0 || !$order): ?>
-  <!-- Cart is empty or order object is null. -->
-  <div class="ajax-shopping-cart-wrapper">
     <div class="empty-shopping-cart">
       <?php print $configuration['empty_cart_message']; ?>
     </div>
     <div class="ajax-shopping-cart-total"></div>
     <div class="ajax-shopping-cart-checkout"></div>
-  </div>
 <?php endif; ?>

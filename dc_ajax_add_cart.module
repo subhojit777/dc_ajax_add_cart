@@ -54,7 +54,7 @@ function dc_ajax_add_cart_menu() {
     'description' => 'Remove commerce line item',
     'page callback' => 'dc_ajax_add_cart_remove_commerce_line_item',
     'page arguments' => array(1, 2),
-    'access arguments' => array('view any commerce_product entity'),
+    'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
 

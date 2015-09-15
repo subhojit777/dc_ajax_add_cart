@@ -42,6 +42,7 @@
 
 <?php $content = ''; ?>
 <?php if($order && $quantity != 0): ?>
+    <h2 class="title"><?php print t('Shopping cart'); ?></h2>
     <table <?php if (!empty($products_list['classes'])) { print 'class="'. $products_list['classes'] . '" '; } ?>>
       <?php if (!empty($products_list['header'])) : ?>
         <thead>

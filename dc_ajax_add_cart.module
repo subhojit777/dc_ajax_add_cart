@@ -139,15 +139,7 @@ function dc_ajax_add_cart_remove_commerce_line_item($ajax, $line_item_id) {
 
     // Check whether the user has any product in cart.
     if (variable_get(DC_AJAX_ADD_CART_HIDE_EMPTY_CART, 0) && ($quantity == 0)) {
-      $content_cart = theme('html_tag', array(
-        'element' => array(
-          '#tag' => 'div',
-          '#value' => '',
-          '#attributes' => array(
-            'class' => 'ajax-shopping-cart-wrapper',
-          ),
-        ),
-      ));
+      $content_cart = '';
     }
     else {
       $content_cart = theme('dc_ajax_shopping_cart', array(
@@ -332,8 +324,6 @@ function dc_ajax_add_cart_block_view($delta = '') {
         ));
       }
       else {
-        $block['subject'] = t('Shopping cart');
-
         $block['content'] = '<div class="ajax-shopping-cart-wrapper">';
         $block['content'] .= theme('dc_ajax_shopping_cart', array(
           'order' => $commerce_cart['order'],
@@ -344,9 +334,10 @@ function dc_ajax_add_cart_block_view($delta = '') {
         $block['content'] .= '</div>';
 
         drupal_add_library('system', 'drupal.ajax', TRUE);
-        drupal_add_css(drupal_get_path('module', 'dc_ajax_add_cart') . '/css/dc_ajax_add_cart.css');
-        drupal_add_js(drupal_get_path('module', 'dc_ajax_add_cart') . '/js/dc_ajax_add_cart_html.js');
       }
+
+      drupal_add_css(drupal_get_path('module', 'dc_ajax_add_cart') . '/css/dc_ajax_add_cart.css');
+      drupal_add_js(drupal_get_path('module', 'dc_ajax_add_cart') . '/js/dc_ajax_add_cart_html.js');
 
       break;
 
@@ -746,12 +737,19 @@ function dc_ajax_add_cart_update_quantity_refresh($form, &$form_state) {
     $quantity = commerce_line_items_quantity($line_items, commerce_product_line_item_types());
     $total = commerce_line_items_total($line_items);
 
-    $ajax_shopping_cart_content = theme('dc_ajax_shopping_cart', array(
-      'order' => $commerce_cart['order'],
-      'line_items' => $line_items,
-      'quantity' => $quantity,
-      'total' => $total,
-    ));
+    // Check whether the user has any product in cart.
+    if (variable_get(DC_AJAX_ADD_CART_HIDE_EMPTY_CART, 0) && ($quantity == 0)) {
+      $ajax_shopping_cart_content = '';
+    }
+    else {
+      $ajax_shopping_cart_content = theme('dc_ajax_shopping_cart', array(
+        'order' => $commerce_cart['order'],
+        'line_items' => $line_items,
+        'quantity' => $quantity,
+        'total' => $total,
+      ));
+    }
+
     $commands[] = dc_ajax_add_cart_command_html('div.ajax-shopping-cart-wrapper', $ajax_shopping_cart_content);
 
     // Update the contents of shopping cart.

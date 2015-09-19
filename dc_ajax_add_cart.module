@@ -118,6 +118,9 @@ function dc_ajax_add_cart_menu() {
  * @see dc_ajax_add_cart_menu()
  */
 function dc_ajax_add_cart_remove_commerce_line_item($ajax, $line_item_id) {
+  global $user;
+  $order = commerce_cart_order_load($user->uid);
+
   // Initially quantity of products in cart will be zero.
   $quantity = 0;
 
@@ -125,7 +128,7 @@ function dc_ajax_add_cart_remove_commerce_line_item($ajax, $line_item_id) {
   $is_ajax = $ajax === 'ajax';
 
   // Delete the product line item from cart.
-  commerce_line_item_delete($line_item_id);
+  commerce_cart_order_product_line_item_delete($order, $line_item_id);
 
   // Get the current status of cart and other information.
   $commerce_cart = dc_ajax_add_cart_get_commerce_cart_details();
@@ -713,6 +716,9 @@ function dc_ajax_add_cart_update_quantity($form, &$form_state, $line_item) {
  * @ingroup callbacks
  */
 function dc_ajax_add_cart_update_quantity_refresh($form, &$form_state) {
+  global $user;
+  $order = commerce_cart_order_load($user->uid);
+
   // AJAX commands array.
   $commands = array();
 
@@ -724,7 +730,7 @@ function dc_ajax_add_cart_update_quantity_refresh($form, &$form_state) {
     commerce_line_item_save($line_item);
   }
   else {
-    commerce_line_item_delete($form_state['triggering_element']['#line_item_id']);
+    commerce_cart_order_product_line_item_delete($order, $form_state['triggering_element']['#line_item_id']);
   }
 
   // Get the current status of commerce cart.

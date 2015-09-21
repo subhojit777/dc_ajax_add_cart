@@ -3,9 +3,10 @@
 /**
  * @file
  * Ajax shopping cart block template file.
- */
-
-/**
+ *
+ * If you want to make changes in the structure Shopping Cart, copy this file to
+ * your theme's templates directory. DO NOT change this file.
+ *
  * Available variables:
  * - $order: Order object of the current user.
  * - $line_items: Line items wrapper.
@@ -35,57 +36,42 @@
  * - $configuration['display_tax']: Check whether to display tax.
  * - $configuration['empty_cart_message']: Message to display if the cart is
  *   empty.
- * If you want to make changes in the structure Shopping Cart, copy this file to
- * your theme's templates directory. DO NOT change this file.
  */
 ?>
-
-<?php $content = ''; ?>
-<?php if($order && $quantity != 0): ?>
-    <h2 class="title"><?php print t('Shopping cart'); ?></h2>
-    <table <?php if (!empty($products_list['classes'])) { print 'class="'. $products_list['classes'] . '" '; } ?>>
-      <?php if (!empty($products_list['header'])) : ?>
-        <thead>
-          <tr>
+<?php if ($order && $quantity != 0) : ?>
+  <h2 class="title"><?php print t('Shopping cart'); ?></h2>
+  <table <?php if (!empty($products_list['classes'])) : print 'class="' . $products_list['classes'] . '" '; endif; ?>>
+    <?php if (!empty($products_list['header'])) : ?>
+      <thead>
+        <tr>
             <?php foreach ($products_list['header'] as $header): ?>
-              <th <?php if (!empty($header['header_classes'])) { print 'class="'. $header['header_classes'] . '" '; } ?>>
-                <?php print $header['data']; ?>
-              </th>
+            <th <?php if (!empty($header['header_classes'])) : print 'class="' . $header['header_classes'] . '" ';
+           endif; ?>><?php print $header['data']; ?></th>
             <?php endforeach; ?>
-          </tr>
-        </thead>
-      <?php endif; ?>
-      <tbody>
+        </tr>
+      </thead>
+    <?php endif; ?>
+    <tbody>
         <?php foreach ($products_list['row'] as $line_item_id => $row): ?>
-          <tr <?php if (!empty($products_list['row_classes'][$line_item_id])) { print 'class="' . $products_list['row_classes'][$line_item_id] .'"';  } ?>>
+        <tr <?php if (!empty($products_list['row_classes'][$line_item_id])) : print 'class="' . $products_list['row_classes'][$line_item_id] . '"';
+       endif; ?>>
             <?php foreach ($row as $field): ?>
-              <td <?php if (!empty($field['field_classes'])) { print 'class="'. $field['field_classes'] . '" '; } ?>>
-                <?php print $field['data']; ?>
-              </td>
+            <td <?php if (!empty($field['field_classes'])) : print 'class="' . $field['field_classes'] . '" ';
+           endif; ?>><?php print $field['data']; ?></td>
             <?php endforeach; ?>
-          </tr>
+        </tr>
         <?php endforeach; ?>
-      </tbody>
-    </table>
-
-    <div class="ajax-shopping-cart-more-info clearfix">
-      <?php if (!empty($shipping)): ?>
-        <div class="ajax-shopping-cart-shipping">
-          <?php print $shipping['service'] . ' ' . $shipping['price']; ?>
-        </div>
-      <?php endif; ?>
-
-      <div class="ajax-shopping-cart-total">
-        <?php print t('Total:') . ' ' . $product_price_total; ?>
-      </div>
-      <div class="ajax-shopping-cart-checkout">
-        <?php print $checkout_url; ?>
-      </div>
-    </div>
-<?php elseif($quantity == 0 || !$order): ?>
-    <div class="empty-shopping-cart">
-      <?php print $configuration['empty_cart_message']; ?>
-    </div>
-    <div class="ajax-shopping-cart-total"></div>
-    <div class="ajax-shopping-cart-checkout"></div>
+    </tbody>
+  </table>
+  <div class="ajax-shopping-cart-more-info clearfix">
+    <?php if (!empty($shipping)) : ?>
+      <div class="ajax-shopping-cart-shipping"><?php print $shipping['service'] . ' ' . $shipping['price']; ?></div>
+    <?php endif; ?>
+    <div class="ajax-shopping-cart-total"><?php print t('Total:') . ' ' . $product_price_total; ?></div>
+    <div class="ajax-shopping-cart-checkout"><?php print $checkout_url; ?></div>
+  </div>
+<?php elseif ($quantity == 0 || !$order) : ?>
+  <div class="empty-shopping-cart"><?php print $configuration['empty_cart_message']; ?></div>
+  <div class="ajax-shopping-cart-total"></div>
+  <div class="ajax-shopping-cart-checkout"></div>
 <?php endif; ?>

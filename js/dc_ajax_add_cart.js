@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Ajax add to cart module.
+ */
+
 (function ($, Drupal, window, document, undefined) {
   Drupal.behaviors.dcAjaxAddCart = {
     attach: function (context, settings) {

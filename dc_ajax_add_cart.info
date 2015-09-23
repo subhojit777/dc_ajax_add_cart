@@ -5,3 +5,4 @@ configure = admin/commerce/config/ajax-cart
 dependencies[] = commerce
 dependencies[] = commerce_cart
 package = Commerce (contrib)
+files[] = tests/dc_ajax_add_cart_ui.test

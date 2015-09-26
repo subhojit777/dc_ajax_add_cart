@@ -103,7 +103,7 @@ class CommerceAjaxAddCartUI extends CommerceAjaxAddCartBase {
     return array(
       'name' => 'Commerce ajax add to cart UI test',
       'description' => 'Functional tests for commerce ajax add to cart module.',
-      'group' => 'Drupal Commerce',
+      'group' => 'Commerce ajax add to cart',
     );
   }
 

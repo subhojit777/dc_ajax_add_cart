@@ -1,8 +1,10 @@
+[![Build Status](https://travis-ci.org/subhojit777/dc_ajax_add_cart.svg?branch=7.x-2.x)](https://travis-ci.org/subhojit777/dc_ajax_add_cart)
+
 AJAX Add to Cart module ajaxifies the add to cart operation. The updated cart
 will be displayed without page refresh and a popup message will be shown after
 you add an item to cart. This module provides two blocks, first the shopping
 cart block that provides details of the product currently present in the cart,
-and the other is a shopping cart teaser that provides the total number of items 
+and the other is a shopping cart teaser that provides the total number of items
 and the total amount including tax. You can customize the look of the blocks
 using its template files.
 
@@ -28,7 +30,7 @@ Usage:
    admin/commerce/config/ajax-cart.
 5> This module provides template files to provide further customizations. Copy
    the template files in theme's templates directory and make desired changes.
-   
+
 
 Mentor:
 -------

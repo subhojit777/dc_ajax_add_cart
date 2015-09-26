@@ -28,7 +28,7 @@ install:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
   # install drush globally
-  - composer global require drush/drush:7.*
+  - composer global require drush/drush:6.*
 
 before_script:
   # navigate out of module directory to prevent blown stack by recursive module lookup
@@ -46,4 +46,4 @@ before_script:
   - drush runserver 127.0.0.1:8080 &
   - until netstat -an 2>/dev/null | grep '8080.*LISTEN'; do true; done
 
-script: drush test-run CommerceAjaxAddCartUI
+script: drush test-run CommerceAjaxAddCartUI --uri=http://127.0.0.1:8080

@@ -99,11 +99,18 @@ function dc_ajax_add_cart_cart_teaser_settings_form($form, &$form_state) {
     '#description' => t('Message that will be displayed on cart teaser if cart is empty.'),
   );
 
-  $form['dc_ajax_add_cart_item_suffix_text'] = array(
+  $form['dc_ajax_add_cart_item_suffix_text_singular'] = array(
     '#type' => 'textfield',
-    '#title' => t('Item suffix text'),
-    '#default_value' => variable_get(DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT, t('item')),
-    '#description' => t('Suffix text that will be displayed after the number of items in cart teaser. Multiple items will be detected and the text will be changed according to that.'),
+    '#title' => t('Item suffix text (singular)'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT_SINGULAR, t('item')),
+    '#description' => t('Suffix text that will be displayed after the number of items in cart teaser. Note that this is the singular form of the text.'),
+  );
+
+  $form['dc_ajax_add_cart_item_suffix_text_plural'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Item suffix text (plural)'),
+    '#default_value' => variable_get(DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT_PLURAL, t('items')),
+    '#description' => t('Suffix text that will be displayed after the number of items in cart teaser. Note that this is the plural form of the text.'),
   );
 
   $form['#submit'][] = 'dc_ajax_add_cart_cart_teaser_settings_form_submit';
@@ -121,12 +128,17 @@ function dc_ajax_add_cart_cart_teaser_settings_form($form, &$form_state) {
 function dc_ajax_add_cart_cart_teaser_settings_form_submit($form, &$form_state) {
   switch ($form_state['values']) {
     case 'dc_ajax_add_cart_empty_cart_teaser_message':
-      $form_state['values']['dc_ajax_add_cart_empty_cart_teaser_message'] = t('@check_plain', array('@check_plain' => $form_state['values']['dc_ajax_add_cart_empty_cart_teaser_message']));
+      $form_state['values']['dc_ajax_add_cart_empty_cart_teaser_message'] = format_string('@check_plain', array('@check_plain' => $form_state['values']['dc_ajax_add_cart_empty_cart_teaser_message']));
 
       break;
 
-    case 'dc_ajax_add_cart_item_suffix_text':
-      $form_state['values']['dc_ajax_add_cart_item_suffix_text'] = t('@check_plain', array('@check_plain' => $form_state['values']['dc_ajax_add_cart_item_suffix_text']));
+    case 'dc_ajax_add_cart_item_suffix_text_singular':
+      $form_state['values']['dc_ajax_add_cart_item_suffix_text_singular'] = format_string('@check_plain', array('@check_plain' => $form_state['values']['dc_ajax_add_cart_item_suffix_text_singular']));
+
+      break;
+
+    case 'dc_ajax_add_cart_item_suffix_text_plural':
+      $form_state['values']['dc_ajax_add_cart_item_suffix_text_plural'] = format_string('@check_plain', array('@check_plain' => $form_state['values']['dc_ajax_add_cart_item_suffix_text_plural']));
 
       break;
   }

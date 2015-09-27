@@ -16,7 +16,8 @@ define('DC_AJAX_ADD_CART_REMOVE_CART', 'dc_ajax_add_cart_remove_cart');
 define('DC_AJAX_ADD_CART_HIDE_EMPTY_CART', 'dc_ajax_add_cart_hide_empty_cart');
 
 define('DC_AJAX_ADD_CART_EMPTY_CART_TEASER_MESSAGE', 'dc_ajax_add_cart_empty_cart_teaser_message');
-define('DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT', 'dc_ajax_add_cart_item_suffix_text');
+define('DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT_SINGULAR', 'dc_ajax_add_cart_item_suffix_text_singular');
+define('DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT_PLURAL', 'dc_ajax_add_cart_item_suffix_text_plural');
 
 define('DC_AJAX_ADD_CART_DISPLAY_POPUP', 'dc_ajax_add_cart_display_popup');
 define('DC_AJAX_ADD_CART_SUCCESS_MESSAGE', 'dc_ajax_add_cart_success_message');
@@ -624,8 +625,8 @@ function template_preprocess_dc_ajax_shopping_cart_teaser(&$variables) {
   ));
 
   // Create new theme variables related to configuration.
-  $variables['configuration']['empty_cart_teaser_message'] = check_plain(variable_get(DC_AJAX_ADD_CART_EMPTY_CART_TEASER_MESSAGE, t('Empty')));
-  $cart_link_text = format_plural($variables['quantity'], '1 ' . check_plain(variable_get(DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT, t('item'))), '@count ' . check_plain(variable_get(DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT, t('items'))));
+  $variables['configuration']['empty_cart_teaser_message'] = variable_get(DC_AJAX_ADD_CART_EMPTY_CART_TEASER_MESSAGE, t('Empty'));
+  $cart_link_text = format_plural($variables['quantity'], '1 ' . variable_get(DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT_SINGULAR, t('item')), '@count ' . variable_get(DC_AJAX_ADD_CART_ITEM_SUFFIX_TEXT_PLURAL, t('items')));
   $variables['cart_link'] = l($cart_link_text, 'cart', array('attributes' => array('class' => array('quantity'))));
 }
 

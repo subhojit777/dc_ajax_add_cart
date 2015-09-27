@@ -258,7 +258,8 @@ class CommerceAjaxAddCartUI extends CommerceAjaxAddCartBase {
 
     $edit = array();
     $edit['dc_ajax_add_cart_empty_cart_teaser_message'] = 'Khali hai';
-    $edit['dc_ajax_add_cart_item_suffix_text'] = 'saman';
+    $edit['dc_ajax_add_cart_item_suffix_text_singular'] = 'saman';
+    $edit['dc_ajax_add_cart_item_suffix_text_plural'] = 'samans';
     $this->drupalPost('admin/commerce/config/ajax-cart/cart-teaser', $edit, t('Save configuration'));
 
     // First we check with visibility of quantity and price turned on.
@@ -322,8 +323,8 @@ class CommerceAjaxAddCartUI extends CommerceAjaxAddCartBase {
     $this->assertFalse($this->xpath('//th[@class=:class and text()=:label]', array(':class' => 'item-label', ':label' => t('Items'))), t('Item label not found'));
     $this->assertFalse($this->xpath('//th[@class=:class and text()=:label]', array(':class' => 'price-label', ':label' => t('Price'))), t('Price label not found'));
 
-    // @todo Verify suffix text in teaser cart.
-    // $this->assertRaw('<a href="' . url('cart') . '" class="quantity">' . count($items) . ' samans</a>', t('Plural suffix text found'));
+    // Verify suffix text in teaser cart.
+    $this->assertRaw('<a href="' . url('cart') . '" class="quantity">' . count($items) . ' samans</a>', t('Plural suffix text found'));
 
     // Verify whether remove cart is shown as image.
     $this->assertTrue($this->xpath('//a[contains(@href, "remove-product/nojs")]/img[contains(@src, :src) and @title=:title]', array(':title' => t('Remove from cart'), ':src' => $image_remove_cart_path)), t('Remove cart is shown as image'));
@@ -406,8 +407,8 @@ class CommerceAjaxAddCartUI extends CommerceAjaxAddCartBase {
     $this->assertFalse($this->xpath('//th[@class=:class and text()=:label]', array(':class' => 'item-label', ':label' => t('Items'))), t('Item label not found'));
     $this->assertFalse($this->xpath('//th[@class=:class and text()=:label]', array(':class' => 'price-label', ':label' => t('Price'))), t('Price label not found'));
 
-    // @todo Verify suffix text in teaser cart.
-    // $this->assertRaw('<a href="' . url('cart') . '" class="quantity">' . count($items) . ' samans</a>', t('Plural suffix text found'));
+    // Verify suffix text in teaser cart.
+    $this->assertRaw('<a href="' . url('cart') . '" class="quantity">' . count($items) . ' samans</a>', t('Plural suffix text found'));
 
     // Verify whether remove cart is shown as image.
     $this->assertTrue($this->xpath('//a[contains(@href, "remove-product/nojs")]/img[contains(@src, :src) and @title=:title]', array(':title' => t('Remove from cart'), ':src' => $image_remove_cart_path)), t('Remove cart is shown as image'));
@@ -451,7 +452,8 @@ class CommerceAjaxAddCartUI extends CommerceAjaxAddCartBase {
 
     $edit = array();
     $edit['dc_ajax_add_cart_empty_cart_teaser_message'] = 'Khali hai';
-    $edit['dc_ajax_add_cart_item_suffix_text'] = 'saman';
+    $edit['dc_ajax_add_cart_item_suffix_text_singular'] = 'saman';
+    $edit['dc_ajax_add_cart_item_suffix_text_plural'] = 'samans';
     $this->drupalPost('admin/commerce/config/ajax-cart/cart-teaser', $edit, t('Save configuration'));
 
     // First we check with visibility of quantity and price turned on.
@@ -485,8 +487,8 @@ class CommerceAjaxAddCartUI extends CommerceAjaxAddCartBase {
     $this->assertFalse($this->xpath('//th[@class=:class and text()=:label]', array(':class' => 'item-label', ':label' => t('Items'))), t('Item label not found'));
     $this->assertFalse($this->xpath('//th[@class=:class and text()=:label]', array(':class' => 'price-label', ':label' => t('Price'))), t('Price label not found'));
 
-    // @todo Verify suffix text in teaser cart.
-    // $this->assertRaw('<a href="' . url('cart') . '" class="quantity">' . count($items) . ' samans</a>', t('Plural suffix text found'));
+    // Verify suffix text in teaser cart.
+    $this->assertRaw('<a href="' . url('cart') . '" class="quantity">' . count($items) . ' samans</a>', t('Plural suffix text found'));
 
     // Verify whether remove cart is shown as image.
     $this->assertTrue($this->xpath('//a[contains(@href, "remove-product/nojs")]/img[contains(@src, :src) and @title=:title]', array(':title' => t('Remove from cart'), ':src' => $image_remove_cart_path)), t('Remove cart is shown as image'));

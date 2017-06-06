@@ -369,6 +369,7 @@ function dc_ajax_add_cart_block_view($delta = '') {
       $block['content'] .= '</div>';
 
       drupal_add_css(drupal_get_path('module', 'dc_ajax_add_cart') . '/css/dc_ajax_add_cart.css');
+      drupal_add_js(drupal_get_path('module', 'dc_ajax_add_cart') . '/js/dc_ajax_add_cart_html.js');
 
       break;
   }

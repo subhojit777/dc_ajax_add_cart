@@ -826,3 +826,45 @@ function dc_ajax_add_cart_command_html($selector, $html) {
     'data' => $html,
   );
 }
+
+/**
+ * Implements hook_variable_info().
+ */
+function dc_ajax_add_cart_variable_info($options) {
+  $variables[DC_AJAX_ADD_CART_EMPTY_CART_MESSAGE] = array(
+    'type' => 'string',
+    'title' => t('Empty cart message', array(), $options),
+    'default' => 'Shopping cart is empty',
+    'localize' => TRUE,
+  );
+
+  $variables[DC_AJAX_ADD_CART_EMPTY_CART_TEASER_MESSAGE] = array(
+    'type' => 'string',
+    'title' => t('Empty cart teaser message', array(), $options),
+    'default' => 'Empty',
+    'localize' => TRUE,
+  );
+
+  $variables[DC_AJAX_ADD_CART_SUCCESS_MESSAGE] = array(
+    'type' => 'string',
+    'title' => t('Cart success message', array(), $options),
+    'default' => 'Item successfully added to cart',
+    'localize' => TRUE,
+  );
+
+  $variables[DC_AJAX_ADD_CART_POPUP_CHECKOUT] = array(
+    'type' => 'string',
+    'title' => t('Go to checkout Label', array(), $options),
+    'default' => 'Go to checkout',
+    'localize' => TRUE,
+  );
+
+  $variables[DC_AJAX_ADD_CART_POPUP_CONTINUE_SHOPPING] = array(
+    'type' => 'string',
+    'title' => t('Continue shopping Label', array(), $options),
+    'default' => 'Continue shopping',
+    'localize' => TRUE,
+  );
+
+  return $variables;
+}

@@ -332,8 +332,6 @@ function dc_ajax_add_cart_block_view($delta = '') {
           'total' => $total,
         ));
         $block['content'] .= '</div>';
-
-        drupal_add_library('system', 'drupal.ajax', TRUE);
       }
 
       module_load_include('inc', 'dc_ajax_add_cart', 'includes/dc_ajax_add_cart');

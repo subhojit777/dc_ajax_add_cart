@@ -455,8 +455,7 @@ function template_preprocess_dc_ajax_shopping_cart(&$variables) {
       'title' => t('Remove from cart'),
     ));
 
-    // Default currency array.
-    $currency = commerce_currency_load(commerce_default_currency());
+    $currency = dc_ajax_add_cart_currency_load();
 
     // Output arrays.
     $line_item_list = array();
@@ -610,8 +609,7 @@ function template_preprocess_dc_ajax_shopping_cart(&$variables) {
  *     in the site.
  */
 function template_preprocess_dc_ajax_shopping_cart_teaser(&$variables) {
-  // Default currency array.
-  $currency = commerce_currency_load(commerce_default_currency());
+  $currency = dc_ajax_add_cart_currency_load();
   $image_cart_icon_path = drupal_get_path('module', 'dc_ajax_add_cart') . '/images/shopping-cart.png';
 
   $variables['total_amount'] = commerce_currency_format($variables['total']['amount'], $currency['code']);
@@ -638,8 +636,7 @@ function template_preprocess_dc_ajax_shopping_cart_teaser(&$variables) {
  *     in the site.
  */
 function template_preprocess_dc_ajax_add_to_cart_message(&$variables) {
-  // Default currency array.
-  $currency = commerce_currency_load(commerce_default_currency());
+  $currency = dc_ajax_add_cart_currency_load();
 
   $product_price = commerce_product_calculate_sell_price($variables['product']);
 
@@ -861,4 +858,21 @@ function dc_ajax_add_cart_variable_info($options) {
   );
 
   return $variables;
+}
+
+/**
+ * Returns the default/user-based currency.
+ *
+ * @return array
+ *   Commerce currency info array.
+ *
+ * @see https://www.drupal.org/node/2846386
+ */
+function dc_ajax_add_cart_currency_load() {
+  if (module_exists('commerce_multicurrency')) {
+    return commerce_currency_load(commerce_multicurrency_get_user_currency_code());
+  }
+  else {
+    return commerce_currency_load(commerce_default_currency());
+  }
 }

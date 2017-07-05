@@ -473,7 +473,7 @@ function template_preprocess_dc_ajax_shopping_cart(&$variables) {
       if (property_exists($line_item, 'commerce_product')) {
         $product = commerce_product_load($line_item->commerce_product[LANGUAGE_NONE][0]['product_id']);
         $products[$product->product_id] = $product;
-        $product_prices[$product->product_id] = commerce_currency_format($line_item->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
+        $product_prices[$line_item->line_item_id] = commerce_currency_format($line_item->commerce_unit_price[LANGUAGE_NONE][0]['amount'], $currency['code']);
       }
       // If line item is shipping service.
       elseif (property_exists($line_item, 'commerce_shipping_service')) {
@@ -556,7 +556,7 @@ function template_preprocess_dc_ajax_shopping_cart(&$variables) {
           'field_classes' => 'name',
         );
         $variables['products_list']['row'][$line_item->line_item_id]['price'] = array(
-          'data' => $product_prices[$product->product_id],
+          'data' => $product_prices[$line_item->line_item_id],
           'field_classes' => 'price',
         );
         $variables['products_list']['row'][$line_item->line_item_id]['remove'] = array(

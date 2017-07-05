@@ -568,3 +568,125 @@ class CommerceAjaxAddCartUI extends CommerceAjaxAddCartBase {
   }
 
 }
+
+class CommerceAjaxAddCartMulticurrency extends CommerceAjaxAddCartBase {
+
+  /**
+   * Product that is being added to the cart.
+   *
+   * @var array
+   */
+  protected $product = array();
+
+  /**
+   * Product display.
+   *
+   * @var array
+   */
+  protected $productNode = array();
+
+  /**
+   * Defines the cookie name used to store the set currency.
+   *
+   * @var string
+   */
+  protected $cookieName = 'Drupal_visitor_commerce_currency';
+
+  /**
+   * Implementation of getInfo().
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Commerce ajax add to cart with commerce multicurrency test',
+      'description' => 'Functional tests for commerce ajax add to cart module with commerce multicurrency module.',
+      'group' => 'Commerce ajax add to cart',
+    );
+  }
+
+  /**
+   * Implementation of setUp().
+   */
+  public function setUp() {
+    $modules = parent::setUpHelper('all', array(
+      'rules',
+      'commerce_multicurrency',
+    ));
+    $this->product = array();
+    $this->productNode = array();
+
+    // Create a dummy product display content type.
+    $this->createDummyProductDisplayContentType();
+
+    // Create dummy product display nodes (and their corresponding product
+    // entities).
+    for ($i = 0; $i <= 9; $i++) {
+      $sku = "PROD-$i";
+      $product_name = "Product $i";
+      $this->product[$i] = $this->createDummyProduct($sku, $product_name);
+      $this->productNode[$i] = $this->createDummyProductNode(array($this->product[$i]->product_id), $product_name);
+    }
+
+    // Enable currencies.
+    variable_set('commerce_enabled_currencies', array(
+      commerce_default_currency() => commerce_default_currency(),
+      'INR' => 'INR',
+    ));
+
+    // Ensure the static currencies cache is reset.
+    commerce_currencies(TRUE, TRUE);
+
+    // Place the blocks.
+    $this->drupalLogin($this->storeAdmin);
+
+    $this->drupalGet('admin/structure/block');
+
+    $edit = array();
+    $edit['blocks[dc_ajax_add_cart_ajax_shopping_cart][region]'] = 'featured';
+    $edit['blocks[dc_ajax_add_cart_ajax_shopping_cart_teaser][region]'] = 'sidebar_first';
+    $this->drupalPost('admin/structure/block', $edit, t('Save blocks'));
+
+    $this->drupalGet('admin/commerce/config/currency/conversion');
+
+    $edit = array();
+    $edit['sync_now'] = 1;
+    $edit['conversion_settings[USD][sync]'] = 1;
+    $this->drupalPost('admin/commerce/config/currency/conversion', $edit, t('Save Settings'));
+
+    $this->drupalLogout();
+  }
+
+  /**
+   * Tests whether the prices are using user currency.
+   */
+  public function testUserCurrencySetting() {
+    $items = array();
+    $this->drupalLogin($this->storeCustomer);
+
+    // Reset currency to default.
+    $currency_code = &drupal_static('commerce_multicurrency_get_user_currency_code', FALSE);
+    $currency_code = commerce_default_currency();
+
+    unset($_COOKIE[$this->cookieName]);
+    commerce_multicurrency_set_user_currency_code('INR');
+
+    $user_currency_code = commerce_multicurrency_get_user_currency_code();
+    $this->verbose($user_currency_code);
+    $this->drupalGet('<front>');
+
+    // Randomly add two items to cart.
+    for ($i = 0; $i <= 1; $i++) {
+      $items[$i] = mt_rand(0, 9);
+      $this->drupalPostAJAX('node/' . $this->productNode[$items[$i]]->nid, array(), array('op' => t('Add to cart')));
+$this->verbose($this->drupalGetContent());
+
+      // Verify whether the price has user currency code.
+      $this->assertRaw('<p class="cost-incl-tax">' . commerce_currency_format($this->product[$items[$i]]->commerce_price[LANGUAGE_NONE][0]['amount'], $user_currency_code) . '</p>', t('Price has the user currency code'));
+
+      // Verify whether the total price has user currency code.
+      $this->assertRaw('<p class="total-incl-tax">' . commerce_currency_format($this->product[$items[$i]]->commerce_price[LANGUAGE_NONE][0]['amount'], $user_currency_code) . '</p>', t('Total price has user currency code'));
+    }
+
+    $this->drupalLogout();
+  }
+
+}

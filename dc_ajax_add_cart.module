@@ -231,8 +231,8 @@ function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
     // Display add to cart message.
     if (variable_get(DC_AJAX_ADD_CART_DISPLAY_POPUP, 'display_popup_message') == 'display_popup_message') {
       // Gather information to display product information in popup message.
-      $last_line_item = $form_state['line_item'];
-      $last_line_item_product = commerce_product_load($form_state['values']['product_id']);
+      $last_line_item = dc_ajax_add_cart_get_last_line_item_wrapper($line_items);
+      $last_line_item_product = commerce_product_load($last_line_item->commerce_product[LANGUAGE_NONE][0]['product_id']);
       $last_line_item_quantity = $form_state['values']['quantity'];
 
       $content = theme('dc_ajax_add_to_cart_message', array(
@@ -637,10 +637,10 @@ function template_preprocess_dc_ajax_shopping_cart_teaser(&$variables) {
 function template_preprocess_dc_ajax_add_to_cart_message(&$variables) {
   $currency = dc_ajax_add_cart_currency_load();
 
-  $product_price = commerce_product_calculate_sell_price($variables['product']);
+  $product_price = $variables['line_item']->commerce_unit_price[LANGUAGE_NONE][0]['amount'];
 
-  $variables['product_per_unit_price'] = commerce_currency_format($product_price['amount'], $currency['code']);
-  $variables['product_price_total'] = commerce_currency_format($variables['quantity'] * $product_price['amount'], $currency['code']);
+  $variables['product_per_unit_price'] = commerce_currency_format($product_price, $currency['code']);
+  $variables['product_price_total'] = commerce_currency_format($variables['quantity'] * $product_price, $currency['code']);
 
   // Create new theme variables related to configuration.
   $variables['configuration']['success_message'] = check_plain(variable_get(DC_AJAX_ADD_CART_SUCCESS_MESSAGE, t('Item successfully added to cart')));
@@ -874,4 +874,19 @@ function dc_ajax_add_cart_currency_load() {
   else {
     return commerce_currency_load(commerce_default_currency());
   }
+}
+
+/**
+ * Returns the last line item that was added to cart.
+ *
+ * @param object $line_items_wrapper
+ *   Entity list wrapper of line items.
+ *
+ * @return object
+ *   The last line item.
+ */
+function dc_ajax_add_cart_get_last_line_item_wrapper($line_items_wrapper) {
+  return array_reduce($line_items_wrapper->value(), function($c, $i) {
+    return $i;
+  });
 }

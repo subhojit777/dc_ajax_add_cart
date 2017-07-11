@@ -334,8 +334,7 @@ function dc_ajax_add_cart_block_view($delta = '') {
         $block['content'] .= '</div>';
       }
 
-      module_load_include('inc', 'dc_ajax_add_cart', 'includes/dc_ajax_add_cart');
-      dc_ajax_add_cart_include_cart_resources();
+      drupal_add_library('dc_ajax_add_cart', 'base', TRUE);
 
       break;
 
@@ -362,8 +361,7 @@ function dc_ajax_add_cart_block_view($delta = '') {
       ));
       $block['content'] .= '</div>';
 
-      module_load_include('inc', 'dc_ajax_add_cart', 'includes/dc_ajax_add_cart');
-      dc_ajax_add_cart_include_cart_resources();
+      drupal_add_library('dc_ajax_add_cart', 'base', TRUE);
 
       break;
   }
@@ -889,4 +887,29 @@ function dc_ajax_add_cart_get_last_line_item_wrapper($line_items_wrapper) {
   return array_reduce($line_items_wrapper->value(), function($c, $i) {
     return $i;
   });
+}
+
+/**
+ * Implements hook_library().
+ */
+function dc_ajax_add_cart_library() {
+  $module_path = drupal_get_path('module', 'dc_ajax_add_cart');
+
+  $libraries['base'] = array(
+    'title' => 'Drupal Commerce Ajax Add Cart',
+    'version' => '1.0.0',
+    'js' => array(
+      $module_path . '/js/dc_ajax_add_cart_html.js' => array(
+        'group' => JS_DEFAULT,
+      ),
+    ),
+    'css' => array(
+      $module_path . '/css/dc_ajax_add_cart.css' => array(),
+    ),
+    'dependencies' => array(
+      array('system', 'drupal.ajax'),
+    ),
+  );
+
+  return $libraries;
 }

@@ -1,8 +1,0 @@
-name = Commerce AJAX Add to Cart
-description = Ajaxifies addition of products to cart
-core = 7.x
-configure = admin/commerce/config/ajax-cart
-dependencies[] = commerce
-dependencies[] = commerce_cart
-package = Commerce (contrib)
-files[] = tests/dc_ajax_add_cart_ui.test

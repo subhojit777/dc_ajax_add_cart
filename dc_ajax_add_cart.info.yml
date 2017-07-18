@@ -1,0 +1,7 @@
+name: Commerce AJAX Add to Cart
+type: module
+description: Ajaxifies addition of products to cart
+core: 8.x
+dependencies:
+  - drupal:commerce
+package: Commerce (contrib)

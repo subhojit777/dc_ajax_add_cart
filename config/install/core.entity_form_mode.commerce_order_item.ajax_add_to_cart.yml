@@ -1,0 +1,12 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - commerce_order
+  enforced:
+    module:
+      - commerce_cart
+id: commerce_order_item.dc_ajax_add_cart
+label: 'Ajax add to cart'
+targetEntityType: commerce_order_item
+cache: true

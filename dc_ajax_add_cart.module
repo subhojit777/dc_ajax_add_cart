@@ -7,3 +7,34 @@
  * Allows you to add products AJAX-ically to cart. You can remove products
  * AJAX-ically from cart.
  */
+
+/**
+ * Implements hook_entity_bundle_create().
+ *
+ * Creates an 'dc_ajax_add_cart' form display for each new order item type.
+ */
+function dc_ajax_add_cart_entity_bundle_create($entity_type_id, $bundle) {
+  if ($entity_type_id == 'commerce_order_item' && !\Drupal::isConfigSyncing()) {
+    $storage = \Drupal::entityTypeManager()->getStorage('entity_form_display');
+    $form_display = $storage->load('commerce_order_item.' . $bundle . '.dc_ajax_add_cart');
+    if (!$form_display) {
+      /** @var \Drupal\Core\Entity\Display\EntityFormDisplayInterface $form_display */
+      $form_display = $storage->create([
+        'targetEntityType' => 'commerce_order_item',
+        'bundle' => $bundle,
+        'mode' => 'dc_ajax_add_cart',
+        'status' => TRUE,
+      ]);
+      // Hide the unit price by default.
+      $form_display->removeComponent('unit_price');
+      $form_display->save();
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_type_build().
+ */
+function dc_ajax_add_cart_entity_type_build(array &$entity_types) {
+  $entity_types['commerce_order_item']->setFormClass('dc_ajax_add_cart', '\Drupal\dc_ajax_add_cart\Form\AjaxAddToCartForm');
+}

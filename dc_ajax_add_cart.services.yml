@@ -1,0 +1,4 @@
+services:
+  dc_ajax_add_cart.lazy_builders:
+    class: Drupal\dc_ajax_add_cart\ProductLazyBuilders
+    arguments: ['@entity_type.manager', '@form_builder']

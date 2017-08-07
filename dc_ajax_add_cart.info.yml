@@ -3,5 +3,6 @@ type: module
 description: Ajaxifies addition of products to cart
 core: 8.x
 dependencies:
-  - drupal:commerce
+  - commerce:commerce_product
+  - commerce:commerce_cart
 package: Commerce (contrib)

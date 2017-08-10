@@ -6,3 +6,6 @@ dependencies:
   - commerce:commerce_product
   - commerce:commerce_cart
 package: Commerce (contrib)
+config_devel:
+  install:
+    - core.entity_form_mode.commerce_order_item.dc_ajax_add_cart

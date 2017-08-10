@@ -1,9 +1,0 @@
-langcode: en
-status: true
-dependencies:
-  module:
-    - commerce_product
-id: commerce_product_attribute_value.dc_ajax_add_cart
-label: 'Ajax Add to Cart Form'
-targetEntityType: commerce_product_attribute_value
-cache: true

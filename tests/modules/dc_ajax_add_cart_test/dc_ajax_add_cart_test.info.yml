@@ -1,0 +1,6 @@
+name: Commerce AJAX Add to Cart test
+type: module
+description: Tests AJAX add to cart module
+core: 8.x
+dependencies:
+  - drupal:dc_ajax_add_cart

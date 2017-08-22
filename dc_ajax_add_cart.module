@@ -29,10 +29,6 @@ function dc_ajax_add_cart_entity_bundle_create($entity_type_id, $bundle) {
         'status' => TRUE,
       ]);
 
-      // Hide irrelevant fields by default.
-      $form_display->removeComponent('unit_price');
-      $form_display->removeComponent('quantity');
-
       $form_display->save();
     }
   }

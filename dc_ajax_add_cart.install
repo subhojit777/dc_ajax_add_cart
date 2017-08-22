@@ -28,10 +28,6 @@ function dc_ajax_add_cart_install() {
           'status' => TRUE,
         ]);
 
-        // Hide irrelevant fields by default.
-        $form_display->removeComponent('unit_price');
-        $form_display->removeComponent('quantity');
-
         $form_display->save();
       }
     }

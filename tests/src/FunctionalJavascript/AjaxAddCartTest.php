@@ -35,9 +35,6 @@ class AjaxAddCartTest extends CartBrowserTestBase {
   protected function setUp() {
     parent::setUp();
 
-    // @TODO Remove this before going live.
-    $this->htmlOutputDirectory = DRUPAL_ROOT . '/simpletest';
-
     // Change commerce_product variation view display to dc_ajax_add_cart.
     \Drupal::entityTypeManager()
       ->getStorage('entity_view_display')

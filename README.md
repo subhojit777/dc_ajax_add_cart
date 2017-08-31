@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/subhojit777/dc_ajax_add_cart.svg?branch=8.x-1.x)](https://travis-ci.org/subhojit777/dc_ajax_add_cart)
+
 Using this module you can ajaxify the add to cart operation. The updated cart
 will be displayed without page refresh and a popup message will be shown after
 you add an item to cart.
@@ -15,8 +17,6 @@ you add an item to cart.
   **Ajax add to cart** form format for `Variations`.
 
 ## `7.x`
-
-[![Build Status](https://travis-ci.org/subhojit777/dc_ajax_add_cart.svg?branch=7.x-2.x)](https://travis-ci.org/subhojit777/dc_ajax_add_cart)
 
 ### Features:
 - Shopping cart block (minified version of cart page), that updates every time

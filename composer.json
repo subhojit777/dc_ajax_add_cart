@@ -4,7 +4,7 @@
     "type": "drupal-module",
     "homepage": "https://www.drupal.org/project/dc_ajax_add_cart",
     "require": {
-        "drupal/commerce": "~8"
+        "drupal/commerce": "~2.0"
     },
     "minimum-stability": "dev",
     "license": "GPL-2.0+"

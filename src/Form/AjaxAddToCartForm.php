@@ -24,6 +24,7 @@ class AjaxAddToCartForm extends AddToCartForm {
     // @TODO Remove this once https://www.drupal.org/node/2897120 gets into
     // core.
     $form['#attached']['library'][] = 'core/jquery.form';
+    $form['#attached']['library'][] = 'core/drupal.ajax';
 
     return $form;
   }

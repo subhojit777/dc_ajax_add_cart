@@ -70,9 +70,6 @@ class AjaxAddCartTest extends CartBrowserTestBase {
     $order_items = $this->cart->getItems();
     $this->assertOrderItemInOrder($this->variation, $order_items[0]);
 
-    // @TODO Remove this once you fix https://www.drupal.org/node/2905814
-    $this->drupalGet("product/{$this->variation->getProduct()->id()}");
-
     /*
      * Confirm that the second add to cart submit increments the quantity
      * of the first order item.
@@ -99,7 +96,7 @@ class AjaxAddCartTest extends CartBrowserTestBase {
 
     $this->cart = Order::load($this->cart->id());
     $order_items = $this->cart->getItems();
-    $this->assertEmpty($order_items);
+    $this->assertEmpty($order_items, 'Order items found in the cart');
   }
 
 }

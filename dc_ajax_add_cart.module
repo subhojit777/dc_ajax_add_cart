@@ -896,7 +896,7 @@ function dc_ajax_add_cart_library() {
   $module_path = drupal_get_path('module', 'dc_ajax_add_cart');
 
   $libraries['base'] = array(
-    'title' => 'Drupal Commerce Ajax Add Cart',
+    'title' => 'Drupal Commerce Ajax Add Cart Base',
     'version' => '1.0.0',
     'js' => array(
       $module_path . '/js/dc_ajax_add_cart_html.js' => array(
@@ -907,7 +907,14 @@ function dc_ajax_add_cart_library() {
       $module_path . '/css/dc_ajax_add_cart.css' => array(),
     ),
     'dependencies' => array(
-      array('system', 'drupal.ajax'),
+      array(
+        'system',
+        'drupal.ajax',
+      ),
+      array(
+        'system',
+        'jquery',
+      ),
     ),
   );
 

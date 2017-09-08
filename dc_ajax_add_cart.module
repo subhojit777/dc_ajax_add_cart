@@ -184,7 +184,13 @@ function dc_ajax_add_cart_form_alter(&$form, &$form_state, $form_id) {
       'method' => 'replace',
       'effect' => 'slide',
     );
-    $form['#attached']['js'][] = drupal_get_path('module', 'dc_ajax_add_cart') . '/js/dc_ajax_add_cart.js';
+
+    if (variable_get(DC_AJAX_ADD_CART_DISPLAY_POPUP, 'display_popup_message') === 'display_popup_message') {
+      $form['#attached']['library'][] = array(
+        'dc_ajax_add_cart',
+        'popup',
+      );
+    }
 
     // Rebuild form.
     $form['#submit'][] = 'dc_ajax_add_cart_rebuild_add_to_cart_form';
@@ -911,6 +917,25 @@ function dc_ajax_add_cart_library() {
         'system',
         'drupal.ajax',
       ),
+      array(
+        'system',
+        'jquery',
+      ),
+    ),
+  );
+
+  $libraries['popup'] = array(
+    'title' => 'Drupal Commerce Ajax Add Cart Popup',
+    'version' => '1.0.0',
+    'js' => array(
+      $module_path . '/js/dc_ajax_add_cart.js' => array(
+        'group' => JS_DEFAULT,
+      ),
+    ),
+    'css' => array(
+      $module_path . '/css/dc_ajax_add_cart.css' => array(),
+    ),
+    'dependencies' => array(
       array(
         'system',
         'jquery',

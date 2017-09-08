@@ -207,12 +207,13 @@ function dc_ajax_add_cart_form_alter(&$form, &$form_state, $form_id) {
 function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
   // AJAX commands array.
   $commands = array();
+  $errors = form_get_errors();
 
   // Get the current status of commerce cart.
   $commerce_cart = dc_ajax_add_cart_get_commerce_cart_details();
 
   // If the user has ordered items.
-  if ($commerce_cart['order']) {
+  if ($commerce_cart['order'] && !$errors) {
     // Get the line items in cart with their quantity and total.
     $line_items = $commerce_cart['wrapper']->commerce_line_items;
     $quantity = commerce_line_items_quantity($line_items, commerce_product_line_item_types());

@@ -891,9 +891,21 @@ function dc_ajax_add_cart_currency_load() {
  *   The last line item.
  */
 function dc_ajax_add_cart_get_last_line_item_wrapper($line_items_wrapper) {
-  return array_reduce($line_items_wrapper->value(), function($c, $i) {
-    return $i;
-  });
+  $line_items = $line_items_wrapper->value();
+  $changed = 0;
+
+  // By default it will return the last line item in the array.
+  $keys = array_keys($line_items);
+  $last_changed_key = end($keys);
+
+  foreach ($line_items as $key => $line_item) {
+    if ($line_item->changed >= $changed) {
+      $last_changed_key = $key;
+      $changed = $line_item->changed;
+    }
+  }
+
+  return $line_items[$last_changed_key];
 }
 
 /**

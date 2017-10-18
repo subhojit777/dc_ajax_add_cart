@@ -891,7 +891,7 @@ function dc_ajax_add_cart_currency_load() {
  *   The last line item.
  */
 function dc_ajax_add_cart_get_last_line_item_wrapper($line_items_wrapper) {
-  $line_items = $line_items_wrapper->value();
+  $line_items = dc_ajax_add_cart_filter_commerce_line_item_by_commerce_product($line_items_wrapper->value());
   $changed = 0;
 
   // By default it will return the last line item in the array.
@@ -906,6 +906,28 @@ function dc_ajax_add_cart_get_last_line_item_wrapper($line_items_wrapper) {
   }
 
   return $line_items[$last_changed_key];
+}
+
+/**
+ * Filters line items by products.
+ *
+ * @param array $line_items
+ *   Line items to be filtered from.
+ *
+ * @return array
+ *   Filtered line items.
+ */
+function dc_ajax_add_cart_filter_commerce_line_item_by_commerce_product($line_items) {
+  $product_types = array_keys(commerce_product_types());
+  $filtered_line_items = array();
+
+  foreach ($line_items as $line_item) {
+    if (in_array($line_item->type, $product_types)) {
+      $filtered_line_items[] = $line_item;
+    }
+  }
+
+  return $filtered_line_items;
 }
 
 /**

@@ -10,7 +10,9 @@ use Drupal\Tests\dc_ajax_add_cart\Functional\AjaxAddCartTestBase;
  *
  * @TODO The default `testing` profile is unable to render the ajax confirmation
  * message. Find out why this is happening, and move this test inside
- * `AjaxAddCartTest`.
+ * `AjaxAddCartTest`. If you are able to do this, add another test just like
+ * `testAjaxAddCartForm()` that would test whether confirmation message is
+ * indeed ajaxified.
  *
  * @ingroup dc_ajax_add_cart
  *
@@ -43,7 +45,7 @@ class AjaxAddCartConfirmationMessageTest extends AjaxAddCartTestBase {
     $this->assertOrderItemInOrder($this->variation, $order_items[0]);
 
     // Confirm that the confirmation message has appeared.
-    $this->assertSession()->pageTextContains("{$this->variation->getProduct()->label()} added to your cart.");
+    $this->assertSession()->pageTextContains("{$this->variation->getProduct()->label()} added to your cart.", 'Confirmation message not found.');
   }
 
 }

@@ -6,10 +6,8 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\commerce_cart\Form\AddToCartForm;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\RemoveCommand;
-use Drupal\Core\Ajax\AppendCommand;
 use Drupal\Core\Ajax\UpdateBuildIdCommand;
-use Drupal\block\Entity\Block;
+use Drupal\dc_ajax_add_cart\RefreshPageElementsHelper;
 
 /**
  * Provides the order item ajax add to cart form.
@@ -67,40 +65,9 @@ class AjaxAddToCartForm extends AddToCartForm {
       $response->addCommand(new UpdateBuildIdCommand($form['#build_id_old'], $form['#build_id']));
     }
 
-    /*
-     * Update status messages.
-     *
-     * @TODO Get the following approach reviewed by someone.
-     */
-    /** @var \Drupal\block\BlockInterface $block */
-    $block = self::getStatusMessagesBlock();
-    if ($block) {
-      $elements = [
-        '#type' => 'status_messages',
-      ];
-
-      $response->addCommand(new RemoveCommand('.messages__wrapper'));
-      $response->addCommand(new AppendCommand(".region-{$block->getRegion()}", \Drupal::service('renderer')->renderRoot($elements)));
-    }
+    RefreshPageElementsHelper::updateStatusMessages($response);
 
     return $response;
-  }
-
-  /**
-   * Returns the region where messages block is placed in the current theme.
-   *
-   * @return \Drupal\block\BlockInterface|null
-   *   Returns status_messages block entity, or NULL if not present.
-   */
-  protected static function getStatusMessagesBlock() {
-    /** @var \Drupal\Core\Theme\ThemeManagerInterface $theme_manager */
-    $theme_manager = \Drupal::service('theme.manager');
-    $active_theme = $theme_manager->getActiveTheme()->getName();
-
-    /** @var \Drupal\block\BlockInterface $block */
-    $block = Block::load("{$active_theme}_messages");
-
-    return $block;
   }
 
 }

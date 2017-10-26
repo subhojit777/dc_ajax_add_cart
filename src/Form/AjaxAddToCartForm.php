@@ -65,9 +65,7 @@ class AjaxAddToCartForm extends AddToCartForm {
       $response->addCommand(new UpdateBuildIdCommand($form['#build_id_old'], $form['#build_id']));
     }
 
-    RefreshPageElementsHelper::updateStatusMessages($response);
-
-    return $response;
+    return RefreshPageElementsHelper::updateStatusMessages($response);
   }
 
 }

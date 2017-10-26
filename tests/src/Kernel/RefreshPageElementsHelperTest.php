@@ -90,4 +90,22 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
     }
   }
 
+  /**
+   * Tests ajax response when status messages block is not placed.
+   */
+  public function testAjaxResponseNoStatusMessagesBlock() {
+    $response = RefreshPageElementsHelper::updateStatusMessages(new AjaxResponse());
+    $this->assertTrue($response instanceof AjaxResponse, 'Ajax response is not returned.');
+
+    // The returned response should not have the expected ajax commands.
+    $ajax_commands = $response->getCommands();
+    $actual_ajax_command_names = array_map(function ($i) {
+      return $i['command'];
+    }, $ajax_commands);
+
+    foreach ($this->expectedAjaxCommandNames as $ajax_command_name) {
+      $this->assertFalse(in_array($ajax_command_name, $actual_ajax_command_names), "$ajax_command_name is present");
+    }
+  }
+
 }

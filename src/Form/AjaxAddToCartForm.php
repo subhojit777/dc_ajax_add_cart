@@ -56,16 +56,22 @@ class AjaxAddToCartForm extends AddToCartForm {
    * Refreshes the add to cart form.
    *
    * Fixes https://www.drupal.org/node/2905814
+   *
+   * @return \Drupal\Core\Ajax\AjaxResponse
+   *   The updated ajax response.
    */
   public static function refreshAddToCartForm(array $form, FormStateInterface $form_state) {
     $response = new AjaxResponse();
+    $refereshPageElementsHelper = new RefreshPageElementsHelper($response);
 
     // If the form build ID has changed, issue an Ajax command to update it.
     if (isset($form['#build_id_old']) && $form['#build_id_old'] !== $form['#build_id']) {
       $response->addCommand(new UpdateBuildIdCommand($form['#build_id_old'], $form['#build_id']));
     }
 
-    return RefreshPageElementsHelper::updateStatusMessages($response);
+    return $refereshPageElementsHelper
+      ->updateStatusMessages()
+      ->getResponse();
   }
 
 }

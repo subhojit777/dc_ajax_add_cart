@@ -13,29 +13,20 @@ use Drupal\Core\Ajax\AjaxResponse;
 class RefreshPageElementsHelper {
 
   /**
-   * Refreshes status messages.
+   * Ajax response.
+   *
+   * @var \Drupal\Core\Ajax\AjaxResponse
+   */
+  protected $response;
+
+  /**
+   * Constructs a new RefreshPageElementsHelper object.
    *
    * @param \Drupal\Core\Ajax\AjaxResponse $response
-   *   The AjaxResponse where the update commands are going to be added.
-   *
-   * @return \Drupal\Core\Ajax\AjaxResponse
-   *   Updated response.
-   *
-   * @TODO Get the following approach reviewed by someone.
+   *   The ajax response.
    */
-  public static function updateStatusMessages(AjaxResponse $response) {
-    /** @var \Drupal\block\BlockInterface $block */
-    $block = self::getStatusMessagesBlock();
-    if ($block) {
-      $elements = [
-        '#type' => 'status_messages',
-      ];
-
-      $response->addCommand(new RemoveCommand('.messages__wrapper'));
-      $response->addCommand(new AppendCommand(".region-{$block->getRegion()}", \Drupal::service('renderer')->renderRoot($elements)));
-    }
-
-    return $response;
+  public function __construct(AjaxResponse $response) {
+    $this->response = $response;
   }
 
   /**
@@ -44,7 +35,7 @@ class RefreshPageElementsHelper {
    * @return \Drupal\block\BlockInterface|null
    *   Returns status_messages block entity, NULL if not present.
    */
-  protected static function getStatusMessagesBlock() {
+  protected function getStatusMessagesBlock() {
     /** @var \Drupal\Core\Theme\ThemeManagerInterface $theme_manager */
     $theme_manager = \Drupal::service('theme.manager');
     $active_theme = $theme_manager->getActiveTheme()->getName();
@@ -53,6 +44,39 @@ class RefreshPageElementsHelper {
     $block = Block::load("{$active_theme}_messages");
 
     return $block;
+  }
+
+  /**
+   * Refreshes status messages.
+   *
+   * @return \Drupal\Core\Ajax\AjaxResponse
+   *   Updated response.
+   *
+   * @TODO Get the following approach reviewed by someone.
+   */
+  public function updateStatusMessages() {
+    /** @var \Drupal\block\BlockInterface $block */
+    $block = $this->getStatusMessagesBlock();
+    if ($block) {
+      $elements = [
+        '#type' => 'status_messages',
+      ];
+
+      $this->response->addCommand(new RemoveCommand('.messages__wrapper'));
+      $this->response->addCommand(new AppendCommand(".region-{$block->getRegion()}", \Drupal::service('renderer')->renderRoot($elements)));
+    }
+
+    return $this;
+  }
+
+  /**
+   * Returns the ajax response.
+   *
+   * @return \Drupal\Core\Ajax\AjaxResponse
+   *   The ajax response.
+   */
+  public function getResponse() {
+    return $this->response;
   }
 
 }

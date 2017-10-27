@@ -9,6 +9,8 @@ use Drupal\Core\Ajax\AjaxResponse;
 /**
  * Tests RefreshPageElementsHelper methods.
  *
+ * @coversDefaultClass \Drupal\dc_ajax_add_cart\RefreshPageElementsHelper
+ *
  * @ingroup dc_ajax_add_cart
  *
  * @group dc_ajax_add_cart
@@ -64,7 +66,21 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
   }
 
   /**
+   * Asserts whether response is an ajax response.
+   *
+   * @param object $response
+   *   The response to be checked.
+   */
+  protected function assertAjaxResponse($response) {
+    $this->assertTrue($response instanceof AjaxResponse, 'Ajax response is not returned.');
+  }
+
+  /**
    * Tests ajax response when status messages block is placed.
+   *
+   * @covers ::getStatusMessagesBlock
+   * @covers ::getResponse
+   * @covers ::updateStatusMessages
    */
   public function testAjaxResponseStatusMessagesBlock() {
     // Place status messages block.
@@ -76,8 +92,11 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
     ]);
     $entity->save();
 
-    $response = RefreshPageElementsHelper::updateStatusMessages(new AjaxResponse());
-    $this->assertTrue($response instanceof AjaxResponse, 'Ajax response is not returned.');
+    $refereshPageElementsHelper = new RefreshPageElementsHelper(new AjaxResponse());
+    $response = $refereshPageElementsHelper
+      ->updateStatusMessages()
+      ->getResponse();
+    $this->assertAjaxResponse($response);
 
     // Check if the returned response has the expected ajax commands.
     $ajax_commands = $response->getCommands();
@@ -92,10 +111,17 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
 
   /**
    * Tests ajax response when status messages block is not placed.
+   *
+   * @covers ::getStatusMessagesBlock
+   * @covers ::getResponse
+   * @covers ::updateStatusMessages
    */
   public function testAjaxResponseNoStatusMessagesBlock() {
-    $response = RefreshPageElementsHelper::updateStatusMessages(new AjaxResponse());
-    $this->assertTrue($response instanceof AjaxResponse, 'Ajax response is not returned.');
+    $refereshPageElementsHelper = new RefreshPageElementsHelper(new AjaxResponse());
+    $response = $refereshPageElementsHelper
+      ->updateStatusMessages()
+      ->getResponse();
+    $this->assertAjaxResponse($response);
 
     // The returned response should not have the expected ajax commands.
     $ajax_commands = $response->getCommands();

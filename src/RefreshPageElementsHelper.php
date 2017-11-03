@@ -4,6 +4,7 @@ namespace Drupal\dc_ajax_add_cart;
 
 use Drupal\Core\Ajax\RemoveCommand;
 use Drupal\Core\Ajax\AppendCommand;
+use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\block\Entity\Block;
 use Drupal\Core\Ajax\AjaxResponse;
 
@@ -67,6 +68,45 @@ class RefreshPageElementsHelper {
     }
 
     return $this;
+  }
+
+  /**
+   * Returns cart block.
+   *
+   * @return \Drupal\Core\Block\BlockPluginInterface
+   *   The cart block.
+   */
+  protected function getCartBlock() {
+    /** @var \Drupal\Core\Block\BlockManagerInterface $block_manager */
+    $block_manager = \Drupal::service('plugin.manager.block');
+    /** @var \Drupal\Core\Block\BlockPluginInterface $block */
+    $block = $block_manager->createInstance('commerce_cart', []);
+
+    return $block;
+  }
+
+  /**
+   * Updates content inside cart block.
+   *
+   * @return $this
+   */
+  public function updateCart() {
+    /** @var \Drupal\Core\Block\BlockPluginInterface $block */
+    $block = $this->getCartBlock();
+
+    $this->response->addCommand(new ReplaceCommand('.cart--cart-block', $block->build()));
+
+    return $this;
+  }
+
+  /**
+   * Updates page elements.
+   *
+   * @return $this
+   */
+  public function updatePageElements() {
+    return $this->updateStatusMessages()
+      ->updateCart();
   }
 
   /**

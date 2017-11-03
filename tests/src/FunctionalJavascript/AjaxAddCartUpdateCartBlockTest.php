@@ -20,11 +20,12 @@ use Drupal\Tests\dc_ajax_add_cart\Functional\AjaxAddCartTestBase;
 class AjaxAddCartUpdateCartBlockTest extends AjaxAddCartTestBase {
 
   /**
-   * Profile to be used for testing.
-   *
-   * @var string
+   * {@inheritdoc}
    */
-  protected $profile = 'standard';
+  protected function setUp() {
+    parent::setUp();
+    $this->placeBlock('commerce_cart');
+  }
 
   /**
    * Tests whether the cart block is updated after product added to cart.
@@ -44,7 +45,7 @@ class AjaxAddCartUpdateCartBlockTest extends AjaxAddCartTestBase {
     $this->assertOrderItemInOrder($this->variation, $order_items[0]);
 
     // Confirm that the cart block has been updated.
-    $cart_block_contents = $this->xpath('//div[contains(@class, :class)]', [
+    $cart_block_contents = $this->xpath('//div[@class=:class]', [
       ':class' => 'cart-block--contents',
     ]);
     $this->assertEquals(1, count($cart_block_contents), 'Cart block not updated.');

@@ -70,7 +70,7 @@ class AjaxAddToCartForm extends AddToCartForm {
     }
 
     return $refereshPageElementsHelper
-      ->updateStatusMessages()
+      ->updatePageElements()
       ->getResponse();
   }
 

@@ -95,6 +95,16 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
   }
 
   /**
+   * Asserts whether the object is an instance of RefreshPageElementsHelper.
+   *
+   * @param object $object
+   *   The object to be checked.
+   */
+  protected function assertInstanceOfRefreshPageElementsHelper($object) {
+    $this->assertTrue($object instanceof RefreshPageElementsHelper, 'Not an instance of RefreshPageElementsHelper.');
+  }
+
+  /**
    * Places status messages block.
    */
   protected function placeStatusMessagesBlock() {
@@ -117,10 +127,12 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
   public function testAjaxResponseStatusMessagesBlock() {
     $this->placeStatusMessagesBlock();
 
-    $refereshPageElementsHelper = new RefreshPageElementsHelper(new AjaxResponse());
-    $response = $refereshPageElementsHelper
-      ->updateStatusMessages()
-      ->getResponse();
+    $refreshPageElementsHelper = new RefreshPageElementsHelper(new AjaxResponse());
+    $refreshPageElements = $refreshPageElementsHelper
+      ->updateStatusMessages();
+    $this->assertInstanceOfRefreshPageElementsHelper($refreshPageElements);
+
+    $response = $refreshPageElements->getResponse();
     $this->assertAjaxResponse($response);
 
     // Check if the returned response has the expected ajax commands.
@@ -142,10 +154,12 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
    * @covers ::updateStatusMessages
    */
   public function testAjaxResponseNoStatusMessagesBlock() {
-    $refereshPageElementsHelper = new RefreshPageElementsHelper(new AjaxResponse());
-    $response = $refereshPageElementsHelper
-      ->updateStatusMessages()
-      ->getResponse();
+    $refreshPageElementsHelper = new RefreshPageElementsHelper(new AjaxResponse());
+    $refreshPageElements = $refreshPageElementsHelper
+      ->updateStatusMessages();
+    $this->assertInstanceOfRefreshPageElementsHelper($refreshPageElements);
+
+    $response = $refreshPageElements->getResponse();
     $this->assertAjaxResponse($response);
 
     // The returned response should not have the expected ajax commands.
@@ -167,10 +181,12 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
    * @covers ::getResponse
    */
   public function testAjaxResponseCartBlock() {
-    $refereshPageElementsHelper = new RefreshPageElementsHelper(new AjaxResponse());
-    $response = $refereshPageElementsHelper
-      ->updateCart()
-      ->getResponse();
+    $refreshPageElementsHelper = new RefreshPageElementsHelper(new AjaxResponse());
+    $refreshPageElements = $refreshPageElementsHelper
+      ->updateCart();
+    $this->assertInstanceOfRefreshPageElementsHelper($refreshPageElements);
+
+    $response = $refreshPageElements->getResponse();
     $this->assertAjaxResponse($response);
 
     // Check if the returned response has the expected ajax commands.
@@ -196,10 +212,11 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
   public function testAjaxResponseUpdatePageElements() {
     $this->placeStatusMessagesBlock();
 
-    $refereshPageElementsHelper = new RefreshPageElementsHelper(new AjaxResponse());
-    $refreshPageElements = $refereshPageElementsHelper
+    $refreshPageElementsHelper = new RefreshPageElementsHelper(new AjaxResponse());
+    $refreshPageElements = $refreshPageElementsHelper
       ->updatePageElements();
-    $this->assertInstanceOf(RefreshPageElementsHelper::class, $refreshPageElements, 'Not an instance of RefreshPageElementsHelper');
+    $this->assertInstanceOfRefreshPageElementsHelper($refreshPageElements);
+
     $response = $refreshPageElements->getResponse();
     $this->assertAjaxResponse($response);
 

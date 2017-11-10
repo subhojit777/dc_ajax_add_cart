@@ -46,6 +46,13 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
   protected $activeTheme;
 
   /**
+   * Status messages block id.
+   *
+   * @var string
+   */
+  protected $statusMessagesBlockId;
+
+  /**
    * Ajax command names expected to be present in status update ajax response.
    *
    * @var array
@@ -82,6 +89,7 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
 
     $this->controller = $this->container->get('entity_type.manager')->getStorage('block');
     $this->activeTheme = $this->container->get('theme.manager')->getActiveTheme();
+    $this->statusMessagesBlockId = $this->randomMachineName();
   }
 
   /**
@@ -109,7 +117,7 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
    */
   protected function placeStatusMessagesBlock() {
     $entity = $this->controller->create([
-      'id' => "{$this->activeTheme->getName()}_messages",
+      'id' => $this->statusMessagesBlockId,
       'theme' => $this->activeTheme->getName(),
       'region' => 'content',
       'plugin' => 'system_messages_block',
@@ -118,9 +126,30 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
   }
 
   /**
+   * Tests getStatusMessagesBlockId().
+   *
+   * @covers ::getStatusMessagesBlockId
+   */
+  public function testStatusMessageBlockId() {
+    $this->placeStatusMessagesBlock();
+
+    $refreshPageElementsHelper = new RefreshPageElementsHelper(new AjaxResponse());
+    $this->assertEquals($refreshPageElementsHelper->getStatusMessagesBlockId(), $this->statusMessagesBlockId, 'Status messages block is not present.');
+  }
+
+  /**
+   * Negative test getStatusMessagesBlockId().
+   *
+   * @covers ::getStatusMessagesBlockId
+   */
+  public function testNoStatusMessageBlockId() {
+    $refreshPageElementsHelper = new RefreshPageElementsHelper(new AjaxResponse());
+    $this->assertNull($refreshPageElementsHelper->getStatusMessagesBlockId(), 'Status messages block is present.');
+  }
+
+  /**
    * Tests ajax response when status messages block is placed.
    *
-   * @covers ::getStatusMessagesBlock
    * @covers ::getResponse
    * @covers ::updateStatusMessages
    */
@@ -149,7 +178,6 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
   /**
    * Tests ajax response when status messages block is not placed.
    *
-   * @covers ::getStatusMessagesBlock
    * @covers ::getResponse
    * @covers ::updateStatusMessages
    */
@@ -203,7 +231,6 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
   /**
    * Tests updatePageElements().
    *
-   * @covers ::getStatusMessagesBlock
    * @covers ::updateStatusMessages
    * @covers ::getCartBlock
    * @covers ::updateCart

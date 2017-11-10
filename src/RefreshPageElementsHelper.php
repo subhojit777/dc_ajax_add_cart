@@ -31,34 +31,38 @@ class RefreshPageElementsHelper {
   }
 
   /**
-   * Returns the region where messages block is placed in the current theme.
+   * Returns status messages block id for the active theme.
    *
-   * @return \Drupal\block\BlockInterface|null
-   *   Returns status_messages block entity, NULL if not present.
+   * @return string|null
+   *   The block id, NULL if the block is not placed for the active theme.
    */
-  protected function getStatusMessagesBlock() {
+  public function getStatusMessagesBlockId() {
     /** @var \Drupal\Core\Theme\ThemeManagerInterface $theme_manager */
     $theme_manager = \Drupal::service('theme.manager');
     $active_theme = $theme_manager->getActiveTheme()->getName();
 
-    /** @var \Drupal\block\BlockInterface $block */
-    $block = Block::load("{$active_theme}_messages");
+    $block_ids = \Drupal::entityQuery('block')
+      ->condition('plugin', 'system_messages_block')
+      ->condition('theme', $active_theme)
+      ->execute();
 
-    return $block;
+    return array_shift($block_ids);
   }
 
   /**
    * Refreshes status messages.
    *
-   * @return \Drupal\Core\Ajax\AjaxResponse
-   *   Updated response.
+   * @return $this
    *
    * @TODO Get the following approach reviewed by someone.
    */
   public function updateStatusMessages() {
-    /** @var \Drupal\block\BlockInterface $block */
-    $block = $this->getStatusMessagesBlock();
-    if ($block) {
+    $block_id = $this->getStatusMessagesBlockId();
+
+    if ($block_id) {
+      /** @var \Drupal\block\BlockInterface $block */
+      $block = Block::load($block_id);
+
       $elements = [
         '#type' => 'status_messages',
       ];

@@ -53,8 +53,6 @@ class RefreshPageElementsHelper {
    * Refreshes status messages.
    *
    * @return $this
-   *
-   * @TODO Get the following approach reviewed by someone.
    */
   public function updateStatusMessages() {
     $block_id = $this->getStatusMessagesBlockId();

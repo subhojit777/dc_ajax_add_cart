@@ -7,6 +7,10 @@ use Drupal\Core\Ajax\AppendCommand;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\block\Entity\Block;
 use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Theme\ThemeManagerInterface;
+use Drupal\Core\Entity\Query\QueryFactory;
+use Drupal\Core\Block\BlockManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides methods that would help in refreshing certain page elements.
@@ -21,13 +25,52 @@ class RefreshPageElementsHelper {
   protected $response;
 
   /**
+   * Theme manager.
+   *
+   * @var \Drupal\Core\Theme\ThemeManagerInterface
+   */
+  protected $themeManager;
+
+  /**
+   * Query factory.
+   *
+   * @var \Drupal\Core\Entity\Query\QueryFactory
+   */
+  protected $queryFactory;
+
+  /**
+   * Block manager.
+   *
+   * @var \Drupal\Core\Block\BlockManagerInterface
+   */
+  protected $blockManager;
+
+  /**
    * Constructs a new RefreshPageElementsHelper object.
    *
-   * @param \Drupal\Core\Ajax\AjaxResponse $response
-   *   The ajax response.
+   * @param \Drupal\Core\Theme\ThemeManagerInterface $theme_manager
+   *   The theme manager.
+   * @param \Drupal\Core\Entity\Query\QueryFactory $query_factory
+   *   The query factory.
+   * @param \Drupal\Core\Block\BlockManagerInterface $block_manager
+   *   The block manager.
    */
-  public function __construct(AjaxResponse $response) {
-    $this->response = $response;
+  public function __construct(ThemeManagerInterface $theme_manager, QueryFactory $query_factory, BlockManagerInterface $block_manager) {
+    $this->themeManager = $theme_manager;
+    $this->queryFactory = $query_factory;
+    $this->blockManager = $block_manager;
+    $this->response = new AjaxResponse();
+  }
+
+  /**
+   * Creates instance of RefreshPageElementsHelper class.
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('theme.manager'),
+      $container->get('entity.query'),
+      $container->get('plugin.manager.block')
+    );
   }
 
   /**
@@ -37,11 +80,9 @@ class RefreshPageElementsHelper {
    *   The block id, NULL if the block is not placed for the active theme.
    */
   public function getStatusMessagesBlockId() {
-    /** @var \Drupal\Core\Theme\ThemeManagerInterface $theme_manager */
-    $theme_manager = \Drupal::service('theme.manager');
-    $active_theme = $theme_manager->getActiveTheme()->getName();
+    $active_theme = $this->themeManager->getActiveTheme()->getName();
 
-    $block_ids = \Drupal::entityQuery('block')
+    $block_ids = $this->queryFactory->get('block')
       ->condition('plugin', 'system_messages_block')
       ->condition('theme', $active_theme)
       ->execute();
@@ -79,10 +120,8 @@ class RefreshPageElementsHelper {
    *   The cart block.
    */
   protected function getCartBlock() {
-    /** @var \Drupal\Core\Block\BlockManagerInterface $block_manager */
-    $block_manager = \Drupal::service('plugin.manager.block');
     /** @var \Drupal\Core\Block\BlockPluginInterface $block */
-    $block = $block_manager->createInstance('commerce_cart', []);
+    $block = $this->blockManager->createInstance('commerce_cart', []);
 
     return $block;
   }

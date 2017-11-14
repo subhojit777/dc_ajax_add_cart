@@ -7,7 +7,6 @@ use Drupal\commerce_cart\Form\AddToCartForm;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\UpdateBuildIdCommand;
-use Drupal\dc_ajax_add_cart\RefreshPageElementsHelper;
 
 /**
  * Provides the order item ajax add to cart form.
@@ -62,7 +61,7 @@ class AjaxAddToCartForm extends AddToCartForm {
    */
   public static function refreshAddToCartForm(array $form, FormStateInterface $form_state) {
     $response = new AjaxResponse();
-    $refreshPageElementsHelper = new RefreshPageElementsHelper($response);
+    $refreshPageElementsHelper = \Drupal::service('dc_ajax_add_cart.refresh_page_elements_helper');
 
     // If the form build ID has changed, issue an Ajax command to update it.
     if (isset($form['#build_id_old']) && $form['#build_id_old'] !== $form['#build_id']) {

@@ -39,7 +39,7 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
   protected $controller;
 
   /**
-   * Active theme name.
+   * Active theme.
    *
    * @var \Drupal\Core\Theme\ThemeManagerInterface
    */
@@ -51,6 +51,13 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
    * @var string
    */
   protected $statusMessagesBlockId;
+
+  /**
+   * RefreshPageElementsHelper service.
+   *
+   * @var \Drupal\dc_ajax_add_cart\RefreshPageElementsHelper
+   */
+  protected $refreshPageElementsHelper;
 
   /**
    * Ajax command names expected to be present in status update ajax response.
@@ -89,6 +96,7 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
 
     $this->controller = $this->container->get('entity_type.manager')->getStorage('block');
     $this->activeTheme = $this->container->get('theme.manager')->getActiveTheme();
+    $this->refreshPageElementsHelper = $this->container->get('dc_ajax_add_cart.refresh_page_elements_helper');
     $this->statusMessagesBlockId = $this->randomMachineName();
   }
 
@@ -133,8 +141,7 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
   public function testStatusMessageBlockId() {
     $this->placeStatusMessagesBlock();
 
-    $refreshPageElementsHelper = new RefreshPageElementsHelper(new AjaxResponse());
-    $this->assertEquals($refreshPageElementsHelper->getStatusMessagesBlockId(), $this->statusMessagesBlockId, 'Status messages block is not present.');
+    $this->assertEquals($this->refreshPageElementsHelper->getStatusMessagesBlockId(), $this->statusMessagesBlockId, 'Status messages block is not present.');
   }
 
   /**
@@ -143,8 +150,7 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
    * @covers ::getStatusMessagesBlockId
    */
   public function testNoStatusMessageBlockId() {
-    $refreshPageElementsHelper = new RefreshPageElementsHelper(new AjaxResponse());
-    $this->assertNull($refreshPageElementsHelper->getStatusMessagesBlockId(), 'Status messages block is present.');
+    $this->assertNull($this->refreshPageElementsHelper->getStatusMessagesBlockId(), 'Status messages block is present.');
   }
 
   /**
@@ -156,8 +162,7 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
   public function testAjaxResponseStatusMessagesBlock() {
     $this->placeStatusMessagesBlock();
 
-    $refreshPageElementsHelper = new RefreshPageElementsHelper(new AjaxResponse());
-    $refreshPageElements = $refreshPageElementsHelper
+    $refreshPageElements = $this->refreshPageElementsHelper
       ->updateStatusMessages();
     $this->assertInstanceOfRefreshPageElementsHelper($refreshPageElements);
 
@@ -182,8 +187,7 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
    * @covers ::updateStatusMessages
    */
   public function testAjaxResponseNoStatusMessagesBlock() {
-    $refreshPageElementsHelper = new RefreshPageElementsHelper(new AjaxResponse());
-    $refreshPageElements = $refreshPageElementsHelper
+    $refreshPageElements = $this->refreshPageElementsHelper
       ->updateStatusMessages();
     $this->assertInstanceOfRefreshPageElementsHelper($refreshPageElements);
 
@@ -209,8 +213,7 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
    * @covers ::getResponse
    */
   public function testAjaxResponseCartBlock() {
-    $refreshPageElementsHelper = new RefreshPageElementsHelper(new AjaxResponse());
-    $refreshPageElements = $refreshPageElementsHelper
+    $refreshPageElements = $this->refreshPageElementsHelper
       ->updateCart();
     $this->assertInstanceOfRefreshPageElementsHelper($refreshPageElements);
 
@@ -239,8 +242,7 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
   public function testAjaxResponseUpdatePageElements() {
     $this->placeStatusMessagesBlock();
 
-    $refreshPageElementsHelper = new RefreshPageElementsHelper(new AjaxResponse());
-    $refreshPageElements = $refreshPageElementsHelper
+    $refreshPageElements = $this->refreshPageElementsHelper
       ->updatePageElements();
     $this->assertInstanceOfRefreshPageElementsHelper($refreshPageElements);
 

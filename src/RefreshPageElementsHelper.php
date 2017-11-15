@@ -5,6 +5,7 @@ namespace Drupal\dc_ajax_add_cart;
 use Drupal\Core\Ajax\RemoveCommand;
 use Drupal\Core\Ajax\AppendCommand;
 use Drupal\Core\Ajax\ReplaceCommand;
+use Drupal\Core\Ajax\UpdateBuildIdCommand;
 use Drupal\block\Entity\Block;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Theme\ThemeManagerInterface;
@@ -141,12 +142,33 @@ class RefreshPageElementsHelper {
   }
 
   /**
-   * Updates page elements.
+   * Updates the form build id.
+   *
+   * @param array $form
+   *   Drupal form.
    *
    * @return $this
    */
-  public function updatePageElements() {
-    return $this->updateStatusMessages()
+  public function updateFormBuildId(array $form) {
+    // If the form build ID has changed, issue an Ajax command to update it.
+    if (isset($form['#build_id_old']) && $form['#build_id_old'] !== $form['#build_id']) {
+      $this->response->addCommand(new UpdateBuildIdCommand($form['#build_id_old'], $form['#build_id']));
+    }
+
+    return $this;
+  }
+
+  /**
+   * Updates page elements.
+   *
+   * @param array $form
+   *   Drupal form.
+   *
+   * @return $this
+   */
+  public function updatePageElements(array $form) {
+    return $this->updateFormBuildId($form)
+      ->updateStatusMessages()
       ->updateCart();
   }
 

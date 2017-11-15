@@ -79,6 +79,15 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
   ];
 
   /**
+   * Ajax command names expected to be present in update form build id response.
+   *
+   * @var array
+   */
+  protected $expectedAjaxCommandNamesFormBuildIdUpdate = [
+    'update_build_id',
+  ];
+
+  /**
    * Ajax command names expected to be present when page elements updated.
    *
    * @var array
@@ -86,6 +95,7 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
   protected $expectedAjaxCommandNamesUpdatePageElements = [
     'remove',
     'insert',
+    'update_build_id',
   ];
 
   /**
@@ -232,18 +242,84 @@ class RefreshPageElementsHelperTest extends CommerceKernelTestBase {
   }
 
   /**
+   * Tests ajax response when form build id is updated.
+   *
+   * @covers ::updateFormBuildId
+   */
+  public function testAjaxResponseFormBuildId() {
+    $form_build_id_old = $this->randomMachineName();
+    $form_build_id = $this->randomMachineName();
+
+    $refreshPageElements = $this->refreshPageElementsHelper
+      ->updateFormBuildId([
+        '#build_id_old' => $form_build_id_old,
+        '#build_id' => $form_build_id,
+      ]);
+    $this->assertInstanceOfRefreshPageElementsHelper($refreshPageElements);
+
+    $response = $refreshPageElements->getResponse();
+    $this->assertAjaxResponse($response);
+
+    // Check if the returned response has the expected ajax commands.
+    $ajax_commands = $response->getCommands();
+    $actual_ajax_command_names = array_map(function ($i) {
+      return $i['command'];
+    }, $ajax_commands);
+
+    foreach ($this->expectedAjaxCommandNamesFormBuildIdUpdate as $ajax_command_name) {
+      $this->assertTrue(in_array($ajax_command_name, $actual_ajax_command_names), "$ajax_command_name is not present");
+    }
+  }
+
+  /**
+   * Negative tests ajax response when form build id is updated.
+   *
+   * @covers ::updateFormBuildId
+   */
+  public function testNoAjaxResponseFormBuildId() {
+    $form_build_id_old = $form_build_id = $this->randomMachineName();
+
+    $refreshPageElements = $this->refreshPageElementsHelper
+      ->updateFormBuildId([
+        '#build_id_old' => $form_build_id_old,
+        '#build_id' => $form_build_id,
+      ]);
+    $this->assertInstanceOfRefreshPageElementsHelper($refreshPageElements);
+
+    $response = $refreshPageElements->getResponse();
+    $this->assertAjaxResponse($response);
+
+    // Check if the returned response has the expected ajax commands.
+    $ajax_commands = $response->getCommands();
+    $actual_ajax_command_names = array_map(function ($i) {
+      return $i['command'];
+    }, $ajax_commands);
+
+    foreach ($this->expectedAjaxCommandNamesFormBuildIdUpdate as $ajax_command_name) {
+      $this->assertFalse(in_array($ajax_command_name, $actual_ajax_command_names), "$ajax_command_name is present");
+    }
+  }
+
+  /**
    * Tests updatePageElements().
    *
    * @covers ::updateStatusMessages
    * @covers ::getCartBlock
    * @covers ::updateCart
+   * @covers ::updateFormBuildId
+   * @covers ::updatePageElements
    * @covers ::getResponse
    */
   public function testAjaxResponseUpdatePageElements() {
     $this->placeStatusMessagesBlock();
+    $form_build_id_old = $this->randomMachineName();
+    $form_build_id = $this->randomMachineName();
 
     $refreshPageElements = $this->refreshPageElementsHelper
-      ->updatePageElements();
+      ->updatePageElements([
+        '#build_id_old' => $form_build_id_old,
+        '#build_id' => $form_build_id,
+      ]);
     $this->assertInstanceOfRefreshPageElementsHelper($refreshPageElements);
 
     $response = $refreshPageElements->getResponse();

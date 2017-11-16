@@ -16,6 +16,7 @@ use Drupal\commerce_order\Resolver\OrderTypeResolverInterface;
 use Drupal\commerce_store\StoreContextInterface;
 use Drupal\commerce_price\Resolver\ChainPriceResolverInterface;
 use Drupal\Core\Session\AccountInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides the order item ajax add to cart form.
@@ -107,7 +108,7 @@ class AjaxAddToCartForm extends AddToCartForm implements AddToCartFormInterface 
         'class' => ['use-ajax-submit'],
       ],
       '#ajax' => [
-        'callback' => [get_class($this), 'refreshAddToCartForm'],
+        'callback' => '::refreshAddToCartForm',
         'wrapper' => $wrapper_id,
       ],
     ];
@@ -123,7 +124,7 @@ class AjaxAddToCartForm extends AddToCartForm implements AddToCartFormInterface 
    * @return \Drupal\Core\Ajax\AjaxResponse
    *   The updated ajax response.
    */
-  public static function refreshAddToCartForm(array $form, FormStateInterface $form_state) {
+  public function refreshAddToCartForm(array $form, FormStateInterface $form_state) {
     return $this->refreshPageElementsHelper
       ->updatePageElements($form)
       ->getResponse();

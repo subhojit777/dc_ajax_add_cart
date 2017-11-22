@@ -13,7 +13,7 @@ use Drupal\Component\Datetime\TimeInterface;
 use Drupal\commerce_cart\CartManagerInterface;
 use Drupal\commerce_cart\CartProviderInterface;
 use Drupal\commerce_order\Resolver\OrderTypeResolverInterface;
-use Drupal\commerce_store\StoreContextInterface;
+use Drupal\commerce_store\CurrentStoreInterface;
 use Drupal\commerce_price\Resolver\ChainPriceResolverInterface;
 use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -45,8 +45,8 @@ class AjaxAddToCartForm extends AddToCartForm implements AddToCartFormInterface 
    *   The cart provider.
    * @param \Drupal\commerce_order\Resolver\OrderTypeResolverInterface $order_type_resolver
    *   The order type resolver.
-   * @param \Drupal\commerce_store\StoreContextInterface $store_context
-   *   The store context.
+   * @param \Drupal\commerce_store\CurrentStoreInterface $current_store
+   *   The current store.
    * @param \Drupal\commerce_price\Resolver\ChainPriceResolverInterface $chain_price_resolver
    *   The chain base price resolver.
    * @param \Drupal\Core\Session\AccountInterface $current_user
@@ -54,8 +54,8 @@ class AjaxAddToCartForm extends AddToCartForm implements AddToCartFormInterface 
    * @param \Drupal\dc_ajax_add_cart\RefreshPageElementsHelper $refresh_page_elements_helper
    *   The RefreshPageElementsHelper service.
    */
-  public function __construct(EntityManagerInterface $entity_manager, EntityTypeBundleInfoInterface $entity_type_bundle_info, TimeInterface $time, CartManagerInterface $cart_manager, CartProviderInterface $cart_provider, OrderTypeResolverInterface $order_type_resolver, StoreContextInterface $store_context, ChainPriceResolverInterface $chain_price_resolver, AccountInterface $current_user, RefreshPageElementsHelper $refresh_page_elements_helper) {
-    parent::__construct($entity_manager, $entity_type_bundle_info, $time, $cart_manager, $cart_provider, $order_type_resolver, $store_context, $chain_price_resolver, $current_user);
+  public function __construct(EntityManagerInterface $entity_manager, EntityTypeBundleInfoInterface $entity_type_bundle_info, TimeInterface $time, CartManagerInterface $cart_manager, CartProviderInterface $cart_provider, OrderTypeResolverInterface $order_type_resolver, CurrentStoreInterface $current_store, ChainPriceResolverInterface $chain_price_resolver, AccountInterface $current_user, RefreshPageElementsHelper $refresh_page_elements_helper) {
+    parent::__construct($entity_manager, $entity_type_bundle_info, $time, $cart_manager, $cart_provider, $order_type_resolver, $current_store, $chain_price_resolver, $current_user);
 
     $this->refreshPageElementsHelper = $refresh_page_elements_helper;
   }
@@ -71,7 +71,7 @@ class AjaxAddToCartForm extends AddToCartForm implements AddToCartFormInterface 
       $container->get('commerce_cart.cart_manager'),
       $container->get('commerce_cart.cart_provider'),
       $container->get('commerce_order.chain_order_type_resolver'),
-      $container->get('commerce_store.store_context'),
+      $container->get('commerce_store.current_store'),
       $container->get('commerce_price.chain_price_resolver'),
       $container->get('current_user'),
       $container->get('dc_ajax_add_cart.refresh_page_elements_helper')

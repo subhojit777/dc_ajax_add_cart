@@ -7,8 +7,10 @@ you add an item to cart.
 ## `8.x`
 
 ### Features:
-`8.x` is still in development, however, following features are available:
-- Ajax add to cart form.
+`8.x` is still in development. Follow this
+[issue](https://www.drupal.org/project/contrib_tracker/issues/2850576) for
+updates. Following features are available:
+- *Ajax add to cart form* as a product variation display formatter
 
 ### Installation and usage:
 - Install the module in a Drupal Commerce installation. Steps for installing

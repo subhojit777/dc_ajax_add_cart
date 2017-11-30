@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * Ajaxifies some cart operations those are related to Views.
+ */
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function dc_ajax_add_cart_views_views_data_alter(array &$data) {
+  $data['commerce_order_item']['dc_ajax_add_cart_views_remove_button']['field'] = [
+    'title' => t('Remove button (Ajax)'),
+    'help' => t('Adds a button for removing (ajax) the order item.'),
+    'id' => 'dc_ajax_add_cart_views_item_remove_button',
+  ];
+}

@@ -1,0 +1,9 @@
+name: Commerce AJAX Add to Cart Views
+type: module
+description: Ajaxifies some cart operations those are related to Views
+core: 8.x
+dependencies:
+  - commerce:commerce_product
+  - commerce:commerce_cart
+  - drupal:views
+package: Commerce (contrib)

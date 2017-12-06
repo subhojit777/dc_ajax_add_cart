@@ -55,4 +55,11 @@ abstract class AjaxAddCartViewsTestBase extends AjaxAddCartTestBase {
     $this->variations[] = $variation;
   }
 
+  /**
+   * Asserts ajaxified cart page.
+   */
+  protected function assertCartAjaxPage() {
+    $this->assertResponse(200, 'Ajax cart page not found.');
+  }
+
 }

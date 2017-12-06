@@ -1,0 +1,7 @@
+name: Commerce AJAX Add to Cart Views test
+type: module
+description: Tests Commerce Ajax Add to Cart Views
+package: Testing
+core: 8.x
+dependencies:
+  - dc_ajax_add_cart:dc_ajax_add_cart_views

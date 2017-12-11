@@ -8,6 +8,7 @@ dependencies:
     - commerce_cart
     - commerce_order
     - commerce_price
+    - commerce_product
     - dc_ajax_add_cart_views
     - user
 id: dc_ajax_add_cart_views_test_cart_form
@@ -58,7 +59,7 @@ display:
         type: table
         options:
           grouping: {  }
-          row_class: ''
+          row_class: 'variation-{{ variation_id }}'
           default_row_class: true
           override: true
           sticky: false
@@ -66,9 +67,53 @@ display:
           summary: ''
           description: ''
           columns:
-            order_number: order_number
+            order_item_id: order_item_id
+            purchased_entity: purchased_entity
+            unit_price__number: unit_price__number
+            edit_quantity: edit_quantity
+            dc_ajax_add_cart_views_remove_button: dc_ajax_add_cart_views_remove_button
+            total_price__number: total_price__number
+            variation_id: variation_id
           info:
-            order_number:
+            order_item_id:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            purchased_entity:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            unit_price__number:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            edit_quantity:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            dc_ajax_add_cart_views_remove_button:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            total_price__number:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            variation_id:
               sortable: false
               default_sort_order: asc
               align: ''
@@ -279,7 +324,7 @@ display:
           alter:
             alter_text: false
             text: ''
-            make_link: false
+            make_link: true
             path: ''
             absolute: false
             external: false
@@ -383,6 +428,70 @@ display:
           entity_type: commerce_order_item
           entity_field: total_price
           plugin_id: field
+        variation_id:
+          id: variation_id
+          table: commerce_product_variation_field_data
+          field: variation_id
+          relationship: commerce_product_variation
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: number_unformatted
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          entity_type: commerce_product_variation
+          entity_field: variation_id
+          plugin_id: field
       filters: {  }
       sorts:
         order_item_id:
@@ -433,6 +542,16 @@ display:
           group_type: group
           admin_label: 'order_items: Order Item'
           required: true
+          plugin_id: standard
+        commerce_product_variation:
+          id: commerce_product_variation
+          table: commerce_order_item
+          field: commerce_product_variation
+          relationship: order_items
+          group_type: group
+          admin_label: 'Product variation'
+          required: true
+          entity_type: commerce_order_item
           plugin_id: standard
       arguments:
         order_id:

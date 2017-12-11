@@ -22,7 +22,14 @@ class AjaxAddCartViewsRemoveButtonTest extends AjaxAddCartViewsTestBase {
     }
 
     $this->drupalGet("cart-ajax/{$this->cart->id()}");
-    $this->assertCartAjaxPage(200, 'Ajax cart page not found.');
+    $this->assertCartAjaxPage();
+
+    $variation_row_element = $this->getRowCartAjaxByVariation($this->getRandomVariation());
+    $this->assertVariationRowCartAjax($variation_row_element);
+
+    $variation_row_element->findButton('Remove')
+      ->click();
+    $this->waitForAjaxToFinish();
   }
 
 }

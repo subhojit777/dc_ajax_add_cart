@@ -3,6 +3,7 @@
 namespace Drupal\Tests\dc_ajax_add_cart_views\Functional;
 
 use Drupal\Tests\dc_ajax_add_cart\Functional\AjaxAddCartTestBase;
+use Drupal\commerce_product\Entity\ProductVariationInterface;
 
 /**
  * Base class for ajax add cart views tests.
@@ -60,6 +61,41 @@ abstract class AjaxAddCartViewsTestBase extends AjaxAddCartTestBase {
    */
   protected function assertCartAjaxPage() {
     $this->assertResponse(200, 'Ajax cart page not found.');
+  }
+
+  /**
+   * Asserts presence of the variation row on cart page.
+   *
+   * @param \Behat\Mink\Element\NodeElement|null $element
+   *   The table row element to check.
+   */
+  protected function assertVariationRowCartAjax($element) {
+    $this->assertNotNull($element, 'Variation not found on ajax cart.');
+  }
+
+  /**
+   * Returns the table row element where the variation is present.
+   *
+   * @param \Drupal\commerce_product\Entity\ProductVariationInterface $variation
+   *   The variation whose row is going to be returned.
+   *
+   * @return \Behat\Mink\Element\NodeElement|null
+   *   The table row element, if found, otherwise NULL.
+   */
+  protected function getRowCartAjaxByVariation(ProductVariationInterface $variation) {
+    return $this->getSession()->getPage()->find('css', ".view-dc-ajax-add-cart-views-test-cart-form table tr.variation-{$variation->id()}");
+  }
+
+  /**
+   * Returns a random variation.
+   *
+   * This variation is going to be added to cart.
+   *
+   * @return \Drupal\commerce_product\Entity\ProductVariationInterface
+   *   The product variation.
+   */
+  protected function getRandomVariation() {
+    return $this->variations[mt_rand(0, (count($this->variations) - 1))];
   }
 
 }

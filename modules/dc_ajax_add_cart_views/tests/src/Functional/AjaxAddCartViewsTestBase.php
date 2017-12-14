@@ -74,6 +74,16 @@ abstract class AjaxAddCartViewsTestBase extends AjaxAddCartTestBase {
   }
 
   /**
+   * Asserts absence of the variation row on cart page.
+   *
+   * @param \Behat\Mink\Element\NodeElement|null $element
+   *   The table row element to check.
+   */
+  protected function assertNotVariationRowCartAjax($element) {
+    $this->assertNull($element, 'Variation found on ajax cart.');
+  }
+
+  /**
    * Returns the table row element where the variation is present.
    *
    * @param \Drupal\commerce_product\Entity\ProductVariationInterface $variation

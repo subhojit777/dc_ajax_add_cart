@@ -18,10 +18,15 @@ class RemoveButton extends BaseRemoveButton {
   public function viewsForm(array &$form, FormStateInterface $form_state) {
     parent::viewsForm($form, $form_state);
 
+    $wrapper_id = $this->view->storage->id() . '-cart-ajax-wrapper';
+
     // @TODO Remove this once https://www.drupal.org/node/2897120 gets into
     // core.
     $form['#attached']['library'][] = 'core/jquery.form';
     $form['#attached']['library'][] = 'core/drupal.ajax';
+
+    $form['#prefix'] = "<div id='{$wrapper_id}'>";
+    $form['#suffix'] = '</div>';
 
     foreach ($this->view->result as $row_index => $row) {
       $form[$this->options['id']][$row_index] = [
@@ -35,6 +40,9 @@ class RemoveButton extends BaseRemoveButton {
             'delete-order-item',
             'use-ajax-submit',
           ],
+        ],
+        '#ajax' => [
+          'wrapper' => $wrapper_id,
         ],
       ];
     }

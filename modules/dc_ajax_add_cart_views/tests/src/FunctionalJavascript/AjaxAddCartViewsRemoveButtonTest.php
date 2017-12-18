@@ -4,6 +4,7 @@ namespace Drupal\Tests\dc_ajax_add_cart_views\FunctionalJavascript;
 
 use Drupal\Tests\dc_ajax_add_cart_views\Functional\AjaxAddCartViewsTestBase;
 use Drupal\commerce_product\Entity\ProductVariation;
+use Drupal\commerce_order\Entity\Order;
 
 /**
  * Commerce Ajax Add to Cart Views Remove Button tests.
@@ -51,6 +52,30 @@ class AjaxAddCartViewsRemoveButtonTest extends AjaxAddCartViewsTestBase {
     $this->assertNotNull($element, t('@product with incorrect quantity found on ajax cart.', [
       '@product' => $other_variation->getProduct()->getTitle(),
     ]));
+  }
+
+  /**
+   * Tests whether the remove button views field is indeed ajaxified.
+   */
+  public function testAjaxRemoveButton() {
+    foreach ($this->variations as $variation) {
+      $this->cartManager->addEntity($this->cart, $variation);
+    }
+
+    $cart_variation = $this->getRandomVariation();
+
+    $this->drupalGet("cart-ajax/{$this->cart->id()}");
+    $this->assertCartAjaxPage();
+
+    $variation_row_element = $this->getRowCartAjaxByVariation($cart_variation);
+    $this->assertVariationRowCartAjax($variation_row_element);
+
+    $variation_row_element->findButton('Remove')
+      ->click();
+
+    $this->cart = Order::load($this->cart->id());
+    $order_items = $this->cart->getItems();
+    $this->assertVariationInOrder($cart_variation, $order_items);
   }
 
 }

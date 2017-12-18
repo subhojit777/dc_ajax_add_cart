@@ -108,4 +108,28 @@ abstract class AjaxAddCartViewsTestBase extends AjaxAddCartTestBase {
     return $this->variations[mt_rand(0, (count($this->variations) - 1))];
   }
 
+  /**
+   * Asserts whether the variation is present in order items.
+   *
+   * @param \Drupal\commerce_product\Entity\ProductVariationInterface $variation
+   *   The purchased product variation.
+   * @param \Drupal\commerce_order\Entity\OrderItemInterface[] $order_items
+   *   The order items.
+   * @param int $quantity
+   *   (Optional) The quantity for an additional check.
+   */
+  protected function assertVariationInOrder(ProductVariationInterface $variation, array $order_items, $quantity = 1) {
+    $is_present = FALSE;
+
+    foreach ($order_items as $key => $item) {
+      if ($item->getPurchasedEntity()->id() === $variation->id() &&
+        $item->getQuantity() == $quantity) {
+        $is_present = TRUE;
+        break;
+      }
+    }
+
+    $this->assertTrue($is_present, 'Variation not present in cart.');
+  }
+
 }

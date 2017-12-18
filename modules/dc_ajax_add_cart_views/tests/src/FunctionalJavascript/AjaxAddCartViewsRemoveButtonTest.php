@@ -73,6 +73,8 @@ class AjaxAddCartViewsRemoveButtonTest extends AjaxAddCartViewsTestBase {
     $variation_row_element->findButton('Remove')
       ->click();
 
+    $this->assertVariationRowCartAjax($variation_row_element);
+
     $this->cart = Order::load($this->cart->id());
     $order_items = $this->cart->getItems();
     $this->assertVariationInOrder($cart_variation, $order_items);

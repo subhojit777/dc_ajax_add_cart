@@ -85,4 +85,33 @@ class AjaxAddCartViewsRemoveButtonTest extends AjaxAddCartViewsTestBase {
     $this->assertVariationInOrder($cart_variation, $order_items);
   }
 
+  /**
+   * Tests whether order total is correct on ajax removing product from cart.
+   */
+  public function testOrderTotal() {
+    foreach ($this->variations as $variation) {
+      $this->cartManager->addEntity($this->cart, $variation);
+    }
+
+    $cart_variation = $this->getRandomVariation();
+
+    $this->drupalGet("cart-ajax/{$this->cart->id()}");
+    $this->assertCartAjaxPage();
+
+    $variation_row_element = $this->getRowCartAjaxByVariation($cart_variation);
+    $this->assertVariationRowCartAjax($variation_row_element);
+
+    $variation_row_element->findButton('Remove')
+      ->click();
+    $this->waitForAjaxToFinish();
+
+    $this->cart = Order::load($this->cart->id());
+    $order_items = $this->cart->getItems();
+
+    $price = $this->getSession()->getPage()->find('css', '.order-total-line__total .order-total-line-value')->getText();
+    $price = (float) preg_replace('/[^0-9\.]/', '', $price);
+    $actual_price = (float) $this->cart->getTotalPrice()->getNumber();
+    $this->assertEquals($price, $actual_price, 'Prices are not equal.');
+  }
+
 }

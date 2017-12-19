@@ -139,16 +139,16 @@ abstract class AjaxAddCartViewsTestBase extends AjaxAddCartTestBase {
    *   The purchased product variation.
    * @param \Drupal\commerce_order\Entity\OrderItemInterface[] $order_items
    *   The order items.
-   * @param int $quantity
-   *   (Optional) The quantity for an additional check.
    */
-  protected function assertNotVariationInOrder(ProductVariationInterface $variation, array $order_items, $quantity = 1) {
+  protected function assertNotVariationInOrder(ProductVariationInterface $variation, array $order_items) {
     $is_present = TRUE;
 
     foreach ($order_items as $key => $item) {
-      if ($item->getPurchasedEntity()->id() === $variation->id() &&
-        $item->getQuantity() == $quantity) {
+      if ($item->getPurchasedEntity()->id() !== $variation->id()) {
         $is_present = FALSE;
+      }
+      else {
+        $is_present = TRUE;
       }
     }
 

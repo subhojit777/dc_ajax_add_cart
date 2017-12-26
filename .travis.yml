@@ -60,7 +60,7 @@ mysql:
 
 before_install:
   - composer global require "hirak/prestissimo:^0.3"
-  - composer global require "lionsad/drupal_ti:dev-master"
+  - composer global require "lionsad/drupal_ti:dev-master#e5efcdcec420981896b00e9f4b56f72f5b6f3b0d"
   - composer global require "drupal/coder:8.2.*"
   - phpcs --config-set installed_paths "$HOME/.composer/vendor/drupal/coder/coder_sniffer"
   - drupal-ti before_install

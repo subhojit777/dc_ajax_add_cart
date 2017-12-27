@@ -59,6 +59,10 @@ mysql:
   encoding: utf8
 
 before_install:
+  # Remove xdebug and make the builds quicker.
+  # Thanks to sun https://github.com/travis-ci/travis-ci/issues/1697#issuecomment-50827703
+  - phpenv config-rm xdebug.ini
+  - php --version
   - composer global require "hirak/prestissimo:^0.3"
   - composer global require "lionsad/drupal_ti:dev-master#e5efcdcec420981896b00e9f4b56f72f5b6f3b0d"
   - composer global require "drupal/coder:8.2.*"

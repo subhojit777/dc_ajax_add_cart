@@ -77,6 +77,8 @@ before_script:
   - drupal-ti --include "drupal_ti/before/before_script.sh"
 
 script:
+  - phpcs --standard=Drupal --extensions='php,module,install,theme' modules src tests dc_ajax_add_cart.install dc_ajax_add_cart.module
+  - phpcs --standard=DrupalPractice --extensions='php,module,install,theme' modules src tests dc_ajax_add_cart.install dc_ajax_add_cart.module
   - drupal-ti script
   - drupal-ti --include "drupal_ti/script/script.sh"
 

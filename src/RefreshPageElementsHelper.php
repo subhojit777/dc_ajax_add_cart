@@ -12,6 +12,8 @@ use Drupal\Core\Theme\ThemeManagerInterface;
 use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Core\Block\BlockManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Render\Renderer;
+use Drupal\Core\Render\RendererInterface;
 
 /**
  * Provides methods that would help in refreshing certain page elements.
@@ -47,6 +49,13 @@ class RefreshPageElementsHelper {
   protected $blockManager;
 
   /**
+   * Renderer service.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
+  /**
    * Constructs a new RefreshPageElementsHelper object.
    *
    * @param \Drupal\Core\Theme\ThemeManagerInterface $theme_manager
@@ -55,11 +64,14 @@ class RefreshPageElementsHelper {
    *   The query factory.
    * @param \Drupal\Core\Block\BlockManagerInterface $block_manager
    *   The block manager.
+   * @param \Drupal\Core\Render\RendererInterface $renderer
+   *   The renderer service.
    */
-  public function __construct(ThemeManagerInterface $theme_manager, QueryFactory $query_factory, BlockManagerInterface $block_manager) {
+  public function __construct(ThemeManagerInterface $theme_manager, QueryFactory $query_factory, BlockManagerInterface $block_manager, RendererInterface $renderer) {
     $this->themeManager = $theme_manager;
     $this->queryFactory = $query_factory;
     $this->blockManager = $block_manager;
+    $this->renderer = $renderer;
     $this->response = new AjaxResponse();
   }
 
@@ -70,7 +82,8 @@ class RefreshPageElementsHelper {
     return new static(
       $container->get('theme.manager'),
       $container->get('entity.query'),
-      $container->get('plugin.manager.block')
+      $container->get('plugin.manager.block'),
+      $container->get('renderer')
     );
   }
 
@@ -108,7 +121,7 @@ class RefreshPageElementsHelper {
       ];
 
       $this->response->addCommand(new RemoveCommand('.messages__wrapper'));
-      $this->response->addCommand(new AppendCommand(".region-{$block->getRegion()}", \Drupal::service('renderer')->renderRoot($elements)));
+      $this->response->addCommand(new AppendCommand(".region-{$block->getRegion()}", $this->renderer->renderRoot($elements)));
     }
 
     return $this;

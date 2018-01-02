@@ -121,7 +121,7 @@ abstract class AjaxAddCartViewsTestBase extends AjaxAddCartTestBase {
   protected function assertVariationInOrder(ProductVariationInterface $variation, array $order_items, $quantity = 1) {
     $is_present = FALSE;
 
-    foreach ($order_items as $key => $item) {
+    foreach ($order_items as $item) {
       if ($item->getPurchasedEntity()->id() === $variation->id() &&
         $item->getQuantity() == $quantity) {
         $is_present = TRUE;
@@ -143,7 +143,7 @@ abstract class AjaxAddCartViewsTestBase extends AjaxAddCartTestBase {
   protected function assertNotVariationInOrder(ProductVariationInterface $variation, array $order_items) {
     $is_present = TRUE;
 
-    foreach ($order_items as $key => $item) {
+    foreach ($order_items as $item) {
       if ($item->getPurchasedEntity()->id() !== $variation->id()) {
         $is_present = FALSE;
       }

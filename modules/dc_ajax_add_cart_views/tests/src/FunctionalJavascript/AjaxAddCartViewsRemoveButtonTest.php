@@ -19,9 +19,7 @@ class AjaxAddCartViewsRemoveButtonTest extends AjaxAddCartViewsTestBase {
    * Tests remove button views field.
    */
   public function testRemoveButton() {
-    $this->drupalLogin($this->drupalCreateUser([
-      'access cart',
-    ]));
+    $this->drupalLogin($this->account);
 
     foreach ($this->variations as $variation) {
       $this->cartManager->addEntity($this->cart, $variation);
@@ -67,9 +65,7 @@ class AjaxAddCartViewsRemoveButtonTest extends AjaxAddCartViewsTestBase {
    * Tests whether the remove button views field is indeed ajaxified.
    */
   public function testAjaxRemoveButton() {
-    $this->drupalLogin($this->drupalCreateUser([
-      'access cart',
-    ]));
+    $this->drupalLogin($this->account);
 
     foreach ($this->variations as $variation) {
       $this->cartManager->addEntity($this->cart, $variation);
@@ -97,9 +93,7 @@ class AjaxAddCartViewsRemoveButtonTest extends AjaxAddCartViewsTestBase {
    * Tests whether order total is correct on ajax removing product from cart.
    */
   public function testOrderTotal() {
-    $this->drupalLogin($this->drupalCreateUser([
-      'access cart',
-    ]));
+    $this->drupalLogin($this->account);
 
     foreach ($this->variations as $variation) {
       $this->cartManager->addEntity($this->cart, $variation);

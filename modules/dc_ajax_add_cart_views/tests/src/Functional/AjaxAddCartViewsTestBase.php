@@ -28,10 +28,21 @@ abstract class AjaxAddCartViewsTestBase extends AjaxAddCartTestBase {
   ];
 
   /**
+   * User account.
+   *
+   * @var \Drupal\user\UserInterface
+   */
+  protected $account;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
     parent::setUp();
+
+    $this->account = $this->drupalCreateUser([
+      'access cart',
+    ]);
 
     // Copied from CartTest::setUp().
     $this->variations = [$this->variation];

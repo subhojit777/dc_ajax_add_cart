@@ -45,8 +45,8 @@ class AjaxAddCartUpdateCartBlockTest extends AjaxAddCartTestBase {
     $this->assertOrderItemInOrder($this->variation, $order_items[0]);
 
     // Confirm that the cart block has been updated.
-    $cart_block_contents = $this->xpath('//div[@class=:class]', [
-      ':class' => 'cart-block--contents',
+    $cart_block_contents = $this->xpath('//div[contains(@class, :class)]//tr', [
+      ':class' => 'view-commerce-cart-block',
     ]);
     $this->assertEquals(1, count($cart_block_contents), 'Cart block not updated.');
   }

@@ -592,6 +592,7 @@ display:
           plugin_id: numeric
       display_extenders: {  }
       title: 'Shopping cart'
+      css_class: view-dc-ajax-add-cart-views-test-view
     cache_metadata:
       max-age: 0
       contexts:

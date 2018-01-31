@@ -104,7 +104,7 @@ abstract class AjaxAddCartViewsTestBase extends AjaxAddCartTestBase {
    *   The table row element, if found, otherwise NULL.
    */
   protected function getRowCartAjaxByVariation(ProductVariationInterface $variation) {
-    return $this->getSession()->getPage()->find('css', ".view-dc-ajax-add-cart-views-test-cart-form table tr.variation-{$variation->id()}");
+    return $this->getSession()->getPage()->find('css', ".view-dc-ajax-add-cart-views-test-view table tr.variation-{$variation->id()}");
   }
 
   /**
@@ -136,7 +136,6 @@ abstract class AjaxAddCartViewsTestBase extends AjaxAddCartTestBase {
       if ($item->getPurchasedEntity()->id() === $variation->id() &&
         $item->getQuantity() == $quantity) {
         $is_present = TRUE;
-        break;
       }
     }
 
@@ -164,6 +163,37 @@ abstract class AjaxAddCartViewsTestBase extends AjaxAddCartTestBase {
     }
 
     $this->assertFalse($is_present, 'Variation present in cart.');
+  }
+
+  /**
+   * Returns the row position of the variation in cart.
+   *
+   * @param \Drupal\commerce_product\Entity\ProductVariationInterface $variation
+   *   The variation whose row position is going to be returned.
+   *
+   * @return int|bool
+   *   The row position if found, otherwise FALSE.
+   */
+  protected function getVariationRowPositionCartAjax(ProductVariationInterface $variation) {
+    $row_elements = $this->getSession()->getPage()->findAll('css', '.view-dc-ajax-add-cart-views-test-view table tbody tr');
+
+    foreach ($row_elements as $position => $e) {
+      if ($e->hasClass("variation-{$variation->id()}")) {
+        return $position;
+      }
+    }
+
+    return FALSE;
+  }
+
+  /**
+   * Asserts the variation row position in cart.
+   *
+   * @param int|bool $position
+   *   The row position.
+   */
+  protected function assertVariationRowPosition($position) {
+    $this->assertInternalType('int', $position, 'Variation not present in cart.');
   }
 
 }

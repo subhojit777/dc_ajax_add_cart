@@ -1,0 +1,6 @@
+views.field.dc_ajax_add_cart_views_item_edit_quantity:
+  type: views.field.field
+  mapping:
+    allow_decimal:
+      type: boolean
+      label: 'Allow decimal quantity'

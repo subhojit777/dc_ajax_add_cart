@@ -14,4 +14,9 @@ function dc_ajax_add_cart_views_views_data_alter(array &$data) {
     'help' => t('Adds a button for removing (ajax) the order item.'),
     'id' => 'dc_ajax_add_cart_views_item_remove_button',
   ];
+  $data['commerce_order_item']['dc_ajax_add_cart_views_edit_quantity']['field'] = [
+    'title' => t('Quantity text field (Ajax)'),
+    'help' => t('Adds a text field for editing the quantity.'),
+    'id' => 'dc_ajax_add_cart_views_item_edit_quantity',
+  ];
 }

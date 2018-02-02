@@ -12,15 +12,24 @@ you add an item to cart.
 updates. Following features are available:
 - *Ajax add to cart form* as a product variation display formatter
 - *Ajax product removal from cart* as a views field
+- *Ajax update cart* as a views field
 
 ### Installation and usage:
 - Install the module in a Drupal Commerce installation. Steps for installing
   module in Drupal can be found [here](https://www.drupal.org/docs/8/extending-drupal-8/installing-drupal-8-modules).
 - Go to `admin/commerce/config/product-types/default/edit/display`, select
   **Ajax add to cart** form format for `Variations`.
-- If you want the ability to remove product from cart *ajax-ifically*, enable
-  `dc_ajax_add_cart_views` module. This is provided as a sub-module.
-- Edit the cart view, add field *Remove button (Ajax)*.
+- If you want the ability to remove product from cart *ajax-ifically*, OR
+  update the cart *ajax-ifically*, enable `dc_ajax_add_cart_views` module.
+  This is provided as a sub-module.
+- Edit the cart view, add field *Remove button (Ajax)*, for ajax removal of
+  product from cart.
+- Edit the cart view, add field *Quantity text field (Ajax)*, for ajax update
+  of cart.
+
+### Known issues:
+- [Throbber message appears twice on multiple update cart operation](https://www.drupal.org/project/dc_ajax_add_cart/issues/2941531)
+- [Update cart feedback message does not stays on update cart operation](https://www.drupal.org/project/dc_ajax_add_cart/issues/2941532)
 
 ## `7.x`
 

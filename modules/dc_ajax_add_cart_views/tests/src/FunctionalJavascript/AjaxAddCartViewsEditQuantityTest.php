@@ -101,7 +101,6 @@ class AjaxAddCartViewsEditQuantityTest extends AjaxAddCartViewsTestBase {
     $this->waitForAjaxToFinish();
 
     $this->cart = Order::load($this->cart->id());
-    $order_items = $this->cart->getItems();
 
     $price = $this->getSession()->getPage()->find('css', '.order-total-line__total .order-total-line-value')->getText();
     $price = (float) preg_replace('/[^0-9\.]/', '', $price);

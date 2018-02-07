@@ -3,7 +3,6 @@
 namespace Drupal\Tests\dc_ajax_add_cart_views\FunctionalJavascript;
 
 use Drupal\Tests\dc_ajax_add_cart_views\Functional\AjaxAddCartViewsTestBase;
-use Drupal\commerce_product\Entity\ProductVariation;
 use Drupal\commerce_order\Entity\Order;
 
 /**
@@ -21,17 +20,8 @@ class AjaxAddCartViewsEditQuantityTest extends AjaxAddCartViewsTestBase {
   public function testUpdateCartButton() {
     $this->drupalLogin($this->account);
 
-    foreach ($this->variations as $variation) {
-      $this->cartManager->addEntity($this->cart, $variation);
-    }
-
-    $cart_variation = $this->getRandomVariation();
-    $variation_ids = array_map(function ($variation) {
-      return $variation->id();
-    }, $this->variations);
-
-    $other_variation_id = array_diff($variation_ids, [$cart_variation->id()]);
-    $other_variation = ProductVariation::load(array_pop($other_variation_id));
+    $cart_variation = array_pop($this->variations);
+    $this->cartManager->addEntity($this->cart, $cart_variation);
 
     $this->drupalGet("cart-update-ajax/{$this->cart->id()}");
     $this->assertCartAjaxPage();
@@ -54,11 +44,6 @@ class AjaxAddCartViewsEditQuantityTest extends AjaxAddCartViewsTestBase {
     $variation_row_element = $this->getRowCartAjaxByVariation($cart_variation);
     $this->assertVariationRowCartAjax($variation_row_element);
     $this->assertVariationInOrder($cart_variation, $order_items, 2);
-
-    // Check if the other product quantity is still the same.
-    $variation_row_element = $this->getRowCartAjaxByVariation($other_variation);
-    $this->assertVariationRowCartAjax($variation_row_element);
-    $this->assertVariationInOrder($other_variation, $order_items);
   }
 
 }

@@ -20,8 +20,6 @@ class EditQuantity extends BaseEditQuantity {
 
     $wrapper_id = $this->view->storage->id() . '-cart-ajax-wrapper';
 
-    // @TODO Remove this once https://www.drupal.org/node/2897120 gets into
-    // core.
     $form['#attached']['library'][] = 'core/jquery.form';
     $form['#attached']['library'][] = 'core/drupal.ajax';
 

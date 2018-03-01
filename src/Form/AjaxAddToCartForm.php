@@ -84,8 +84,6 @@ class AjaxAddToCartForm extends AddToCartForm implements AddToCartFormInterface 
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildForm($form, $form_state);
 
-    // @TODO Remove this once https://www.drupal.org/node/2897120 gets into
-    // core.
     $form['#attached']['library'][] = 'core/jquery.form';
     $form['#attached']['library'][] = 'core/drupal.ajax';
 

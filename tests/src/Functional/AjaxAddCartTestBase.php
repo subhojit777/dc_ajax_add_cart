@@ -21,7 +21,6 @@ abstract class AjaxAddCartTestBase extends CartBrowserTestBase {
     'commerce_product',
     'commerce_cart',
     'dc_ajax_add_cart',
-    'dc_ajax_add_cart_test',
   ];
 
   /**

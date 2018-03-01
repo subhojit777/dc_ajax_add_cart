@@ -9,7 +9,7 @@ use Drupal\Core\Ajax\UpdateBuildIdCommand;
 use Drupal\block\Entity\Block;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Theme\ThemeManagerInterface;
-use Drupal\Core\Entity\Query\QueryFactory;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Block\BlockManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Render\Renderer;
@@ -35,11 +35,11 @@ class RefreshPageElementsHelper {
   protected $themeManager;
 
   /**
-   * Query factory.
+   * Entity type manager service.
    *
-   * @var \Drupal\Core\Entity\Query\QueryFactory
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
-  protected $queryFactory;
+  protected $entityTypeManager;
 
   /**
    * Block manager.
@@ -60,16 +60,16 @@ class RefreshPageElementsHelper {
    *
    * @param \Drupal\Core\Theme\ThemeManagerInterface $theme_manager
    *   The theme manager.
-   * @param \Drupal\Core\Entity\Query\QueryFactory $query_factory
-   *   The query factory.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    * @param \Drupal\Core\Block\BlockManagerInterface $block_manager
    *   The block manager.
    * @param \Drupal\Core\Render\RendererInterface $renderer
    *   The renderer service.
    */
-  public function __construct(ThemeManagerInterface $theme_manager, QueryFactory $query_factory, BlockManagerInterface $block_manager, RendererInterface $renderer) {
+  public function __construct(ThemeManagerInterface $theme_manager, EntityTypeManagerInterface $entity_type_manager, BlockManagerInterface $block_manager, RendererInterface $renderer) {
     $this->themeManager = $theme_manager;
-    $this->queryFactory = $query_factory;
+    $this->entityTypeManager = $entity_type_manager;
     $this->blockManager = $block_manager;
     $this->renderer = $renderer;
     $this->response = new AjaxResponse();
@@ -96,8 +96,8 @@ class RefreshPageElementsHelper {
   public function getStatusMessagesBlockId() {
     $active_theme = $this->themeManager->getActiveTheme()->getName();
 
-    $block_ids = $this->queryFactory->get('block')
-      ->condition('plugin', 'system_messages_block')
+    $query = $this->entityTypeManager->getStorage('block')->getQuery();
+    $block_ids = $query->condition('plugin', 'system_messages_block')
       ->condition('theme', $active_theme)
       ->execute();
 

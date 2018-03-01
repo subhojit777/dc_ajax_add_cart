@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/subhojit777/dc_ajax_add_cart.svg?branch=8.x-1.x)](https://travis-ci.org/subhojit777/dc_ajax_add_cart)
 
+[![Coverage Status](https://coveralls.io/repos/github/subhojit777/dc_ajax_add_cart/badge.svg?branch=8.x-1.x)](https://coveralls.io/github/subhojit777/dc_ajax_add_cart?branch=8.x-1.x)
+
 Using this module you can ajaxify the add to cart operation. The updated cart
 will be displayed without page refresh and a popup message will be shown after
 you add an item to cart.

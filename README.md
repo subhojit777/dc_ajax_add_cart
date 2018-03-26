@@ -13,6 +13,7 @@ updates. Following features are available:
 - *Ajax add to cart form* as a product variation display formatter
 - *Ajax product removal from cart* as a views field
 - *Ajax update cart* as a views field
+- *Ajax confirmation popup* on adding a product variation to cart. This is available as a product variation display.
 
 ### Installation and usage:
 - Install the module in a Drupal Commerce installation. Steps for installing
@@ -26,6 +27,10 @@ updates. Following features are available:
   product from cart.
 - Edit the cart view, add field *Quantity text field (Ajax)*, for ajax update
   of cart.
+- If you want *add to cart* confirmation messages to appear in a modal popup, enable the
+  `dc_ajax_add_cart_popup` module. This is provided as a sub-module. Go to
+  `admin/commerce/config/product-variation-types/default/edit/display`, check
+  **Ajax add to cart popup** under `Custom Display Settings`, and click `Save`.
 
 ### Known issues:
 - [Throbber message appears twice on multiple update cart operation](https://www.drupal.org/project/dc_ajax_add_cart/issues/2941531)

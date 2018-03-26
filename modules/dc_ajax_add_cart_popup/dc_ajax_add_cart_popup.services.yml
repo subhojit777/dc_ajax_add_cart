@@ -1,0 +1,7 @@
+services:
+  ajax_add_to_cart_popup_subscriber:
+    class: \Drupal\dc_ajax_add_cart_popup\EventSubscriber\AjaxAddToCartPopupSubscriber
+    arguments:
+      - '@entity_type.manager'
+    tags:
+      - { name: event_subscriber }

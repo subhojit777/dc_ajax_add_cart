@@ -7,9 +7,6 @@ you add an item to cart.
 ## `8.x`
 
 ### Features:
-`8.x` is still in development. Follow this
-[issue](https://www.drupal.org/project/contrib_tracker/issues/2850576) for
-updates. Following features are available:
 - *Ajax add to cart form* as a product variation display formatter
 - *Ajax product removal from cart* as a views field
 - *Ajax update cart* as a views field
